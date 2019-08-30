@@ -27,7 +27,7 @@ export default {
       productName,
       productImg
     }
-    if (cart.length) {        // 有内容
+    if (cart.length) { // 有内容
       cart.forEach(item => {
         if (item.productId === productId) {
           if (item.productNum >= 0) {

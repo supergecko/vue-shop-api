@@ -4,12 +4,9 @@
     <div class="w">
       <div class="content">
         <div class="account-sidebar">
-          <div class="avatar gray-box ">
-            <div>
-              <img :src="userInfo.info.avatar"> <h5>
-              {{userInfo.info.name}}</h5></div>
+          <div class="avatar gray-box " style="padding-top: 0px;">
             <div class="box-inner">
-              <ul class="account-nav">
+              <ul class="account-nav" style="padding-top: 0px;">
                 <li v-for="(item,i) in nav" :key='i' :class="{current:item.name===title}"
                     @click="tab(item)">
                   <a href="javascript:;"><i :class=item.icon></i>{{item.name}}</a></li>
@@ -36,6 +33,8 @@
       return {
         title: '账户资料',
         nav: [
+          {name: '个人中心', path: 'userInfo', icon: 'el-icon-user-solid'},
+          {name: '我的推广', path: 'extension', icon: 'el-icon-star-on'},
           {name: '控制面板', path: 'information', icon: 'el-icon-time'},
           {name: '我的订单', path: 'orderList', icon: 'el-icon-edit-outline'},
           {name: '收益地址', path: 'addressList', icon: 'el-icon-location-outline'},
@@ -147,6 +146,5 @@
     margin-left: 20px;
     flex: 1;
   }
-
 
 </style>

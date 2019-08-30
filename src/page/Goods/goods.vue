@@ -42,9 +42,9 @@
         windowHeight: null,
         windowWidth: null,
         params: {
-          page: 1,  // 页码
+          page: 1, // 页码
           sort: '', // 排序
-          min: '',  // 最小价格
+          min: '', // 最小价格
           max: ''
         }
       }

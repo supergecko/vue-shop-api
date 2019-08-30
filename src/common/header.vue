@@ -115,14 +115,9 @@
                   <router-link to="/goods">全部商品</router-link>
                 </li>
                 <li>
-                  <router-link to="/goods">热销商品</router-link>
+                  <router-link to="/spread">推广</router-link>
                 </li>
-                <li>
-                  <router-link to="/goods">官方推荐</router-link>
-                </li>
-                <li>
-                  <router-link to="/goods">性价比之王</router-link>
-                </li>
+
               </ul>
             </div>
           </div>
@@ -150,6 +145,9 @@
         user: {},
         // 列表
         navList: [{
+          text: '个人中心',
+          link: '/user/userInfo'
+        }, {
           text: '控制面板',
           link: '/user/information'
         }, {
@@ -159,11 +157,11 @@
           text: '收益地址',
           link: '/user/addressList'
         }, {
-          text: '售后服务',
-          link: '/user/support'
-        }, {
-          text: '我的优惠',
+          text: '我的礼券',
           link: '/user/coupon'
+        }, {
+          text: '我的推广',
+          link: '/user/extension'
         }],
         st: false,
         // 头部购物车显示
