@@ -33,7 +33,7 @@
       return {
         title: '账户资料',
         nav: [
-          {name: '个人中心', path: 'userInfo', icon: 'el-icon-user-solid'},
+          // {name: '我的团队', path: 'myTeam', icon: 'el-icon-user-solid'},
           {name: '我的推广', path: 'extension', icon: 'el-icon-star-on'},
           {name: '控制面板', path: 'information', icon: 'el-icon-time'},
           {name: '我的订单', path: 'orderList', icon: 'el-icon-edit-outline'},

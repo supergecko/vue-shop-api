@@ -1,6 +1,6 @@
 <template>
   <div>
-    <y-shelf title="控制面板" titleFlag="true"></y-shelf>
+    <y-shelf title="控制面板"></y-shelf>
     <div class="ControlPanel">
       <el-container>
         <el-header>

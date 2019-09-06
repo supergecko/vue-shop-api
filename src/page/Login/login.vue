@@ -224,13 +224,13 @@
       background: linear-gradient(#fff, #f5f5f5);
       overflow: visible;
       position: relative;
-      background-image: url(/static/images/smartisan_4ada7fecea.png);
+      background-image: url(/static/images/lmbTitleBg.png);
       background-size: 160px;
       background-position: top center;
       background-repeat: no-repeat;
       height: 92px;
-      margin: 23px 0 50px;
-      padding: 75px 0 0;
+      margin: 23px 0 30px;
+      padding: 110px 0 0;
       box-shadow: none;
       h4 {
         padding: 0;

@@ -7,62 +7,17 @@
       </div>
     </div>
 
-    <div v-if="titleFlag" class="title">
-      <el-breadcrumb separator="/">
+    <div class="title" v-if="titleFlag">
+      <el-breadcrumb separator="/" v-if="firstPath">
         <el-breadcrumb-item :to="{ path: '/user/information' }">控制面板</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/user/dailyOutput' }" v-if="itemFlag">每日产出</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/user/dailyOutput' }">每日产出</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-breadcrumb separator="/" v-if="secondPath">
+        <el-breadcrumb-item :to="{ path: '/user/extension' }">我的推广</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/user/myTeam' }">我的团队</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
-    <!--头部内容-->
-    <el-row v-if="bgFlag" style="margin-bottom: 13px">
-      <el-col :span="17">
-        <div class="grid-content bg-purple middleHeaderLeft">
-          <div class="contentHeader">
-            <span>第5轮：预计开始挖矿时间</span>
-            <el-tag>2019/03/27</el-tag>
-          </div>
-          <div class="contentMiddle">
-            <div class="middleItem1">
-              <span>最低算力</span>
-              <i class="el-icon-warning"></i>
-              <div>
-                $<span>0.3801</span>/G/天
-              </div>
-            </div>
-            <div class="middleItem2">
-              <span>电费</span>
-              <i class="el-icon-warning"></i>
-              <div>
-                $<span>2.3853</span>/G/天
-              </div>
-            </div>
-            <div class="middleItem3">
-              <el-tag>LTC</el-tag>
-              <span>来自BTC.com的理论收益</span>
-              <div>
-                $<span>1.5797</span>/G/天
-              </div>
-            </div>
-          </div>
-          <div class="contentFooter">
-            <i class="el-icon-star-on"></i>
-            <span>每日净挖矿所得等于每日挖矿产出减去算力费和电费。</span>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="7"><div class="grid-content bg-purple-light middleHeaderRight">
-        <div class="rightHeader">
-          <div style="font-size:80px">3</div>
-          <div class="rightHeaderItem">
-            <div style="font-size:28px;margin-top:8px;">世代</div>
-            <div style="font-size:20px;margin-bottom:16px;">矿机</div>
-          </div>
-        </div>
-        <div>- 蚂蚁矿机 L3++ <i class="el-icon-warning"></i>-</div>
-      </div></el-col>
-    </el-row>
-    <!--内容-->
     <div>
       <slot name="content"></slot>
     </div>
@@ -72,9 +27,12 @@
   export default {
     props: [
       'title',
-      'bgFlag',
+      'itemFlag',
+      'itemTitle',
       'titleFlag',
-      'itemFlag'
+      'firstPath',
+      'bgFlag',
+      'secondPath'
     ]
   }
 </script>
@@ -113,49 +71,5 @@
         display: inline-block;
       }
     }
-  }
-
-  /*众筹样式开始*/
-  .el-tag{
-    height: auto;
-    line-height: normal;
-  }
-  .middleHeaderLeft{
-    padding-left: 24px;
-  }
-  .middleItem1{
-    padding-left: 5px;
-    border-left:3px solid #ff5502;
-
-  }
-  .middleItem2{
-    padding-left: 5px;
-    border-left:3px solid #fcc676;
-  }
-  .middleItem3{
-    padding-left: 5px;
-    border-left:3px solid #29c07e;
-  }
-  .contentMiddle{
-    display: flex;
-    padding-top: 25px;
-    padding-bottom: 25px;
-  }
-  .contentMiddle >div{
-    width: 270px;
-  }
-
-  .middleHeaderRight{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .rightHeader{
-    display: flex;
-  }
-  .rightHeaderItem{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
 </style>

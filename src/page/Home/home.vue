@@ -1,108 +1,313 @@
 <template>
   <div>
-    <div class="banner">
-      <div class="bg" ref="bg"
-           @mouseover="bgOver($refs.bg)"
-           @mousemove="bgMove($refs.bg,$event)"
-           @mouseout="bgOut($refs.bg)">
-        <span class="img a"></span>
-        <span class="text b">雷猫矿机<br/>回敬雷猫矿机</span>
-        <span class="copyright c">code by qingjin.me | picture from t.tt</span>
-      </div>
+    <!--轮播-->
+    <div class="banner" >
+        <div class="bg" ref="bg"
+             @mouseover="bgOver($refs.bg)" @mousemove="bgMove($refs.bg,$event)" @mouseout="bgOut($refs.bg)">
+          <transition name="fade">
+            <div v-for="(item, i) in banner" v-if="i===mark" :key="i" style="position:absolute" @mouseover="stopTimer" @mouseout="startTimer">
+              <img v-if="item.picUrl" class="img1" :src="item.picUrl"/>
+              <img v-if="item.picUrl2"  class="img2 a" :src="item.picUrl2"/>
+              <img v-if="item.picUrl3"  class="img3 b" :src="item.picUrl3"/>
+            </div>
+          </transition>
+        </div>
+        <div class="page">
+          <ul class="dots">
+            <li class="dot-active" v-for="(item, i) in banner" :class="{ 'dot':i!=mark }" :key="i" @click="change(i)"></li>
+          </ul>
+        </div>
     </div>
 
-
-    <section class="w mt30 clearfix">
-      <y-shelf title="众筹" bgFlag=true>
-        <div slot="content" class="hot">
-          <mall-goods :msg="item" v-for="(item,i) in hot" :key="i"></mall-goods>
-        </div>
-      </y-shelf>
+    <!--众筹-->
+    <section class="w mt30 clearfix" style="margin-bottom: 50px">
+      <el-row class="crowdWarp">
+        <el-row class="lmbWarp">
+          <el-col :span="17" class="lmbLeftItem">
+            <div class="grid-content bg-purple middleHeaderLeft">
+              <div class="contentHeader">
+                <div>
+                  <div class="contentHeaderBtn">第5轮</div>
+                  <span>预计开始挖矿时间</span>
+                  <el-tag type="warning">2019/03/27</el-tag>
+                </div>
+                <div class="downTime">
+                  距离本轮团购时间还有
+                  <span>10</span>:
+                  <span>06</span>:
+                  <span>30</span>
+                </div>
+              </div>
+              <div class="contentMiddle">
+                <div class="middleItem1">
+                  <span>最低算力</span>
+                  <i class="el-icon-warning"></i>
+                  <div>
+                    $<span>0.3801</span>/G/天
+                  </div>
+                </div>
+                <div class="middleItem2">
+                  <span>电费</span>
+                  <i class="el-icon-warning"></i>
+                  <div>
+                    $<span>2.3853</span>/G/天
+                  </div>
+                </div>
+                <div class="middleItem3">
+                  <el-tag>LTC</el-tag>
+                  <span>来自BTC.com的理论收益</span>
+                  <div>
+                    $<span>1.5797</span>/G/天
+                  </div>
+                </div>
+              </div>
+              <div class="contentFooter">
+                <i class="el-icon-star-on"></i>
+                <span>每日净挖矿所得等于每日挖矿产出减去算力费和电费。</span>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="7" class="lmbRightItem">
+            <div class="grid-content bg-purple-light middleHeaderRight">
+              <div class="rightHeader">
+                <div style="font-size:80px">3</div>
+                <div class="rightHeaderItem">
+                  <div style="font-size:28px;margin-top:8px;">世代</div>
+                  <div style="font-size:20px;margin-bottom:16px;">矿机</div>
+                </div>
+              </div>
+              <div>- 蚂蚁矿机 L3++ <i class="el-icon-warning"></i>-</div>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="lmbGoodsWarp">
+          <el-col :span="6" class="goodsWarp">
+            <div class="goodItem">
+              <div class="goodItemHead">
+                <div style="padding-bottom: 13px">120天</div>
+                <div>50 TH/s</div>
+                <div class="hotBTn">抢光了</div>
+              </div>
+              <div class="goodItemMiddle">
+                $0.1329/T/天
+              </div>
+              <div class="goodItemFooter">
+                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
+                <div class="goodItemFooterBtn">即将补货</div>
+                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="6" class="goodsWarp">
+            <div class="goodItem">
+              <div class="goodItemHead">
+                <div style="padding-bottom: 13px">120天</div>
+                <div>50 TH/s</div>
+                <div class="hotBTn">抢光了</div>
+              </div>
+              <div class="goodItemMiddle">
+                $0.1329/T/天
+              </div>
+              <div class="goodItemFooter">
+                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
+                <div class="goodItemFooterBtn">即将补货</div>
+                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="6" class="goodsWarp">
+            <div class="goodItem">
+              <div class="goodItemHead">
+                <div style="padding-bottom: 13px">120天</div>
+                <div>50 TH/s</div>
+                <div class="hotBTn">抢光了</div>
+              </div>
+              <div class="goodItemMiddle">
+                $0.1329/T/天
+              </div>
+              <div class="goodItemFooter">
+                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
+                <div class="goodItemFooterBtn">即将补货</div>
+                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="6" class="goodsWarp">
+            <div class="goodItem">
+              <div class="goodItemHead">
+                <div style="padding-bottom: 13px">120天</div>
+                <div>50 TH/s</div>
+                <div class="hotBTn">抢光了</div>
+              </div>
+              <div class="goodItemMiddle">
+                $0.1329/T/天
+              </div>
+              <div class="goodItemFooter">
+                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
+                <div class="goodItemFooterBtn">即将补货</div>
+                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </el-row>
     </section>
-<!--    <section class="w mt30 clearfix" v-for="(item,i) in floors" :key="i">-->
-<!--      <y-shelf :title="item.title">-->
-<!--        <div slot="content" class="floors">-->
-<!--          <div class="imgbanner">-->
-<!--            <img v-lazy="floors[i].image.image" :alt="item.title">-->
-<!--          </div>-->
-<!--          <mall-goods :msg="tab" v-for="(tab,i) in item.tabs" :key="i"></mall-goods>-->
-<!--        </div>-->
-<!--      </y-shelf>-->
-<!--    </section>-->
 
-<!--    内容一-->
-    <section>
-      <div class="mining-steps">
-        <h2 class="title">来比特小鹿轻松挖矿</h2>
-        <h3 class="subtitle">简化挖矿繁琐步骤，打包矿机购买、物流、矿场选择、机器维护、矿池接入的复杂环节</h3>
-        <div class="warp animate">
-          <section class="steps">
-            <div><img src="//assets.bitdeer.cn/_nuxt/img/34b9695.png" alt="">
-              <p>用户购买套餐</p>
+    <!--内容一-->
+    <section class="firstMiddle">
+      <el-row class="firstMiddleHeader">
+        <div class="firstMiddleTitle">来雷猫轻松挖矿</div>
+        <div class="firstMiddleText">简化挖矿繁琐步骤，打包矿机购买、物流、矿场选择、机器维护、矿池接入的复杂环节</div>
+      </el-row>
+      <el-row style="width: 1220px;margin: 0 auto">
+        <el-col :span="6" class="firstItem">
+          <el-image
+            style="width: 160px; height: 160px;border:1px dashed #1c1f28;"
+            src="../../../static/lmbImg/purchase.png"
+            fit="fill"></el-image>
+          <div class="firstItemText">用户购买套餐</div>
+        </el-col>
+        <el-col :span="6" class="firstItem">
+          <el-image
+            style="width: 160px; height: 160px;border:1px dashed #1c1f28;"
+            src="../../../static/lmbImg/sharePc.png"
+            fit="fill"></el-image>
+          <div class="firstItemText">雷猫矿机分时共享平台</div>
+          <el-image
+            style="width: 74px; height: 74px;margin-top: 24px;margin-bottom: 7px"
+            src="../../../static/lmbImg/up.png"
+            fit="fill"></el-image>
+        </el-col>
+        <el-col :span="6" class="firstItem">
+          <el-image
+            style="width: 160px; height: 160px;border:1px dashed #1c1f28;"
+            src="../../../static/lmbImg/income.png"
+            fit="fill"></el-image>
+          <div class="firstItemText">矿池分配收益</div>
+        </el-col>
+        <el-col :span="6" class="firstItem">
+          <el-image
+            style="width: 160px; height: 160px;border:1px dashed #1c1f28;"
+            src="../../../static/lmbImg/profit.png"
+            fit="fill"></el-image>
+          <div class="firstItemText">用户收到收益</div>
+        </el-col>
+      </el-row>
+      <el-row style="width: 1220px;margin: 0 auto">
+        <el-row class="firstMiddleFooter">
+          <div class="middleFooterWarp">
+            <div class="middleFooterLeftItem">
+              <el-image
+                style="width: 80px; height: 80px"
+                src="../../../static/lmbImg/purchaseMachine.png"
+                fit="fill"></el-image>
+              <div>采购矿机</div>
             </div>
-            <div><img src="//assets.bitdeer.cn/_nuxt/img/e0dcb60.png" alt="">
-              <p>比特小鹿矿机分时共享平台</p>
+            <el-image
+              style="width: 38px; height: 38px;margin-left: 10px"
+              src="../../../static/lmbImg/right.png"
+              fit="fill"></el-image>
+          </div>
+          <div class="middleFooterWarp">
+            <div class="middleFooterLeftItem">
+              <el-image
+                style="width: 80px; height: 80px"
+                src="../../../static/lmbImg/transport.png"
+                fit="fill"></el-image>
+              <div>运输矿机矿场</div>
             </div>
-            <div><img src="//assets.bitdeer.cn/_nuxt/img/43e9625.png" alt="">
-              <p>矿池分配收益</p>
+            <el-image
+              style="width: 38px; height: 38px;margin-left: 10px"
+              src="../../../static/lmbImg/right.png"
+              fit="fill"></el-image>
+          </div>
+          <div class="middleFooterWarp">
+            <div class="middleFooterLeftItem">
+              <el-image
+                style="width: 80px; height: 80px"
+                src="../../../static/lmbImg/debug.png"
+                fit="fill"></el-image>
+              <div style="padding: 0 16px;">调试矿机联通矿池</div>
             </div>
-            <div><img src="//assets.bitdeer.cn/_nuxt/img/b95ffe1.png" alt="">
-              <p>用户收到收益</p>
+            <el-image
+              style="width: 38px; height: 38px;margin-left: 10px"
+              src="../../../static/lmbImg/right.png"
+              fit="fill"></el-image>
+          </div>
+          <div class="middleFooterWarp">
+            <div class="middleFooterLeftItem">
+              <el-image
+                style="width: 80px; height: 80px"
+                src="../../../static/lmbImg/operation.png"
+                fit="fill"></el-image>
+              <div>运维管理</div>
             </div>
-          </section>
-          <section class="belongs">
-            <div class="arrow-top"><img src="//assets.bitdeer.cn/_nuxt/img/11b1312.jpg" alt=""></div>
-          </section>
-          <section class="bitdeer-steps">
-            <div><img src="//assets.bitdeer.cn/_nuxt/img/4aee527.png" alt="">
-              <p>采购矿机</p>
-            </div>
-            <div><img src="//assets.bitdeer.cn/_nuxt/img/7944d40.png" alt="">
-              <p>运输矿机至矿场</p>
-            </div>
-            <div><img src="//assets.bitdeer.cn/_nuxt/img/61e8cab.png" alt="">
-              <p>调试矿机联通矿池</p>
-            </div>
-            <div><img src="//assets.bitdeer.cn/_nuxt/img/89a56b1.png" alt="">
-              <p>运维管理</p>
-            </div>
-          </section>
-        </div>
-      </div>
+          </div>
+        </el-row>
+      </el-row>
     </section>
 
-<!--    内容二-->
-    <section>
-      <div class="advantage">
-        <h2>值得信赖的矿机分时共享平台</h2>
-        <h3>500万+用户量 复购率80% 每日产出100+BTC</h3>
-        <section>
-          <div>
-            <div class="img-wrap"><img src="//assets.bitdeer.cn/_nuxt/img/c0159db.png" alt=""></div>
-            <p class="title">比特大陆顶级供货方</p>
-            <p class="intro">比特大陆提供最新款矿机支持，矿机质量保障</p>
-          </div>
-          <div>
-            <div class="img-wrap"><img src="//assets.bitdeer.cn/_nuxt/img/29d2e03.png" alt=""></div>
-            <p class="title">五大矿池深度合作</p>
-            <p class="intro">BTC.com、AntPool、F2Pool、ViaBTC、BTC.TOP五大矿池合作，支持用户自由选择矿池挖矿</p>
-          </div>
-          <div>
-            <div class="img-wrap"><img src="//assets.bitdeer.cn/_nuxt/img/04ded28.png" alt=""></div>
-            <p class="title">支持矿池直接打款</p>
-            <p class="intro">可选择矿池直接将收益打给用户，BitDeer不参与收益的分配与划拨</p>
-          </div>
-          <div>
-            <div class="img-wrap"><img src="//assets.bitdeer.cn/_nuxt/img/d70a9b7.png" alt=""></div>
-            <p class="title">24小时维护的专业团队</p>
-            <p class="intro">平台24小时提供专业的挖矿服务保障人员</p>
-          </div>
-        </section> <button class="buy">选购套餐</button>
-      </div>
+    <!--内容二-->
+    <section class="secondMiddle">
+      <el-row class="firstMiddleHeader">
+        <el-row class="firstMiddleTitle">值得信赖的矿机分时共享平台</el-row>
+        <el-row class="firstMiddleText">500万+用户量 重购率80% 每日产出100+BTC</el-row>
+      </el-row>
+      <el-row class="secondWarp">
+        <el-row class="secondItem">
+          <el-col :span="14" class="secondItemLeft">
+            <div class="secondItemText">雷猫顶级供货方</div>
+            <div class="secondItemExplain">雷猫提供最新款矿机支持矿机质量保证</div>
+          </el-col>
+          <el-col :span="10" class="secondItemRight">
+            <el-image
+              style="width: 136px; height: 136px;border:1px dashed #1c1f28;"
+              src="../../../static/lmbImg/supplier.png"
+              fit="fill"></el-image>
+          </el-col>
+        </el-row>
+        <el-row class="secondItem">
+          <el-col :span="14" class="secondItemLeft">
+            <div class="secondItemText">五大矿池深度合作</div>
+            <div class="secondItemExplain">BTC.com、AnlPool、F2Pool、ViaBTC、BTC.TCP五大矿池合作，支持用户自由选择矿池挖矿</div>
+          </el-col>
+          <el-col :span="10" class="secondItemRight">
+            <el-image
+              style="width: 136px; height: 136px;border:1px dashed #1c1f28;"
+              src="../../../static/lmbImg/cooperation.png"
+              fit="fill"></el-image>
+          </el-col>
+        </el-row>
+      </el-row>
+      <el-row class="secondWarp">
+        <el-row class="secondItem">
+          <el-col :span="14" class="secondItemLeft">
+            <div class="secondItemText">支持矿池直接打款</div>
+            <div class="secondItemExplain">可选择矿池直接将受益打给用户,BitDeer不参与收益的分配与划拨</div>
+          </el-col>
+          <el-col :span="10" class="secondItemRight">
+            <el-image
+              style="width: 136px; height: 136px;border:1px dashed #1c1f28;"
+              src="../../../static/lmbImg/card.png"
+              fit="fill"></el-image>
+          </el-col>
+        </el-row>
+        <el-row class="secondItem">
+          <el-col :span="14" class="secondItemLeft">
+            <div class="secondItemText">24小时维护的专业团队</div>
+            <div class="secondItemExplain">平台24小时提供专业的挖矿服务保障人员
+            </div>
+          </el-col>
+          <el-col :span="10" class="secondItemRight">
+            <el-image
+              style="width: 136px; height: 136px;border:1px dashed #1c1f28;"
+              src="../../../static/lmbImg/team.png"
+              fit="fill"></el-image>
+          </el-col>
+        </el-row>
+      </el-row>
     </section>
 
-
-    <section></section>
   </div>
 </template>
 <script>
@@ -113,7 +318,30 @@
   export default {
     data () {
       return {
-        banner: {},
+        banner: [
+          {
+            'picUrl': 'https://i.loli.net/2018/11/04/5bdeba4028e90.png',
+            'picUrl2': 'https://i.loli.net/2018/11/04/5bdebb109a29a.png',
+            'picUrl3': 'https://i.loli.net/2018/11/04/5bdeba6753403.png',
+            'productImageBig': 'https://i.loli.net/2018/11/04/5bdeba4028e90.png'
+          }, {
+            'picUrl': 'https://s1.ax1x.com/2018/05/19/Ccdiid.png',
+            'picUrl2': null,
+            'picUrl3': null,
+            'productImageBig': 'https://s1.ax1x.com/2018/05/19/Ccdiid.png'
+          }, {
+            'picUrl': 'https://i.loli.net/2018/11/04/5bdebb41e11f4.png',
+            'picUrl2': null,
+            'picUrl3': null,
+            'productImageBig': 'https://i.loli.net/2018/11/04/5bdebb41e11f4.png'
+          }, {
+            'picUrl': 'https://i.loli.net/2018/11/04/5bdebbd45a0b0.png',
+            'picUrl2': null,
+            'picUrl3': null,
+            'productImageBig': 'https://i.loli.net/2018/11/04/5bdebbd45a0b0.png'
+          }
+        ],
+        mark: 0,
         bgOpt: {
           offsetLeft: 0,
           offsetTop: 0,
@@ -154,6 +382,27 @@
       }
     },
     methods: {
+      autoPlay () {
+        this.mark++
+        if (this.mark > this.banner.length - 1) {
+          // 当遍历到最后一张图片置零
+          this.mark = 0
+        }
+      },
+      play () {
+        // 每2.5s自动切换
+        this.timer = setInterval(this.autoPlay, 2500)
+      },
+      change (i) {
+        this.mark = i
+      },
+      startTimer () {
+        this.timer = setInterval(this.autoPlay, 2500)
+      },
+      stopTimer () {
+        clearInterval(this.timer)
+      },
+
       // 鼠标移入
       bgOver (event) {
         // 获取移入时的位置
@@ -197,6 +446,9 @@
         // this.hot = home_hot
       })
     },
+    created () {
+      this.play()
+    },
     components: {
       YShelf,
       product,
@@ -205,18 +457,201 @@
   }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
+  /*众筹样式开始*/
+  .lmbWarp{
+    background-image: url("../../../static/lmbImg/LMBgoodsBg.png");
+    background-size: 100% 100%;
+    height: 200px;
+    color: #ffffff;
+  }
+  .lmbLeftItem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .lmbRightItem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .el-tag{
+    height: auto;
+    line-height: normal;
+  }
+  .middleHeaderLeft{
+
+  }
+  .middleItem1{
+    padding-left: 5px;
+    border-left:3px solid #ff5502;
+
+  }
+  .middleItem2{
+    padding-left: 5px;
+    border-left:3px solid #fcc676;
+  }
+  .middleItem3{
+    padding-left: 5px;
+    border-left:3px solid #29c07e;
+  }
+  .contentMiddle{
+    display: flex;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  .contentMiddle >div{
+    width: 270px;
+  }
+
+  .middleHeaderRight{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color:rgba(60,58,60,1);
+  }
+  .rightHeader{
+    display: flex;
+  }
+  .rightHeaderItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .contentHeader{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .contentHeaderBtn{
+    width:50px;
+    height:30px;
+    background:rgba(255,255,255,1);
+    border-radius:2px;
+    display: inline-block;
+    font-size:12px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(15,120,219,1);
+    text-align: center;
+    line-height: 30px;
+  }
+  .downTime{
+    position: absolute;
+    top: 18px;
+    right: 416px;
+  }
+  .downTime span{
+    background:rgba(6,69,146,1);
+    display: inline-block;
+    width:22px;
+    height:22px;
+    text-align: center;
+    line-height: 22px;
+    margin-right: 4px;
+  }
+  .lmbGoodsWarp{
+    margin-top: 22px;
+    width: 1220px;
+  }
+  .goodsWarp{
+    display: flex;
+    justify-content: center;
+  }
+  .goodItem{
+    width:274px;
+    height:307px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .goodItemHead{
+    height: 92px;
+    width: 198px;
+    border-bottom: 1px solid rgba(244,244,244,1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size:18px;
+    font-family:PingFang SC;
+    font-weight:bold;
+    color:rgba(60,58,60,1);
+    position: relative;
+  }
+  .hotBTn{
+    width:102px;
+    height:32px;
+    background:rgba(245,84,84,1);
+    opacity:0.94;
+    font-size:14px;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height: 32px;
+    padding-left: 16px;
+    position: absolute;
+    top: 13px;
+    left: -50px;
+  }
+  .goodItemMiddle{
+    width: 198px;
+    height: 66px;
+    border-bottom: 1px solid rgba(244,244,244,1);
+    text-align: center;
+    line-height: 66px;
+    font-size:16px;
+    font-family:PingFang SC;
+    font-weight:bold;
+    color:rgba(136,136,136,1);
+  }
+  .goodItemFooter{
+    height: 147px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .el-progress-bar {
+    padding-right: 65px;
+    margin-right: -68px;
+  }
+  .goodItemFooterBtn{
+    width:214px;
+    height:42px;
+    background:rgba(105,168,244,1);
+    opacity:0.62;
+    border-radius:2px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 42px;
+    margin-top: 16px;
+  }
+  .goodItemFooterText{
+    font-size:12px;
+    font-family:PingFang SC;
+    font-weight:300;
+    color:rgba(153,153,153,1);
+    margin-top: 19px;
+  }
+  /*众筹样式结束*/
   .banner, .banner span, .banner div {
     font-family: "Microsoft YaHei";
     transition: all .3s;
-    -webkit-transition: all .3s;
     transition-timing-function: linear;
-    -webkit-transition-timing-function: linear;
   }
-
   .banner {
+    cursor: pointer;
     perspective: 3000px;
     position: relative;
     z-index: 19;
+    margin: 0 auto;
+    width: 1220px;
   }
 
   .bg {
@@ -224,25 +659,68 @@
     width: 1220px;
     height: 500px;
     margin: 20px auto;
-    background: url("/static/images/banner-3d-item.png") center no-repeat;
     background-size: 100% 100%;
     border-radius: 10px;
     transform-style: preserve-3d;
-    -webkit-transform-origin: 50% 50%;
-    -webkit-transform: rotateY(0deg) rotateX(0deg);
+    transform-origin: 50% 50%;
+    transform: rotateY(0deg) rotateX(0deg);
+    & div{
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
   }
 
-  .img {
+  .img1 {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    border-radius: 10px;
+  }
+  .img2 {
     display: block;
     position: absolute;
     width: 100%;
     height: 100%;
     bottom: 5px;
     left: 0;
-    background: url("/static/images/banner-3d.png") center no-repeat;
     background-size: 95% 100%;
+    border-radius: 10px;
   }
-
+  .img3 {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    border-radius: 10px;
+  }
+  .page {
+    position: absolute;
+    width: 100%;
+    top: 470px;
+    z-index: 30;
+    .dots {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      .dot-active {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background-color: #409EFF;
+        border-radius: 8px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      .dot {
+        opacity: 0.2;
+      }
+    }
+  }
   .text {
     position: absolute;
     top: 20%;
@@ -379,175 +857,101 @@
     }
   }
 
-  /*内容一开始*/
-  .mining-steps{
-    padding: 70px 0 80px;
-    text-align: center;
-    min-height: 756px;
-  }
-  .mining-steps .title{
-    font-size: 32px;
-    color: #333;
-    font-weight: 700;
-  }
-  .mining-steps .subtitle {
-    font-size: 16px;
-    color: #8993a8;
-    padding: 15px 0 68px;
-  }
-  .mining-steps .warp{
-    width: 1200px;
-    margin: 0 auto;
-  }
-  .mining-steps .warp .steps{
-    display: flex;
-    justify-content: space-between;
-  }
-  .mining-steps .warp .steps>div{
-    position: relative;
-    width: 240px;
-    text-align: center;
-    padding-bottom: 10px;
-  }
-  .mining-steps .warp.animate .steps>div:first-child img{
-    transition: transform .45s ease-in-out;
-    transform: scale(1);
-  }
-  .mining-steps .warp.animate .steps>div:nth-child(2) img{
-    transition: transform .4s ease-in-out 4.4s;
-    transform: scale(1);
-    -webkit-animation: scale-img-data-v-07899da7 4.8s .13s;
-    animation: scale-img-data-v-07899da7 4.8s .13s;
-  }
-  .mining-steps .warp.animate .steps>div:nth-child(3) img{
-    transition: transform .45s ease-in-out .26s;
-    transform: scale(1);
-  }
-  .mining-steps .warp.animate .steps>div:nth-child(4) img{
-    transition: transform .45s ease-in-out .39s;
-    transform: scale(1);
-  }
-  .mining-steps .warp .steps>div img{
-    width: 200px;
-    transform: scale(0);
-  }
-  .mining-steps .warp.animate .steps>div p{
-    transition: opacity .22s ease-in-out .96s;
-    opacity: 1;
-  }
-  .mining-steps .warp .steps>div p{
-    padding-top: 10px;
-    font-size: 16px;
-    color: #3f465c;
-    opacity: 0;
-  }
-  .mining-steps .warp.animate .steps>div:not(:last-child):after, .mining-steps .warp.animate .steps>div p{
-    transition: opacity .22s ease-in-out .96s;
-    opacity: 1;
-  }
-  .mining-steps .warp .steps>div:not(:last-child):after {
-    font-family: iconfont!important;
-    font-size: 12px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: "\E632";
-    color: #8993a8;
-    position: absolute;
-    right: -60px;
-    top: 90px;
-    opacity: 0;
-  }
-  :after, :before {
-    box-sizing: border-box;
-    margin: 0;
-  }
-  .mining-steps .warp .belongs{
-    transform: translateX(-150px);
-  }
-  .mining-steps .warp .belongs .arrow-top{
-    padding-top: 10px;
-    width: 37px;
-    margin: 0 auto;
-  }
-  .mining-steps .warp.animate .belongs .arrow-top img{
-    transition: all .4s ease-in-out 4.4s;
-    transform: scale(1);
-    transform-origin: bottom;
-  }
-  .mining-steps .warp .belongs .arrow-top img{
-    width: 100%;
-    transform: scale(0);
-  }
-  .mining-steps .warp.animate .bitdeer-steps{
-    transition: border-color .48s ease-in-out 1.69s,background-color .4s ease-in-out 4.4s,margin-top .4s ease-in-out 4.4s;
-    border-color: #8993a8;
-    background-color: #f5f6f8;
-    margin-top: -16px;
-  }
-  .mining-steps .warp .bitdeer-steps{
-    width: 720px;
-    display: flex;
-    justify-content: space-between;
-    padding: 30px 20px;
-    margin-left: 82px;
-    border: 1px dashed transparent;
-    border-radius: 2px;
-    min-height: 136px;
-    box-sizing: content-box;
-  }
-  .mining-steps .warp .bitdeer-steps>div{
-    width: 120px;
-    position: relative;
-  }
-  .mining-steps .warp.animate .bitdeer-steps>div:first-child img{
-    transition: all .36s ease-in-out 1.69s;
-    transform: translate(0);
-    width: 100px;
-  }
-  .mining-steps .warp .bitdeer-steps>div:first-child img{
-    transform: translate(270px,-240px);
-  }
-  .mining-steps .warp.animate .bitdeer-steps>div:not(:last-child):after, .mining-steps .warp.animate .bitdeer-steps>div p{
-    transition: opacity .48s ease-in-out 1.69s;
-    opacity: 1;
-  }
-  .mining-steps .warp .bitdeer-steps>div:not(:last-child):after {
-    font-family: iconfont!important;
-    font-size: 12px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: "\E632";
-    color: #8993a8;
-    position: absolute;
-    right: -60px;
-    top: 50px;
-    opacity: 0;
-  }
-  .mining-steps .warp.animate .bitdeer-steps>div:nth-child(2) img{
-    transition: all .36s ease-in-out 1.79s;
-    transform: translate(0);
-    width: 100px;
-  }
-  .mining-steps .warp.animate .bitdeer-steps>div:nth-child(3) img{
-    transition: all .36s ease-in-out 1.89s;
-    transform: translate(0);
-    width: 100px;
-  }
-  .mining-steps .warp.animate .bitdeer-steps>div:nth-child(4) img{
-    transition: all .36s ease-in-out 1.99s;
-    transform: translate(0);
-    width: 100px;
-  }
-  /*内容一结束*/
+  /*内容一*/
+  .firstMiddle{
 
-  /*内容二开始*/
-  .advantage{
+  }
+  .firstMiddleTitle{
+    font-size:32px;
+    font-family:PingFang SC;
+    font-weight:bold;
+    color:rgba(60,58,60,1);
     text-align: center;
-    background: url(//assets.bitdeer.cn/_nuxt/img/13a65b8.png) bottom no-repeat #2a2d3a;
-    background-size: 100%;
-    color: #fff;
-    padding: 70px 0;
+    margin-bottom: 27px;
+  }
+  .firstMiddleText{
+    font-size:16px;
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(107,111,134,1);
+    text-align: center;
+    margin-bottom: 71px;
+  }
+  .firstItemText{
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(90,94,113,1);
+    margin-top: 5px;
+  }
+  .firstItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .firstMiddleFooter{
+    width:766px;
+    height:222px;
+    border:1px dashed rgba(166,175,187,1);
+    display: flex;
+    justify-content: space-around;
+    margin-left: 73px;
+    margin-bottom: 92px;
+  }
+  .middleFooterLeftItem{
+    width:116px;
+    height:133px;
+    background:rgba(255,255,255,1);
+    text-align: center;
+  }
+  .middleFooterLeftItem .el-image{
+    border:1px dashed #1c1f28;
+    margin-top: 10px;
+  }
+  .middleFooterWarp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .secondMiddle{
+    background:rgba(255,255,255,1);
+    padding-top: 119px;
+    padding-bottom: 60px;
+  }
+  .secondItem{
+    width:351px;
+    height:204px;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 3px 19px 0px rgba(2,14,29,0.19);
+    margin-right: 69px;
+  }
+  .secondWarp{
+    display: flex;
+    justify-content: center;
+    padding-left: -69px;
+    margin-bottom: 60px;
+  }
+  .secondItemText{
+    font-size:18px;
+    font-family:PingFang SC;
+    font-weight:bold;
+    color:rgba(60,58,60,1);
+    margin-bottom: 19px;
+  }
+  .secondItemExplain{
+    width:154px;
+    font-size:14px;
+    font-family:PingFang SC;
+    font-weight:400;
+    color:rgba(60,58,60,1);
+    line-height:20px;
+  }
+  .secondItemLeft{
+    padding-top: 58px;
+    padding-left: 27px;
+  }
+  .secondItemRight{
+    padding-top: 57px;
   }
 </style>

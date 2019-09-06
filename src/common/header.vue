@@ -1,6 +1,6 @@
 <template>
-  <div class="header-box">
-    <div>
+  <div>
+    <div class="header-box">
       <header class="w">
         <div class="w-box">
           <div class="nav-logo">
@@ -9,9 +9,23 @@
             </h1>
           </div>
           <div class="right-box">
-<!--            <div class="nav-list">-->
-<!--              <router-link to="/goods">全部商品</router-link>-->
-<!--            </div>-->
+            <ul class="nav-list">
+              <li>
+                <router-link to="/">首页</router-link>
+              </li>
+              <li>
+                <router-link to="/crowdFunding">众筹</router-link>
+              </li>
+              <!--                <li>-->
+              <!--                  <router-link to="/spread">推广</router-link>-->
+              <!--                </li>-->
+              <li>
+                <router-link to="/jackpot">瓜分奖池</router-link>
+              </li>
+              <li>
+                <router-link to="/rakeBack">返佣规则</router-link>
+              </li>
+            </ul>
             <div class="nav-aside" ref="aside" :class="{fixed: (st && showNav)}">
               <div class="user pr">
                 <router-link to="/user">个人中心</router-link>
@@ -94,40 +108,44 @@
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
           </div>
         </div>
       </header>
 
-        <!--底部导航-->
-        <div class="nav-sub" v-show="showNav" :class="{fixed: st}">
-          <div class="nav-sub-bg"></div>
-          <div class="nav-sub-wrapper" :class="{fixed:st}">
-            <div class="w">
-              <ul class="nav-list">
-                <li>
-                  <router-link to="/">首页</router-link>
-                </li>
-                <li>
-                  <router-link to="/goods">全部商品</router-link>
-                </li>
-                <li>
-                  <router-link to="/spread">推广</router-link>
-                </li>
-
-              </ul>
-            </div>
+      <!--底部导航-->
+      <div class="nav-sub" v-show="showNav" :class="{fixed: st}">
+        <div class="nav-sub-bg"></div>
+        <div class="nav-sub-wrapper" :class="{fixed:st}">
+          <div class="w">
+            <ul class="nav-list">
+              <li>
+                <router-link to="/">首页</router-link>
+              </li>
+              <li>
+                <router-link to="/crowdFunding">矿机拼团</router-link>
+              </li>
+              <li>
+                <router-link to="/jackpot">奖池瓜分</router-link>
+              </li>
+              <li>
+                <router-link to="/rakeBack">推广返佣机制</router-link>
+              </li>
+            </ul>
           </div>
         </div>
+      </div>
 
     </div>
+    <el-row class="headerNotice">
+      <Notice></Notice>
+    </el-row>
   </div>
 </template>
 <script>
   import YButton from '/components/YButton'
+  import Notice from '/common/notice'
   import { mapMutations, mapState } from 'vuex'
   import { getCartList, cartDel } from '/api/goods'
   import { loginOut } from '/api/index'
@@ -145,8 +163,8 @@
         user: {},
         // 列表
         navList: [{
-          text: '个人中心',
-          link: '/user/userInfo'
+          text: '我的推广',
+          link: '/user/extension'
         }, {
           text: '控制面板',
           link: '/user/information'
@@ -159,9 +177,6 @@
         }, {
           text: '我的礼券',
           link: '/user/coupon'
-        }, {
-          text: '我的推广',
-          link: '/user/extension'
         }],
         st: false,
         // 头部购物车显示
@@ -222,7 +237,10 @@
       navFixed () {
         if (this.$route.path === '/goods' ||
           this.$route.path === '/home' ||
-          this.$route.path === '/goodsDetails') {
+          this.$route.path === '/goodsDetails' ||
+          this.$route.path === '/jackpot' ||
+          this.$route.path === '/rakeBack' ||
+          this.$route.path === '/crowdFunding') {
           // 计算是否吸顶
           if (this.showNav) {
             let st = document.documentElement.scrollTop || document.body.scrollTop
@@ -259,7 +277,8 @@
       window.removeEventListener('resize', this.navFixed)
     },
     components: {
-      YButton
+      YButton,
+      Notice
     }
   }
 </script>
@@ -267,6 +286,14 @@
   @import "../assets/style/theme";
   @import "../assets/style/mixin";
 
+  .headerNotice{
+    height:56px;
+    background:rgba(255,255,255,1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+  }
   .move_in_cart {
     animation: mymove .5s ease-in-out;
   }
@@ -297,7 +324,7 @@
   }
 
   header {
-    height: 100px;
+    height: 60px;
     z-index: 30;
     position: relative;
   }
@@ -763,7 +790,7 @@
 
   .nav-sub {
     position: relative;
-    height: 90px;
+    height: 60px;
     background: #f7f7f7;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .04);
     z-index: 1;
@@ -779,7 +806,7 @@
       background-image: linear-gradient(#fff, #f1f1f1);
     }
     .nav-sub-wrapper {
-      padding: 31px 0;
+      padding: 17px 0;
       height: 90px;
       position: relative;
       &.fixed {

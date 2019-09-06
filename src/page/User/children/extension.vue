@@ -21,13 +21,17 @@
         <el-col :span="24">
           <div class="grid-content bg-purple">
             <div class="info-title">
-              <div class="info-title__item"><span class="total-title">累计返佣金额</span> <span
-                class="measure-word rubik-medium">0</span> <span class="unit">雷猫币</span>
+              <div class="info-title__item"><span class="total-title">累计返佣金额</span>
+                <mallki class-name="mallki-text" text="0" class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
+                <span class="unit">雷猫币</span>
               </div>
-              <div class="info-title__item"><span>累计邀请人数</span> <span class="measure-word rubik-medium">0</span>
+              <div class="info-title__item"><span>累计邀请人数</span>
+                <mallki class-name="mallki-text" text="0" class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
+                <el-button type="primary"  @click="tab">点击查看详情</el-button>
               </div>
-              <div class="info-title__item info-title__item--current"><span>当前身份</span> <span
-                class="measure-word rubik-medium">雷猫合伙人</span><i class="el-icon-info"></i>
+              <div class="info-title__item info-title__item--current"><span>当前身份</span>
+                <span class="measure-word rubik-medium">雷猫合伙人</span>
+                <i class="el-icon-info"></i>
               </div>
             </div>
           </div>
@@ -70,7 +74,7 @@
           <div class="withdraw-num">
             <div class="invite-text hit-value">
               <label>可提佣金</label>
-              <span class="invite-value rubik-medium">0.00000000</span>
+                <mallki class-name="mallki-text" text="0.00000000" class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
               BTC
             </div>
             <div class="inv-tips withdraw-btn">
@@ -110,17 +114,25 @@
 
 <script>
   import YShelf from '/components/shelf'
+  import Mallki from '/components/Mallki'
 
   export default {
     data () {
       return {
         fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
         url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        activeName: 'first'
+        activeName: 'first',
+        input: '这个一个邀请码'
+      }
+    },
+    methods: {
+      tab (e) {
+        this.$router.push({path: '/user/myTeam'})
       }
     },
     components: {
-      YShelf
+      YShelf,
+      Mallki
     }
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <y-shelf title="控制面板" titleFlag="true" itemFlag="true"></y-shelf>
+    <y-shelf title="控制面板" itemTitle="每日产出" titleFlag="true" firstPath="true"></y-shelf>
     <el-main style="padding-top: 0px">
       <el-card class="box-card" :body-style="{ padding: '0 0 0 20px'}">
         <el-col :span="12">
