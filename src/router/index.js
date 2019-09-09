@@ -3,7 +3,9 @@ import Router from 'vue-router'
 const Index = resolve => require(['/page/index'], resolve)
 const Login = resolve => require(['/page/Login/login'], resolve)
 const Home = resolve => require(['/page/Home/home'], resolve)
+const ServiceAgreement = resolve => require(['/page/ServiceAgreement/serviceAgreement'], resolve)
 const GoodS = resolve => require(['/page/Goods/goods'], resolve)
+const OrderList = resolve => require(['/page/OrderList/orderList'], resolve)
 const CrowdFunding = resolve => require(['/page/CrowdFunding/crowdFunding'], resolve)
 const Spread = resolve => require(['/page/Spread/spread'], resolve)
 const RakeBack = resolve => require(['/page/RakeBack/rakeBack'], resolve)
@@ -30,6 +32,7 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
+    {path: '/login', name: 'login', component: Login},
     {
       path: '/',
       component: Index,
@@ -42,10 +45,11 @@ export default new Router({
         {path: 'jackpot', component: Jackpot},
         {path: 'rakeBack', component: RakeBack},
         {path: 'crowdFunding', component: CrowdFunding},
+        {path: 'orderList', component: OrderList},
+        {path: 'serviceAgreement', component: ServiceAgreement},
         {path: 'goodsDetails', name: 'goodsDetails', component: goodsDetails}
       ]
     },
-    {path: '/login', name: 'login', component: Login},
     {path: '/cart', name: 'cart', component: Cart},
     {
       path: '/order',

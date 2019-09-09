@@ -9,23 +9,6 @@
             </h1>
           </div>
           <div class="right-box">
-            <ul class="nav-list">
-              <li>
-                <router-link to="/">首页</router-link>
-              </li>
-              <li>
-                <router-link to="/crowdFunding">众筹</router-link>
-              </li>
-              <!--                <li>-->
-              <!--                  <router-link to="/spread">推广</router-link>-->
-              <!--                </li>-->
-              <li>
-                <router-link to="/jackpot">瓜分奖池</router-link>
-              </li>
-              <li>
-                <router-link to="/rakeBack">返佣规则</router-link>
-              </li>
-            </ul>
             <div class="nav-aside" ref="aside" :class="{fixed: (st && showNav)}">
               <div class="user pr">
                 <router-link to="/user">个人中心</router-link>
