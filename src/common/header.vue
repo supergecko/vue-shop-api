@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="header-box">
+      <el-row class="headerNotice">
+        <Notice></Notice>
+      </el-row>
       <header class="w">
         <div class="w-box">
           <div class="nav-logo">
@@ -19,10 +22,10 @@
                       <!--头像-->
                       <li class="nav-user-avatar">
                         <div>
-                          <span class="avatar" :style="{backgroundImage:'url('+userInfo.info.avatar+')'}">
+                          <span class="avatar">
                           </span>
                         </div>
-                        <p class="name">{{userInfo.info.name}}</p>
+                        <p class="name">陈二狗</p>
                       </li>
                       <li v-for="(item, i) in navList" :key="i">
                         <router-link :to="item.link">{{item.text}}</router-link>
@@ -34,105 +37,48 @@
                   </div>
                 </div>
               </div>
-              <div class="shop pr" @mouseover="cartShowState(true)" @mouseout="cartShowState(false)"
-                   ref="positionMsg">
-                <router-link to="/cart"></router-link>
-                <span class="cart-num">
-                  <i class="num" ref="num"
-                     :class="{no:totalNum <= 0,move_in_cart:receiveInCart}">{{totalNum}}</i></span>
-
-                <!--购物车显示块-->
-                <div class="nav-user-wrapper pa active" v-show="showCart">
-                  <div class="nav-user-list">
-                    <div class="full" v-show="totalNum">
-                      <!--购物列表-->
-                      <div class="nav-cart-items">
-                        <ul>
-                          <li class="clearfix" v-for="(item,i) in cartList" :key="i">
-                            <div class="cart-item">
-                              <div class="cart-item-inner">
-                                <router-link :to="'goodsDetails?productId='+item.productId">
-                                  <div class="item-thumb">
-                                    <img :src="item.productImg">
-                                  </div>
-                                </router-link>
-                                <div class="item-desc">
-                                  <div class="cart-cell">
-                                    <h4>
-                                      <router-link :to="'goodsDetails?productId='+item.productId"
-                                                   v-text="item.productName"></router-link>
-                                    </h4>
-                                    <p class="attrs"><span>白色</span>
-                                    </p> <h6><span class="price-icon">¥</span><span
-                                    class="price-num">{{item.productPrice}}</span><span
-                                    class="item-num">x {{item.productNum}}</span>
-                                  </h6></div>
-                                </div>
-
-                                <div class="del-btn del" @click="delGoods(item.productId)">删除</div>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <!--总件数-->
-                      <div class="nav-cart-total"><p>共 <strong>{{totalNum}}</strong> 件商品</p> <h5>合计：<span
-                        class="price-icon">¥</span><span
-                        class="price-num">{{totalPrice}}</span></h5>
-                        <h6>
-                          <y-button classStyle="main-btn"
-                                    style="height: 40px;width: 100%;margin: 0;color: #fff;font-size: 14px;line-height: 38px"
-                                    text="去购物车" @btnClick="toCart"></y-button>
-                        </h6>
-                      </div>
-                    </div>
-                    <div v-show="!totalNum" style="height: 313px;text-align: center" class="cart-con">
-                      <p>你的购物车竟然是空的!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </header>
 
       <!--底部导航-->
-      <div class="nav-sub" v-show="showNav" :class="{fixed: st}">
+      <div class="nav-sub" :class="{fixed: st}">
         <div class="nav-sub-bg"></div>
         <div class="nav-sub-wrapper" :class="{fixed:st}">
           <div class="w">
-            <ul class="nav-list">
+            <div class="nav-list">
               <li>
-                <router-link to="/">首页</router-link>
+                <router-link to="/" :style="{'font-weight':this.$route.path=='/home'? 'bold':'normal'}">首页</router-link>
               </li>
               <li>
-                <router-link to="/crowdFunding">矿机拼团</router-link>
+                <router-link to="/crowdFunding" :style="{'font-weight':this.$route.path=='/crowdFunding'? 'bold':'normal'}">矿机拼团</router-link>
               </li>
               <li>
-                <router-link to="/jackpot">奖池瓜分</router-link>
+                <router-link to="/jackpot" :style="{'font-weight':this.$route.path=='/jackpot'? 'bold':'normal'}">奖池瓜分</router-link>
               </li>
               <li>
-                <router-link to="/rakeBack">推广返佣机制</router-link>
+                <router-link to="/rakeBack" :style="{'font-weight':this.$route.path=='/rakeBack'? 'bold':'normal'}">推广返佣</router-link>
               </li>
-            </ul>
+              <li>
+                <router-link to="/mineField" :style="{'font-weight':this.$route.path=='/mineField'? 'bold':'normal'}">雷猫矿场</router-link>
+              </li>
+              <li>
+                <router-link to="/aboutUs" :style="{'font-weight':this.$route.path=='/aboutUs'? 'bold':'normal'}">关于我们</router-link>
+              </li>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
-    <el-row class="headerNotice">
-      <Notice></Notice>
-    </el-row>
   </div>
 </template>
 <script>
   import YButton from '/components/YButton'
   import Notice from '/common/notice'
-  import { mapMutations, mapState } from 'vuex'
-  import { getCartList, cartDel } from '/api/goods'
+  import { mapState } from 'vuex'
   import { loginOut } from '/api/index'
-  import { setStore, removeStore } from '/utils/storage'
+  import { removeStore } from '/utils/storage'
 
   export default {
     props: {
@@ -161,61 +107,15 @@
           text: '我的礼券',
           link: '/user/coupon'
         }],
-        st: false,
-        // 头部购物车显示
-        cartShow: false,
-        timerCartShow: null // 定时隐藏购物车
+        st: false
       }
     },
     computed: {
       ...mapState([
         'cartList', 'login', 'receiveInCart', 'showCart', 'userInfo'
-      ]),
-      // 计算价格
-      totalPrice () {
-        let totalPrice = 0
-        this.cartList.length && this.cartList.forEach(item => {
-          totalPrice += (item.productNum * item.productPrice)
-        })
-        return totalPrice
-      },
-      // 计算数量
-      totalNum () {
-        let totalNum = 0
-        this.cartList.length && this.cartList.forEach(item => {
-          totalNum += (item.productNum)
-        })
-        return totalNum
-      }
+      ])
     },
     methods: {
-      ...mapMutations(['ADD_CART', 'INIT_BUYCART', 'ADD_ANIMATION', 'SHOW_CART', 'REDUCE_CART', 'RECORD_USERINFO', 'EDIT_CART']),
-      // 购物车显示
-      cartShowState (state) {
-        this.SHOW_CART({showCart: state})
-      },
-      // 登陆时获取一次购物车商品
-      _getCartList () {
-        getCartList().then(res => {
-          if (res.status === '1') {
-            setStore('buyCart', res.result)
-          }
-          // 重新初始化一次本地数据
-        }).then(this.INIT_BUYCART)
-      },
-      // 删除商品
-      delGoods (productId) {
-        if (this.login) { // 登陆了
-          cartDel({productId}).then(res => {
-            this.EDIT_CART({productId})
-          })
-        } else {
-          this.EDIT_CART({productId})
-        }
-      },
-      toCart () {
-        this.$router.push({path: '/cart'})
-      },
       // 控制顶部
       navFixed () {
         if (this.$route.path === '/goods' ||
@@ -229,10 +129,6 @@
             let st = document.documentElement.scrollTop || document.body.scrollTop
             st >= 100 ? this.st = true : this.st = false
           }
-          // 计算小圆当前位置
-          let num = this.$refs.num
-          const {left, top} = num.getBoundingClientRect()
-          this.ADD_ANIMATION({cartPositionL: left, cartPositionT: top})
         }
       },
       // 退出登陆
@@ -244,11 +140,6 @@
       }
     },
     mounted () {
-      if (this.login) {
-        this._getCartList()
-      } else {
-        this.INIT_BUYCART()
-      }
       setTimeout(() => {
         this.navFixed()
       }, 300)
@@ -265,17 +156,25 @@
     }
   }
 </script>
+<style>
+  .nav-sub .nav-list li a[data-v-a1bfd9a2]:hover{
+    color: #4c84ff!important;
+  }
+</style>
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "../assets/style/theme";
   @import "../assets/style/mixin";
-
   .headerNotice{
-    height:56px;
-    background:rgba(255,255,255,1);
     display: flex;
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-pack: center;
     justify-content: center;
-    margin-top: 16px;
+    height: 40px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 40px;
+    background: #262a37;
   }
   .move_in_cart {
     animation: mymove .5s ease-in-out;
@@ -336,13 +235,13 @@
       justify-content: center;
       align-items: center;
       margin-right: 22px;
-      a {
-        color: #c8c8c8;
+      li {
+        /*color: #c8c8c8;*/
         display: block;
         font-size: 14px;
         padding: 0 25px;
         &:hover {
-          color: #fff;
+          color: #4dd9d5;
         }
       }
     }

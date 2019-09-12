@@ -1,31 +1,35 @@
-import http from './public'
-const baseUrl = '/api'
-// 登陆
+const baseUrl = '/api1'
+import {ypost} from './public'
+// 登陆1
 export const userLogin = (params) => {
-  return http.fetchPost(`${baseUrl}/users/login`, params)
+  return ypost(`${baseUrl}/home/user/do_login`, params)
 }
 // 退出登陆
 export const loginOut = (params) => {
-  return http.fetchPost(`${baseUrl}/users/loginOut`, params)
+  return ypost(`${baseUrl}/users/loginOut`, params)
 }
-// 用户信息
-export const userInfo = (params) => {
-  return http.fetchPost(`${baseUrl}/users/userInfo`, params)
+// 首页接口1
+export const homePage = (params) => {
+  return ypost(`${baseUrl}/home/index/new_index`, params)
 }
-// 注册账号
+// 注册账号1
 export const register = (params) => {
-  return http.fetchPost(`${baseUrl}/users/register`, params)
+  return ypost(`${baseUrl}/home/user/reg`, params)
 }
 // 上传图片
 export const upload = (params) => {
-  return http.fetchPost(`${baseUrl}/users/upload`, params)
+  return ypost(`${baseUrl}/users/upload`, params)
 }
 // 修改头像
 export const updateheadimage = (params) => {
-  return http.fetchPost(`${baseUrl}/users/updateheadimage`, params)
+  return ypost(`${baseUrl}/users/updateheadimage`, params)
 }
-// 首页接口
-export const productHome = (params) => {
-  return http.fetchGet(`${baseUrl}/goods/productHome`, params)
+// 商品详情接口
+export const goodsList = (params) => {
+  return ypost(`${baseUrl}/home/goods/index`, params)
+}
+// 短信接口1
+export const sendCode = (params) => {
+  return ypost(`${baseUrl}/home/api/send_validate_code`, params)
 }
 

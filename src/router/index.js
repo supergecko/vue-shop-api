@@ -3,6 +3,8 @@ import Router from 'vue-router'
 const Index = resolve => require(['/page/index'], resolve)
 const Login = resolve => require(['/page/Login/login'], resolve)
 const Home = resolve => require(['/page/Home/home'], resolve)
+const MineField = resolve => require(['/page/MineField/mineField'], resolve)
+const AboutUs = resolve => require(['/page/AboutUs/aboutUs'], resolve)
 const ServiceAgreement = resolve => require(['/page/ServiceAgreement/serviceAgreement'], resolve)
 const GoodS = resolve => require(['/page/Goods/goods'], resolve)
 const OrderList = resolve => require(['/page/OrderList/orderList'], resolve)
@@ -32,7 +34,6 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    {path: '/login', name: 'login', component: Login},
     {
       path: '/',
       component: Index,
@@ -46,9 +47,19 @@ export default new Router({
         {path: 'rakeBack', component: RakeBack},
         {path: 'crowdFunding', component: CrowdFunding},
         {path: 'orderList', component: OrderList},
+        {path: 'mineField', component: MineField},
+        {path: 'aboutUs', component: AboutUs},
         {path: 'serviceAgreement', component: ServiceAgreement},
         {path: 'goodsDetails', name: 'goodsDetails', component: goodsDetails}
       ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+      meta: {
+        requireAuth: true
+      }
     },
     {path: '/cart', name: 'cart', component: Cart},
     {
@@ -65,6 +76,7 @@ export default new Router({
       name: 'user',
       component: user,
       redirect: '/user/orderList',
+      meta: {requireAuth: true},
       children: [
         {path: 'orderList', name: '订单列表', component: orderList},
         {path: 'myTeam', name: '我的团队', component: myTeam},

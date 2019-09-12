@@ -29,30 +29,33 @@
         <div class="registered" v-else>
           <h4>注册 THUNDERCAT ID</h4>
           <div class="content" style="margin-top: 20px;">
-            <ul class="common-form">
-              <li class="username border-1p">
-                <div class="input">
-                  <input type="text"
-                         v-model="registered.userName" placeholder="账号"
-                         @keyup="registered.userName = registered.userName.replace(/[^\w\.\/]/ig,'')">
-                </div>
-              </li>
-              <li>
-                <div class="input">
-                  <input type="password"
-                         v-model="registered.userPwd"
-                         placeholder="密码">
-                </div>
-              </li>
-              <li>
-                <div class="input">
-                  <input type="password" v-model="registered.userPwd2" placeholder="重复密码">
-                </div>
-              </li>
-            </ul>
-            <div>
-              <y-button :classStyle="isRegOk" text="注册" class="btn" @btnClick="regist"></y-button>
-            </div>
+
+            <el-form :model="registered" status-icon :rules="rules" ref="registered" label-width="100px" class="demo-registered">
+              <el-form-item label="手机号" prop="mobile">
+                <el-input placeholder="请输入手机号" v-model="registered.mobile" autocomplete="off">
+                  <template slot="prepend">+ 86</template>
+                </el-input>
+              </el-form-item>
+
+              <el-form-item label="验证码" prop="verificationCode">
+                <el-input v-model="registered.verificationCode" placeholder="请输入验证码" style="width:150px;" autocomplete="off"></el-input>
+                <el-button type="info" style="float: right;width: 70px" @click="sendCode" :disabled="sendCodeFlag === true">{{sendCodeText}}</el-button>
+              </el-form-item>
+
+              <el-form-item label="密码" prop="userPwd">
+                <el-input type="password" v-model="registered.userPwd" autocomplete="off" placeholder="请输入密码"></el-input>
+              </el-form-item>
+
+              <el-form-item label="确认密码" prop="userPwd2">
+                <el-input type="password" v-model="registered.userPwd2" autocomplete="off" placeholder="请再次输入密码"></el-input>
+              </el-form-item>
+
+              <el-form-item>
+                <el-button type="primary" @click="submitForm('registered')">注册</el-button>
+                <el-button @click="resetForm('registered')">重置</el-button>
+              </el-form-item>
+            </el-form>
+
             <ul class="common-form pr">
               <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{registered.errMsg}}</li>
               <li style="text-align: center;line-height: 48px;margin-bottom: 0;">
@@ -71,14 +74,50 @@
 <script>
   import YFooter from '/common/footer'
   import YButton from '/components/YButton'
-  import { userLogin, register } from '/api/index'
-  import { addCartBatch } from '/api/goods'
-  import { getStore, removeStore } from '/utils/storage'
+  import { userLogin, register, sendCode } from '/api/index'
+  import { mapMutations } from 'vuex'
 
   export default {
     data () {
+      const validateMobile = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入手机号'))
+        } else if (!(/^(\s)*[1][3-9]\d{9}(\s)*$|^(\s)*([6|9])\d{7}(\s)*$|^(\s)*[0][9]\d{8}(\s)*$|^(\s)*[6]([8|6])\d{5}(\s)*$/.test(value))) {
+          callback(new Error('请输入正确的手机号!'))
+        } else {
+          callback()
+        }
+      }
+      const validateSendCode = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入验证码'))
+        } else {
+          callback()
+        }
+      }
+      const validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'))
+        } else {
+          // if (this.registered.userPwd !== '') {
+          //   this.$refs.registered.validateField('userPwd')
+          // }
+          callback()
+        }
+      }
+      const validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'))
+        } else if (value !== this.registered.userPwd) {
+          callback(new Error('两次输入密码不一致!'))
+        } else {
+          callback()
+        }
+      }
       return {
-        cart: [],
+        sendCodeFlag: false, // 发送验证码flag
+        intervalId: 0, // 定时器
+        sendCodeText: '获取验证码',
         loginPage: true,
         ruleForm: {
           userName: '',
@@ -86,93 +125,139 @@
           errMsg: ''
         },
         registered: {
-          userName: '',
+          mobile: '', // 手机号
+          verificationCode: '', // 验证码
           userPwd: '',
-          userPwd2: '',
-          errMsg: ''
+          userPwd2: ''
+        },
+        rules: {
+          mobile: [
+            { validator: validateMobile, trigger: 'blur' }
+          ],
+          verificationCode: [
+            { validator: validateSendCode, trigger: 'blur' }
+          ],
+          userPwd: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
+          userPwd2: [
+            { validator: validatePass2, trigger: 'blur' }
+          ]
         }
       }
     },
     computed: {
-      // 可点击注册
-      isRegOk (rules) {
-        const {userPwd, userPwd2, userName} = this.registered
-        return userPwd && userPwd2 && userName ? 'main-btn' : 'disabled-btn'
-      },
       isLoginOk () {
         const {userPwd, userName} = this.ruleForm
         return userPwd && userName ? 'main-btn' : 'disabled-btn'
       }
     },
     methods: {
-      // 登陆时将本地的添加到用户购物车
-      login_addCart () {
-        let cartArr = []
-        let locaCart = JSON.parse(getStore('buyCart'))
-        if (locaCart && locaCart.length) {
-          cartArr = locaCart.map(item => {
-            return {
-              'productId': item.productId,
-              'productNum': item.productNum
-            }
-          })
-        }
-        this.cart = cartArr
-      },
-      login () {
-        const {userName, userPwd} = this.ruleForm
-        if (!userName || !userPwd) {
-          this.ruleForm.errMsg = '账号或者密码不能为空!'
+      ...mapMutations(['UPDATE_ID']),
+      // 发送短信
+      sendCode () {
+        const {mobile} = this.registered
+        if (!mobile) {
+          this.ruleForm.errMsg = '手机号不能为空!'
         } else {
-          let params = {userName, userPwd}
-          userLogin(params).then(res => {
-            if (res.status === '0') {
-              if (this.cart.length) {
-                addCartBatch({productMsg: this.cart}).then(res => {
-                  if (res.status === '1') {
-                    removeStore('buyCart')
-                  }
-                }).then(this.$router.go(-1))
-              } else {
-                this.$router.go(-1)
-              }
+          const timestamp = Date.parse(new Date()) / 1000
+          const scene = 1
+          const sign = this.$md5(`${mobile}__${scene}__${timestamp}__thundercat`)
+          let params = {mobile, timestamp, scene, sign}
+          sendCode(params).then(res => {
+            console.log(res)
+            if (res.status === 200) {
+              this.sendCodeFlag = true
+              this.sendCodeText = 60
+              this.intervalId = setInterval(() => {
+                this.sendCodeText--
+              }, 1000)
+              console.log('成功了')
             } else {
+              console.log('失败了')
               this.ruleForm.errMsg = res.msg
             }
           })
         }
       },
-      regist () {
-        const {userName, userPwd, userPwd2} = this.registered
-        if (!userName || !userPwd || !userPwd2) {
-          this.registered.errMsg = '账号密码不能为空'
-          return false
+
+      // 登录
+      login () {
+        const {userName, userPwd} = this.ruleForm
+        if (!userName || !userPwd) {
+          this.ruleForm.errMsg = '账号或者密码不能为空!'
+        } else {
+          const mobile = userName
+          const password = userPwd
+          const timestamp = Date.parse(new Date()) / 1000
+          const sign = this.$md5(`${mobile}__${password}__${timestamp}__thundercat`)
+          let params = {mobile, password, timestamp, sign}
+          userLogin(params).then(res => {
+            console.log(res)
+            if (res.status === 200) {
+              console.log(res.data)
+              this.UPDATE_ID({info: res.data.data})
+              console.log('登录成功')
+              this.$router.go(-1)
+            } else {
+              console.log('登录失败')
+              this.ruleForm.errMsg = res.data.msg
+            }
+          })
         }
-        if (userPwd2 !== userPwd) {
-          this.registered.errMsg = '两次输入的密码不相同'
-          return false
-        }
-        register({userName, userPwd}).then(res => {
-          this.registered.errMsg = res.msg
-          if (res.status === '0') {
-            setTimeout(() => {
-              this.ruleForm.errMsg = ''
-              this.registered.errMsg = ''
-              this.loginPage = true
-            }, 500)
+      },
+
+      // 注册
+      register () {
+        const { mobile, userPwd, userPwd2, verificationCode } = this.registered
+        const password = userPwd
+        const password2 = userPwd2
+        const code = verificationCode
+        const invite_code = ''
+        const scene = 1
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${mobile}__${scene}__${password}__${password2}__${code}__${timestamp}__thundercat`)
+        let params = {mobile, scene, password, password2, code, timestamp, invite_code, sign}
+        register(params).then(res => {
+          console.log(res)
+          if (res.code === 1) {
+            console.log('成功了')
+            // this.$router.go(-1)
           } else {
+            console.log('失败了')
+            this.ruleForm.errMsg = res.msg
+          }
+        })
+      },
+
+      submitForm (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.register()
+          } else {
+            console.log('error submit!!')
             return false
           }
         })
+      },
+      resetForm (formName) {
+        this.$refs[formName].resetFields()
       }
-    },
-    mounted () {
-      this.login_addCart()
     },
     components: {
       YFooter,
       YButton
+    },
+    watch: {
+      sendCodeText (newName, oldName) {
+        if (newName === 0) {
+          clearInterval(this.intervalId)
+          this.sendCodeText = '获取验证码'
+          this.sendCodeFlag = false
+        }
+      }
     }
+
   }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>

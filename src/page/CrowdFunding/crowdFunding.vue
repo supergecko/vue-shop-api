@@ -1,14 +1,14 @@
 <template>
     <el-main>
-      <el-row class="crowdWarp">
+      <el-row class="crowdWarp" v-for="(item, i) in goodsList" :key="i">
         <el-row class="lmbWarp">
           <el-col :span="17" class="lmbLeftItem">
             <div class="grid-content bg-purple middleHeaderLeft">
               <div class="contentHeader">
                   <div>
-                    <div class="contentHeaderBtn">第5轮</div>
+                    <div class="contentHeaderBtn">{{item.title}}</div>
                     <span>预计开始挖矿时间</span>
-                    <el-tag type="warning">2019/03/27</el-tag>
+                    <el-tag type="warning">{{item.create_time}}</el-tag>
                   </div>
                   <div class="downTime">
                     距离本轮团购时间还有
@@ -59,332 +59,21 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="lmbGoodsWarp">
-          <el-col :span="6" class="goodsWarp">
+        <el-row v-if=item.goods class="lmbGoodsWarp">
+          <el-col :span="6" class="goodsWarp" v-for="(item1, j) in item.goods" :key="j">
             <div class="goodItem">
               <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
+                <div style="padding-bottom: 13px">{{item1.description}}</div>
+                <div>{{item1.hashrate}}</div>
+                <div class="hotBTn" :style="{'display':item1.rate==100 ? 'block':'none'}">抢光了</div>
               </div>
               <div class="goodItemMiddle">
-                $0.1329/T/天
+                {{item1.hashrate_cost}}
               </div>
               <div class="goodItemFooter">
-                  <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                  <div class="goodItemFooterBtn">即将补货</div>
-                  <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-      </el-row>
-      <el-row class="crowdWarp">
-        <el-row class="lmbWarp">
-          <el-col :span="17" class="lmbLeftItem">
-            <div class="grid-content bg-purple middleHeaderLeft">
-              <div class="contentHeader">
-                <div>
-                  <div class="contentHeaderBtn">第5轮</div>
-                  <span>预计开始挖矿时间</span>
-                  <el-tag type="warning">2019/03/27</el-tag>
-                </div>
-                <div class="downTime">
-                  距离本轮团购时间还有
-                  <span>10</span>:
-                  <span>06</span>:
-                  <span>30</span>
-                </div>
-              </div>
-              <div class="contentMiddle">
-                <div class="middleItem1">
-                  <span>最低算力</span>
-                  <i class="el-icon-warning"></i>
-                  <div>
-                    $<span>0.3801</span>/G/天
-                  </div>
-                </div>
-                <div class="middleItem2">
-                  <span>电费</span>
-                  <i class="el-icon-warning"></i>
-                  <div>
-                    $<span>2.3853</span>/G/天
-                  </div>
-                </div>
-                <div class="middleItem3">
-                  <el-tag>LTC</el-tag>
-                  <span>来自BTC.com的理论收益</span>
-                  <div>
-                    $<span>1.5797</span>/G/天
-                  </div>
-                </div>
-              </div>
-              <div class="contentFooter">
-                <i class="el-icon-star-on"></i>
-                <span>每日净挖矿所得等于每日挖矿产出减去算力费和电费。</span>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="7" class="lmbRightItem">
-            <div class="grid-content bg-purple-light middleHeaderRight">
-              <div class="rightHeader">
-                <div style="font-size:80px">3</div>
-                <div class="rightHeaderItem">
-                  <div style="font-size:28px;margin-top:8px;">世代</div>
-                  <div style="font-size:20px;margin-bottom:16px;">矿机</div>
-                </div>
-              </div>
-              <div>- 蚂蚁矿机 L3++ <i class="el-icon-warning"></i>-</div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="lmbGoodsWarp">
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-      </el-row>
-      <el-row class="crowdWarp">
-        <el-row class="lmbWarp">
-          <el-col :span="17" class="lmbLeftItem">
-            <div class="grid-content bg-purple middleHeaderLeft">
-              <div class="contentHeader">
-                <div>
-                  <div class="contentHeaderBtn">第5轮</div>
-                  <span>预计开始挖矿时间</span>
-                  <el-tag type="warning">2019/03/27</el-tag>
-                </div>
-                <div class="downTime">
-                  距离本轮团购时间还有
-                  <span>10</span>:
-                  <span>06</span>:
-                  <span>30</span>
-                </div>
-              </div>
-              <div class="contentMiddle">
-                <div class="middleItem1">
-                  <span>最低算力</span>
-                  <i class="el-icon-warning"></i>
-                  <div>
-                    $<span>0.3801</span>/G/天
-                  </div>
-                </div>
-                <div class="middleItem2">
-                  <span>电费</span>
-                  <i class="el-icon-warning"></i>
-                  <div>
-                    $<span>2.3853</span>/G/天
-                  </div>
-                </div>
-                <div class="middleItem3">
-                  <el-tag>LTC</el-tag>
-                  <span>来自BTC.com的理论收益</span>
-                  <div>
-                    $<span>1.5797</span>/G/天
-                  </div>
-                </div>
-              </div>
-              <div class="contentFooter">
-                <i class="el-icon-star-on"></i>
-                <span>每日净挖矿所得等于每日挖矿产出减去算力费和电费。</span>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="7" class="lmbRightItem">
-            <div class="grid-content bg-purple-light middleHeaderRight">
-              <div class="rightHeader">
-                <div style="font-size:80px">3</div>
-                <div class="rightHeaderItem">
-                  <div style="font-size:28px;margin-top:8px;">世代</div>
-                  <div style="font-size:20px;margin-bottom:16px;">矿机</div>
-                </div>
-              </div>
-              <div>- 蚂蚁矿机 L3++ <i class="el-icon-warning"></i>-</div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="lmbGoodsWarp">
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
+                <el-progress :percentage=item1.rate style="width:182px" :format="format"></el-progress>
+                <el-button type="primary" :disabled="item1.rate==100? true: false" style="width:214px;margin-top:16px;">即将补货</el-button>
+                <div class="goodItemFooterText">— {{item1.goods_name}} —</div>
               </div>
             </div>
           </el-col>
@@ -394,15 +83,40 @@
 </template>
 
 <script>
+  import { goodsList } from '/api/index'
+
   export default {
+    data () {
+      return {
+        goodsList: [] // 商品详情列表
+      }
+    },
     methods: {
       format (percentage) {
-        return percentage === 100 ? '满' : `已售${percentage}%`
+        return percentage === 100 ? '售磐' : `已售${percentage}%`
       }
+    },
+    mounted () {
+      const page = 1
+      let params = {page}
+      goodsList(params).then(res => {
+        if (res.status === 200) {
+          this.goodsList = res.data.data
+        } else {
+          console.log('获取商品列表失败')
+          this.ruleForm.errMsg = res.data.msg
+        }
+      })
     }
   }
 </script>
-
+<style>
+  .el-progress__text{
+    font-size: 12px!important;
+    margin-left: 6px;
+    text-align: center;
+  }
+</style>
 <style scoped>
   /*众筹样式开始*/
   .crowdWarp{

@@ -52,7 +52,7 @@
                     <el-image
                       style="width: 100px; height: 100px"
                       :src="url"
-                      :fit="fit"></el-image>
+                      fit="fill"></el-image>
                   </el-col>
                 </el-row>
               </div>

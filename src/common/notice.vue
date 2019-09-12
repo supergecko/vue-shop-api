@@ -76,7 +76,7 @@
     width: 1220px;
     align-items: center;
     color: black;
-    background:rgba(255,255,255,1);
+    background: #262a37;
     display: flex;
     box-sizing: border-box;
   }
@@ -86,7 +86,7 @@
     font-size: 14px;
     border-right: 1px solid #d8d8d8;
     align-items: center;
-    color: black;
+    color: hsla(0,0%,100%,.6);
     cursor: pointer;
     padding-left: 0px;
     padding-right: 20px;
@@ -116,7 +116,7 @@
     line-height: 30px;
     font-size: 14px;
     padding-left: 20px;
-    color: black;
+    color: hsla(0,0%,100%,.6);
     cursor: pointer;
   }
 

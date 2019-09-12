@@ -6,9 +6,9 @@
              @mouseover="bgOver($refs.bg)" @mousemove="bgMove($refs.bg,$event)" @mouseout="bgOut($refs.bg)">
           <transition name="fade">
             <div v-for="(item, i) in banner" v-if="i===mark" :key="i" style="position:absolute" @mouseover="stopTimer" @mouseout="startTimer">
-              <img v-if="item.picUrl" class="img1" :src="item.picUrl"/>
-              <img v-if="item.picUrl2"  class="img2 a" :src="item.picUrl2"/>
-              <img v-if="item.picUrl3"  class="img3 b" :src="item.picUrl3"/>
+              <img v-if="item.ad_code" class="img1" :src="item.ad_code"/>
+<!--              <img v-if="item.picUrl2"  class="img2 a" :src="item.picUrl2"/>-->
+<!--              <img v-if="item.picUrl3"  class="img3 b" :src="item.picUrl3"/>-->
             </div>
           </transition>
         </div>
@@ -27,9 +27,9 @@
             <div class="grid-content bg-purple middleHeaderLeft">
               <div class="contentHeader">
                 <div>
-                  <div class="contentHeaderBtn">第5轮</div>
+                  <div class="contentHeaderBtn">{{activity.title}}</div>
                   <span>预计开始挖矿时间</span>
-                  <el-tag type="warning">2019/03/27</el-tag>
+                  <el-tag type="warning">{{activity.create_time}}</el-tag>
                 </div>
                 <div class="downTime">
                   距离本轮团购时间还有
@@ -81,71 +81,20 @@
           </el-col>
         </el-row>
         <el-row class="lmbGoodsWarp">
-          <el-col :span="6" class="goodsWarp">
+          <el-col :span="6" class="goodsWarp" v-for="(item, i) in activity.goods" :key="i">
             <div class="goodItem">
               <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
+                <div style="padding-bottom: 13px">{{item.description}}</div>
+                <div>{{item.hashrate}}</div>
+                <div class="hotBTn" :style="{'display':item.sales_sum_value/item.store_count==1 ? 'block':'none'}">抢光了</div>
               </div>
               <div class="goodItemMiddle">
-                $0.1329/T/天
+                {{item.hashrate_cost}}
               </div>
               <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="6" class="goodsWarp">
-            <div class="goodItem">
-              <div class="goodItemHead">
-                <div style="padding-bottom: 13px">120天</div>
-                <div>50 TH/s</div>
-                <div class="hotBTn">抢光了</div>
-              </div>
-              <div class="goodItemMiddle">
-                $0.1329/T/天
-              </div>
-              <div class="goodItemFooter">
-                <el-progress :percentage="50" style="width:182px" :format="format"></el-progress>
-                <div class="goodItemFooterBtn">即将补货</div>
-                <div class="goodItemFooterText">— 蚂蚁矿机15系列 —</div>
+                <el-progress :percentage=(item.sales_sum_value/item.store_count)*100 style="width:182px" :format="format"></el-progress>
+                <el-button type="primary" :disabled="item.sales_sum_value/item.store_count==1? true: false" style="width:214px;margin-top:16px;">即将补货</el-button>
+                <div class="goodItemFooterText">— {{item.goods_name}} —</div>
               </div>
             </div>
           </el-col>
@@ -311,74 +260,22 @@
   </div>
 </template>
 <script>
-  import { productHome } from '/api'
+  import { homePage } from '/api'
   import YShelf from '/components/shelf'
   import product from '/components/product'
-  import mallGoods from '/components/mallGoods'
+
   export default {
     data () {
       return {
-        banner: [
-          {
-            'picUrl': 'https://i.loli.net/2018/11/04/5bdeba4028e90.png',
-            'picUrl2': 'https://i.loli.net/2018/11/04/5bdebb109a29a.png',
-            'picUrl3': 'https://i.loli.net/2018/11/04/5bdeba6753403.png',
-            'productImageBig': 'https://i.loli.net/2018/11/04/5bdeba4028e90.png'
-          }, {
-            'picUrl': 'https://s1.ax1x.com/2018/05/19/Ccdiid.png',
-            'picUrl2': null,
-            'picUrl3': null,
-            'productImageBig': 'https://s1.ax1x.com/2018/05/19/Ccdiid.png'
-          }, {
-            'picUrl': 'https://i.loli.net/2018/11/04/5bdebb41e11f4.png',
-            'picUrl2': null,
-            'picUrl3': null,
-            'productImageBig': 'https://i.loli.net/2018/11/04/5bdebb41e11f4.png'
-          }, {
-            'picUrl': 'https://i.loli.net/2018/11/04/5bdebbd45a0b0.png',
-            'picUrl2': null,
-            'picUrl3': null,
-            'productImageBig': 'https://i.loli.net/2018/11/04/5bdebbd45a0b0.png'
-          }
-        ],
+        banner: [], // 轮播组
+        activity: [], // 众筹数组
         mark: 0,
         bgOpt: {
           offsetLeft: 0,
           offsetTop: 0,
           offsetWidth: 0,
           offsetHeight: 0
-        },
-        floors: [],
-        hot: [
-          {
-            productName: '矿机一',
-            sub_title: '这是一个测试，这是一个测试',
-            productId: 1,
-            salePrice: 100,
-            productImageBig: 'http://pic1.win4000.com/wallpaper/c/53cdd1ec00d80.jpg'
-          },
-          {
-            productName: '矿机二',
-            sub_title: '这是一个测试，这是一个测试',
-            productId: 1,
-            salePrice: 100,
-            productImageBig: 'http://pic1.win4000.com/wallpaper/c/53cdd1ec00d80.jpg'
-          },
-          {
-            productName: '矿机二',
-            sub_title: '这是一个测试，这是一个测试',
-            productId: 1,
-            salePrice: 100,
-            productImageBig: 'http://pic1.win4000.com/wallpaper/c/53cdd1ec00d80.jpg'
-          },
-          {
-            productName: '矿机二',
-            sub_title: '这是一个测试，这是一个测试',
-            productId: 1,
-            salePrice: 100,
-            productImageBig: 'http://pic1.win4000.com/wallpaper/c/53cdd1ec00d80.jpg'
-          }
-        ]
+        }
       }
     },
     methods: {
@@ -435,15 +332,21 @@
       bgOut (dom) {
         dom.style.transform = 'rotateY(0deg) rotateX(0deg)'
         dom.style['-webkit-transform'] = 'rotateY(0deg) rotateX(0deg)'
+      },
+      format (percentage) {
+        return percentage === 100 ? '售磐' : `已售${percentage}%`
       }
     },
     mounted () {
-      productHome().then(res => {
-        // 还要加个home_hot
-        const {home_floors} = res.result
-        console.log(res.result)
-        this.floors = home_floors
-        // this.hot = home_hot
+      homePage().then(res => {
+        if (res.status === 200) {
+          console.log(res.data.data)
+          this.banner = res.data.data.ad
+          this.activity = res.data.data.activity
+        } else {
+          console.log('登录失败')
+          this.ruleForm.errMsg = res.data.msg
+        }
       })
     },
     created () {
@@ -451,11 +354,17 @@
     },
     components: {
       YShelf,
-      product,
-      mallGoods
+      product
     }
   }
 </script>
+<style>
+  .el-progress__text{
+    font-size: 12px!important;
+    margin-left: 6px;
+    text-align: center;
+  }
+</style>
 <style lang="scss" rel="stylesheet/scss" scoped>
   /*众筹样式开始*/
   .lmbWarp{
