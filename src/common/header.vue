@@ -123,7 +123,11 @@
           this.$route.path === '/goodsDetails' ||
           this.$route.path === '/jackpot' ||
           this.$route.path === '/rakeBack' ||
-          this.$route.path === '/crowdFunding') {
+          this.$route.path === '/crowdFunding' ||
+          this.$route.path === '/aboutUs' ||
+          this.$route.path === '/orderList' ||
+          this.$route.path === '/serviceAgreement' ||
+          this.$route.path === '/mineField') {
           // 计算是否吸顶
           if (this.showNav) {
             let st = document.documentElement.scrollTop || document.body.scrollTop

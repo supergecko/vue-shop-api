@@ -93,7 +93,9 @@
               </div>
               <div class="goodItemFooter">
                 <el-progress :percentage=(item.sales_sum_value/item.store_count)*100 style="width:182px" :format="format"></el-progress>
-                <el-button type="primary" :disabled="item.sales_sum_value/item.store_count==1? true: false" style="width:214px;margin-top:16px;">即将补货</el-button>
+                <el-button type="primary" :disabled="item.sales_sum_value/item.store_count==1? true: false" style="width:214px;margin-top:16px;" @click="openOrderList">
+                  {{item.sales_sum_value/item.store_count==1? '即将补货': '立即抢购'}}
+                </el-button>
                 <div class="goodItemFooterText">— {{item.goods_name}} —</div>
               </div>
             </div>
@@ -279,6 +281,11 @@
       }
     },
     methods: {
+      openOrderList () {
+        this.$router.push({
+          path: '/orderList'
+        })
+      },
       autoPlay () {
         this.mark++
         if (this.mark > this.banner.length - 1) {

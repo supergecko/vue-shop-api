@@ -72,7 +72,9 @@
               </div>
               <div class="goodItemFooter">
                 <el-progress :percentage=item1.rate style="width:182px" :format="format"></el-progress>
-                <el-button type="primary" :disabled="item1.rate==100? true: false" style="width:214px;margin-top:16px;">即将补货</el-button>
+                <el-button type="primary" :disabled="item1.rate==100? true: false" style="width:214px;margin-top:16px;" @click="openOrderList">
+                  {{item1.rate==100? '即将补货': '立即抢购'}}
+                </el-button>
                 <div class="goodItemFooterText">— {{item1.goods_name}} —</div>
               </div>
             </div>
@@ -92,6 +94,11 @@
       }
     },
     methods: {
+      openOrderList () {
+        this.$router.push({
+          path: '/orderList'
+        })
+      },
       format (percentage) {
         return percentage === 100 ? '售磐' : `已售${percentage}%`
       }
