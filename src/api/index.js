@@ -52,3 +52,15 @@ export const buyNow = (params) => {
 export const saveAddress = (params) => {
   return ypost(`${baseUrl}/home/user/save_address`, params)
 }
+// 订单详情接口1
+export const orderDataList = (params) => {
+  return ypost(`${baseUrl}/home/order/orderList`, params)
+}
+// 我的礼券接口1
+export const myCoupon = (params) => {
+  return ypost(`${baseUrl}/home/panel/myCoupon`, params)
+}
+// 我的团队接口1
+export const polularizeDetail = (params) => {
+  return ypost(`${baseUrl}/home/panel/popularizeDetail`, params)
+}

@@ -1,18 +1,18 @@
 <template>
   <div style="margin:20px auto">
     <swiper :options="swiperOption">
-      <swiper-slide v-for="(item,index) in secondList[flag]" :key="index">
+      <swiper-slide v-for="(item,index) in grandson[flag]" :key="index">
         <div class="secondTeam">
           <div class="team1Title">{{item.title}}</div>
           <el-row style="padding-top: 19px;">
             <el-col :span="15" class="teamLeft">
-              <div style="padding-bottom: 8px">用户名:{{item.userName}}</div>
+              <div style="padding-bottom: 8px">用户名:{{item.nickname}}</div>
               <div>累计贡献值:{{item.contribution}}</div>
             </el-col>
             <el-col :span="9" style="text-align: center;margin-top: -1px">
               <el-image
                 style="width: 43px; height: 43px"
-                :src=item.url
+                :src=item.avatar
                 fit="fill"></el-image>
             </el-col>
           </el-row>
@@ -27,7 +27,8 @@
   export default {
     props: [
       'flag',
-      'number'
+      'number',
+      'grandson'
     ],
     data () {
       return {

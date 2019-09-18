@@ -5,7 +5,12 @@
     <el-main style="padding-top: 0px">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="算力套餐订单" name="first">
-          <OrderData></OrderData>
+          <OrderData :order_list=order_list v-if="order_list.length"></OrderData>
+          <div v-else>
+            <div style="padding: 100px 0;text-align: center">
+              你还未创建过订单
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="电费订单" name="second">
           <OrderData v-if="orderList.length"></OrderData>
@@ -15,27 +20,30 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="合并支付电费单" name="third">
-          <OrderData v-if="orderList.length"></OrderData>
-          <div v-else>
-            <div style="padding: 100px 0;text-align: center">
-              你还未创建过订单
-            </div>
-          </div>
-        </el-tab-pane>
+<!--        <el-tab-pane label="合并支付电费单" name="third">-->
+<!--          <OrderData v-if="orderList.length"></OrderData>-->
+<!--          <div v-else>-->
+<!--            <div style="padding: 100px 0;text-align: center">-->
+<!--              你还未创建过订单-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </el-tab-pane>-->
       </el-tabs>
     </el-main>
 
   </div>
 </template>
 <script>
-  import { orderList, delOrder } from '/api/goods'
+  import { orderDataList } from '/api'
   import YShelf from '/components/shelf'
   import OrderData from '/common/orderDataList'
+  import { getItem } from './../../../utils/newLocalStorage'
 
   export default {
     data () {
       return {
+        order_list: [], // 算力订单数组
+        electricity_list: [], // 电费订单数组
         orderList: [],
         activeName: 'first'
       }
@@ -44,23 +52,31 @@
       handleClick (tab, event) {
         console.log(tab, event)
       },
-      _orderList () {
-        orderList().then(res => {
-          this.orderList = res.result
+      // 拉取订单信息
+      _orderDetail () {
+        const loading = this.$loading({
+          text: '加载中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true
         })
-      },
-      _delOrder (orderId, i) {
-        delOrder({orderId}).then(res => {
-          if (!res.status) {
-            this.orderList.splice(i, 1)
+        const user_id = getItem('userID')
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${user_id}__${timestamp}__thundercat`)
+        let params = {user_id, timestamp, sign}
+        orderDataList(params).then(res => {
+          loading.close()
+          console.log(`订单详情${JSON.stringify(res.data.data)}`)
+          if (res.status === 200 && res.data.code === 1) {
+            this.order_list = res.data.data.order_list
+            this.electricity_list = res.data.data.electricity_list
           } else {
-            alert('删除失败')
+            this.$message.error('网络赛车啦')
           }
         })
       }
     },
     created () {
-      this._orderList()
+      this._orderDetail()
     },
     components: {
       YShelf,

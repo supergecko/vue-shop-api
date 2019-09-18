@@ -53,10 +53,6 @@ export const addressDel = (params) => {
 export const payMent = (params) => {
   return ypost(`${baseUrl}/users/payMent`, params)
 }
-// 订单
-export const orderList = (params) => {
-  return ypost(`${baseUrl}/users/orderList`, params)
-}
 // 商品详情
 export const productDet = (params) => {
   return yget(`${baseUrl}/goods/productDet`, params)

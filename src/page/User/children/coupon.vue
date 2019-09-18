@@ -7,46 +7,61 @@
         <!--可用卡卷-->
         <el-tab-pane name="first">
           <span slot="label">可用卡券<span style="color:#409EFF;">(0)</span></span>
-          <el-row>
-            <el-col :span="8" class="couponWarp" v-for="item in 6" :key="item">
+          <el-row v-if="available.length">
+            <el-col :span="8" class="couponWarp" v-for="(item, i) in available" :key="i">
               <el-row class="couponItem couponItem2">
                 <el-row class="couponBtnHeader">
-                  <el-col :span="8" class="couponHeaderLeft">新人劵</el-col>
+                  <el-col :span="8" class="couponHeaderLeft">{{item.name}}</el-col>
                   <el-col :span="16" class="couponHeaderRight">
-                    <div>￥<span style="font-size: 56px">500</span></div>
+                    <div>￥<span style="font-size: 56px">{{item.money}}</span></div>
                     <div>使用日期</div>
-                    <div>2019.9.20-2019.10.20</div>
+                    <span>{{item.begin_time}}-{{item.end_time}}</span>
                   </el-col>
                 </el-row>
                 <el-row class="couponBtnFooter">
                   <span>使用规则：优惠券仅限在有效期内</span>
-                  <div class="couponDOwn"></div>
+<!--                  <div class="couponDOwn"></div>-->
                 </el-row>
               </el-row>
             </el-col>
+          </el-row>
+          <el-row class="couponNoneWarp" v-else>
+            <el-image
+              style="width: 132px; height: 116px"
+              src="../../../../static/images/none.png"
+              fit="fill"></el-image>
+            <el-row class="couponNoneText">空空如也</el-row>
           </el-row>
         </el-tab-pane>
 
         <!--已用&失效-->
         <el-tab-pane name="second">
           <span slot="label">已用&失效<span style="color:#409EFF;">(0)</span></span>
-          <el-row>
-            <el-col :span="8" class="couponWarp" v-for="item in 6" :key="item">
+          <el-row v-if="unavailable.length">
+            <el-col :span="8" class="couponWarp" v-for="(item, i) in unavailable" :key="i">
               <el-row class="couponItem">
                 <el-row class="couponBtnHeader">
-                  <el-col :span="8" class="couponHeaderLeft">新人劵</el-col>
+                  <el-col :span="8" class="couponHeaderLeft">{{item.name}}</el-col>
                   <el-col :span="16" class="couponHeaderRight">
-                    <div>￥<span style="font-size: 56px">500</span></div>
+                    <div>￥<span style="font-size: 56px">{{item.money}}</span></div>
                     <div>使用日期</div>
-                    <div>2019.9.20-2019.10.20</div>
+                    <div>{{item.begin_time}}-{{item.end_time}}</div>
                   </el-col>
                 </el-row>
                 <el-row class="couponBtnFooter">
                   <span>使用规则：优惠券仅限在有效期内</span>
-                  <div class="couponDOwn"></div>
+<!--                  <div class="couponDOwn"></div>-->
                 </el-row>
               </el-row>
             </el-col>
+          </el-row>
+
+          <el-row class="couponNoneWarp" v-else>
+            <el-image
+              style="width: 132px; height: 116px"
+              src="../../../../static/images/none.png"
+              fit="fill"></el-image>
+            <el-row class="couponNoneText">空空如也</el-row>
           </el-row>
         </el-tab-pane>
       </el-tabs>
@@ -54,12 +69,43 @@
   </div>
 </template>
 <script>
+  import { myCoupon } from '/api'
   import YShelf from '/components/shelf'
+  import { getItem } from './../../../utils/newLocalStorage'
   export default {
     data () {
       return {
-        activeName: 'first'
+        activeName: 'first',
+        available: [], // 可用礼券数组
+        unavailable: [] // 不可用礼券
       }
+    },
+    methods: {
+      // 拉取礼券
+      _myCoupon () {
+        const loading = this.$loading({
+          text: '加载中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true
+        })
+        const user_id = getItem('userID')
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${user_id}__${timestamp}__thundercat`)
+        let params = {user_id, timestamp, sign}
+        myCoupon(params).then(res => {
+          loading.close()
+          console.log(`礼券详情${JSON.stringify(res.data.data)}`)
+          if (res.status === 200 && res.data.code === 1) {
+            this.available = res.data.data.available
+            this.unavailable = res.data.data.unavailable
+          } else {
+            this.$message.error('网络赛车啦')
+          }
+        })
+      }
+    },
+    created () {
+      this._myCoupon()
     },
     components: {
       YShelf
@@ -67,6 +113,19 @@
   }
 </script>
 <style>
+  .couponNoneWarp{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 51px;
+  }
+  .couponNoneText{
+    font-family:Microsoft YaHei;
+    font-weight:300;
+    color:rgba(153,153,153,1);
+    margin-top: 19px;
+  }
   .couponWarp{
     display: flex;
     justify-content: center;
@@ -103,7 +162,6 @@
     text-align: right;
     padding-right: 10px;
     padding-top: 13px;
-    font-size: 16px;
   }
   .couponBtnFooter{
     height: 47px;
