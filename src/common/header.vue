@@ -6,25 +6,51 @@
       </el-row>
       <header class="w">
         <div class="w-box">
+          <!--左侧logo-->
           <div class="nav-logo">
             <h1>
               <router-link to="/" title="雷猫矿机官网">THUNDERCAT</router-link>
             </h1>
           </div>
+          <!--导航-->
+          <div class="nav-sub" :class="{fixed: st}">
+            <div class="nav-sub-bg"></div>
+            <div class="nav-sub-wrapper" :class="{fixed:st}">
+              <div class="w">
+                <div class="nav-list">
+                  <li>
+                    <router-link to="/" :style="{'color':this.$route.path=='/home'? '#5079d9':'#666'}">首页</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/crowdFunding" :style="{'color':this.$route.path=='/crowdFunding'? '#5079d9':'#666'}">矿机拼团</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/jackpot" :style="{'color':this.$route.path=='/jackpot'? '#5079d9':'#666'}">奖池瓜分</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/rakeBack" :style="{'color':this.$route.path=='/rakeBack'? '#5079d9':'#666'}">推广返佣</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/mineField" :style="{'color':this.$route.path=='/mineField'? '#5079d9':'#666'}">雷猫矿场</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/aboutUs" :style="{'color':this.$route.path=='/aboutUs'? '#5079d9':'#666'}">关于我们</router-link>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--个人中心-->
           <div class="right-box">
             <div class="nav-aside" ref="aside" :class="{fixed: (st && showNav)}">
               <div class="user pr">
                 <router-link to="/user">个人中心</router-link>
                 <!--用户信息显示-->
-                <div class="nav-user-wrapper pa" v-if="login">
+                <div class="nav-user-wrapper pa" v-if="userLoginFalg">
                   <div class="nav-user-list">
                     <ul>
                       <!--头像-->
                       <li class="nav-user-avatar">
-                        <div>
-                          <span class="avatar">
-                          </span>
-                        </div>
                         <p class="name">陈二狗</p>
                       </li>
                       <li v-for="(item, i) in navList" :key="i">
@@ -42,34 +68,8 @@
         </div>
       </header>
 
-      <!--底部导航-->
-      <div class="nav-sub" :class="{fixed: st}">
-        <div class="nav-sub-bg"></div>
-        <div class="nav-sub-wrapper" :class="{fixed:st}">
-          <div class="w">
-            <div class="nav-list">
-              <li>
-                <router-link to="/" :style="{'font-weight':this.$route.path=='/home'? 'bold':'normal'}">首页</router-link>
-              </li>
-              <li>
-                <router-link to="/crowdFunding" :style="{'font-weight':this.$route.path=='/crowdFunding'? 'bold':'normal'}">矿机拼团</router-link>
-              </li>
-              <li>
-                <router-link to="/jackpot" :style="{'font-weight':this.$route.path=='/jackpot'? 'bold':'normal'}">奖池瓜分</router-link>
-              </li>
-              <li>
-                <router-link to="/rakeBack" :style="{'font-weight':this.$route.path=='/rakeBack'? 'bold':'normal'}">推广返佣</router-link>
-              </li>
-              <li>
-                <router-link to="/mineField" :style="{'font-weight':this.$route.path=='/mineField'? 'bold':'normal'}">雷猫矿场</router-link>
-              </li>
-              <li>
-                <router-link to="/aboutUs" :style="{'font-weight':this.$route.path=='/aboutUs'? 'bold':'normal'}">关于我们</router-link>
-              </li>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
     </div>
   </div>
 </template>
@@ -78,7 +78,7 @@
   import Notice from '/common/notice'
   import { mapState } from 'vuex'
   import { loginOut } from '/api/index'
-  import { removeStore } from '/utils/storage'
+  import { getItem, clear } from './../utils/newLocalStorage'
 
   export default {
     props: {
@@ -89,6 +89,7 @@
     },
     data () {
       return {
+        userLoginFalg: false,
         user: {},
         // 列表
         navList: [{
@@ -112,7 +113,7 @@
     },
     computed: {
       ...mapState([
-        'cartList', 'login', 'receiveInCart', 'showCart', 'userInfo'
+        'userId'
       ])
     },
     methods: {
@@ -137,13 +138,31 @@
       },
       // 退出登陆
       _loginOut () {
-        loginOut().then(res => {
-          removeStore('buyCart')
-          window.location.href = '/'
-        })
+        console.log(this.userId)
+        this.$confirm('你是否确定退出此账号', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const user_id = getItem('userID')
+          let params = {user_id}
+          loginOut(params).then(res => {
+            if (res.status === 200 && res.data.code === 1) {
+              clear()
+              window.location.href = '/'
+              this.$message({
+                type: 'success',
+                message: '退出登录成功!'
+              })
+            }
+          })
+        }).catch(() => {})
       }
     },
     mounted () {
+      if ((getItem('userToken'))) {
+        this.userLoginFalg = true
+      }
       setTimeout(() => {
         this.navFixed()
       }, 300)
@@ -217,10 +236,10 @@
 
   .w-box {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     height: 100%;
     position: relative;
+    margin: 0 auto;
     h1 {
       height: 100%;
       display: flex;
@@ -255,7 +274,7 @@
         background: #333;
         background: hsla(0, 0%, 100%, .2);
         content: " ";
-        @include wh(1px, 13px);
+        @include wh(0px, 13px);
         overflow: hidden;
         position: absolute;
         top: 4px;
@@ -265,7 +284,7 @@
         width: 262px;
         position: fixed;
         left: 50%;
-        margin-left: 451px;
+        margin-left: 182px;
         margin-top: 0;
         z-index: 32;
         top: -40px;
@@ -296,8 +315,7 @@
     }
     // 用户
     .user {
-      margin-left: 41px;
-      width: 36px;
+      margin-left: 322px;
       &:hover {
         a:before {
           background-position: -5px 0;
@@ -315,6 +333,7 @@
         @include wh(36px, 20px);
         display: block;
         text-indent: -9999px;
+        float: right;
         &:before {
           content: " ";
           position: absolute;
@@ -675,10 +694,7 @@
   }
 
   .nav-sub {
-    position: relative;
     height: 60px;
-    background: #f7f7f7;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .04);
     z-index: 1;
     &.fixed {
       position: fixed;
@@ -693,13 +709,15 @@
     }
     .nav-sub-wrapper {
       padding: 17px 0;
-      height: 90px;
       position: relative;
+      margin-left: 26px;
       &.fixed {
         padding: 0;
         height: 100%;
         display: flex;
         align-items: center;
+        width: 1220px;
+        margin-left: 100px;
       }
       &:after {
         content: " ";
@@ -719,6 +737,7 @@
     .w {
       display: flex;
       justify-content: space-between;
+      width: auto;
     }
     .nav-list {
       line-height: 28px;

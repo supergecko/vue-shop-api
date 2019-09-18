@@ -24,7 +24,7 @@ const addressList = resolve => require(['/page/User/children/addressList'], reso
 const dailyOutput = resolve => require(['/page/User/children/dailyOutput'], resolve)
 const extension = resolve => require(['/page/User/children/extension'], resolve)
 const coupon = resolve => require(['/page/User/children/coupon'], resolve)
-const aihuishou = resolve => require(['/page/User/children/aihuishou'], resolve)
+const receivingAddress = resolve => require(['/page/User/children/receivingAddress'], resolve)
 const support = resolve => require(['/page/User/children/support'], resolve)
 const checkout = resolve => require(['/page/Checkout/checkout'], resolve)
 const payment = resolve => require(['/page/Order/payment'], resolve)
@@ -46,7 +46,7 @@ export default new Router({
         {path: 'jackpot', component: Jackpot},
         {path: 'rakeBack', component: RakeBack},
         {path: 'crowdFunding', component: CrowdFunding},
-        {path: 'orderList', component: OrderList},
+        {path: 'orderList', name: 'orderList', component: OrderList},
         {path: 'mineField', component: MineField},
         {path: 'aboutUs', component: AboutUs},
         {path: 'serviceAgreement', component: ServiceAgreement},
@@ -85,9 +85,9 @@ export default new Router({
         {path: 'coupon', name: '我的优惠', component: coupon},
         {path: 'support', name: '售后服务', component: support},
         {path: 'extension', name: '我的推广', component: extension},
-        {path: 'aihuishou', name: '以旧换新', component: aihuishou},
         {path: 'dailyOutput', name: '每日产出', component: dailyOutput},
-        {path: 'chargeRecharge', name: '电费充值', component: chargeRecharge}
+        {path: 'chargeRecharge', name: '电费充值', component: chargeRecharge},
+        {path: 'receivingAddress', name: '收货地址', component: receivingAddress}
       ]
     },
     {path: '/checkout', name: 'checkout', component: checkout},

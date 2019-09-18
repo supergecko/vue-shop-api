@@ -4,9 +4,9 @@ import {ypost} from './public'
 export const userLogin = (params) => {
   return ypost(`${baseUrl}/home/user/do_login`, params)
 }
-// 退出登陆
+// 退出登陆1
 export const loginOut = (params) => {
-  return ypost(`${baseUrl}/users/loginOut`, params)
+  return ypost(`${baseUrl}/home/user/logout`, params)
 }
 // 首页接口1
 export const homePage = (params) => {
@@ -24,7 +24,7 @@ export const upload = (params) => {
 export const updateheadimage = (params) => {
   return ypost(`${baseUrl}/users/updateheadimage`, params)
 }
-// 商品详情接口
+// 商品列表接口1
 export const goodsList = (params) => {
   return ypost(`${baseUrl}/home/goods/index`, params)
 }
@@ -32,4 +32,23 @@ export const goodsList = (params) => {
 export const sendCode = (params) => {
   return ypost(`${baseUrl}/home/api/send_validate_code`, params)
 }
-
+// 商品详情接口1
+export const goodsInfo = (params) => {
+  return ypost(`${baseUrl}/home/goods/goodsInfo`, params)
+}
+// 保存电子钱包地址接口1
+export const saveWallet = (params) => {
+  return ypost(`${baseUrl}/home/user/save_wallet`, params)
+}
+// 获取电子钱包地址接口1
+export const getWallet = (params) => {
+  return ypost(`${baseUrl}/home/user/getWallet`, params)
+}
+// 购买矿机+电费接口1
+export const buyNow = (params) => {
+  return ypost(`${baseUrl}/home/order/buy_now`, params)
+}
+// 保存用户线下收货地址接口1
+export const saveAddress = (params) => {
+  return ypost(`${baseUrl}/home/user/save_address`, params)
+}

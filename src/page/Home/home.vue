@@ -93,7 +93,7 @@
               </div>
               <div class="goodItemFooter">
                 <el-progress :percentage=(item.sales_sum_value/item.store_count)*100 style="width:182px" :format="format"></el-progress>
-                <el-button type="primary" :disabled="item.sales_sum_value/item.store_count==1? true: false" style="width:214px;margin-top:16px;" @click="openOrderList">
+                <el-button type="primary" :disabled="item.sales_sum_value/item.store_count==1? true: false" style="width:214px;margin-top:16px;" @click="openOrderList(share_activity_id, item.goods_id)">
                   {{item.sales_sum_value/item.store_count==1? '即将补货': '立即抢购'}}
                 </el-button>
                 <div class="goodItemFooterText">— {{item.goods_name}} —</div>
@@ -269,6 +269,7 @@
   export default {
     data () {
       return {
+        share_activity_id: '',
         banner: [], // 轮播组
         activity: [], // 众筹数组
         mark: 0,
@@ -281,9 +282,13 @@
       }
     },
     methods: {
-      openOrderList () {
+      openOrderList (share_activity_id, goods_id) {
         this.$router.push({
-          path: '/orderList'
+          path: '/orderList',
+          query: {
+            share_activity_id: share_activity_id,
+            goods_id: goods_id
+          }
         })
       },
       autoPlay () {
@@ -350,6 +355,7 @@
           console.log(res.data.data)
           this.banner = res.data.data.ad
           this.activity = res.data.data.activity
+          this.share_activity_id = res.data.data.activity.share_activity_id
         } else {
           console.log('登录失败')
           this.ruleForm.errMsg = res.data.msg

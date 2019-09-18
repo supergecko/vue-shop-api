@@ -7,10 +7,11 @@ Vue.use(Vuex)
 const state = {
   login: false, // 是否登录
   userInfo: null, // 用户信息
-  identity: '', // 用户ID
+  identity: '', // 用户identityID
   token: '',
   homeCarousel: [], // 首页轮播数组
-  footerRate: [] // 首页底部rate数据
+  footerRate: [], // 首页底部rate数据
+  userId: '' // 用户ID
 }
 
 export default new Vuex.Store({

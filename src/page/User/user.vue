@@ -38,9 +38,8 @@
           {name: '控制面板', path: 'information', icon: 'el-icon-time'},
           {name: '我的订单', path: 'orderList', icon: 'el-icon-edit-outline'},
           {name: '收益地址', path: 'addressList', icon: 'el-icon-location-outline'},
+          {name: '收货地址', path: 'receivingAddress', icon: 'el-icon-location-outline'},
           {name: '我的礼卷', path: 'coupon', icon: 'el-icon-star-on'}
-          // {name: '售后服务', path: 'support', icon: 'el-icon-time'},
-          // {name: '以旧换新', path: 'aihuishou', icon: 'el-icon-time'}
         ],
         editAvatar: true
       }

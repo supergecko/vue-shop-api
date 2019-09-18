@@ -33,9 +33,9 @@ export default {
 
   // 更新用户ID
   [UPDATE_ID] (state, info) {
-    console.log(`vuex中的值 ${JSON.stringify(info.info.identity)}`)
     state.identity = info.info.identity
     state.token = info.info.token
+    state.userId = info.info.user_id
     setItem({
       name: 'userToken',
       value: info.info.token,
@@ -45,7 +45,13 @@ export default {
     setItem({
       name: 'identityId',
       value: info.info.identity,
-      expires: 5000,
+      expires: 86400000,
+      startTime: Date.parse(new Date())
+    })
+    setItem({
+      name: 'userID',
+      value: info.info.user_id,
+      expires: 86400000,
       startTime: Date.parse(new Date())
     })
   },

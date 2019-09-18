@@ -71,8 +71,8 @@
                 {{item1.hashrate_cost}}
               </div>
               <div class="goodItemFooter">
-                <el-progress :percentage=item1.rate style="width:182px" :format="format"></el-progress>
-                <el-button type="primary" :disabled="item1.rate==100? true: false" style="width:214px;margin-top:16px;" @click="openOrderList">
+                <el-progress :percentage=item1.rate  :format="format" style="width:182px"></el-progress>
+                <el-button type="primary" :disabled="item1.rate==100? true: false" style="width:214px;margin-top:16px;" @click="openOrderList(item.share_activity_id, item1.goods_id)">
                   {{item1.rate==100? '即将补货': '立即抢购'}}
                 </el-button>
                 <div class="goodItemFooterText">— {{item1.goods_name}} —</div>
@@ -94,9 +94,13 @@
       }
     },
     methods: {
-      openOrderList () {
+      openOrderList (share_activity_id, goods_id) {
         this.$router.push({
-          path: '/orderList'
+          path: '/orderList',
+          query: {
+            share_activity_id: share_activity_id,
+            goods_id: goods_id
+          }
         })
       },
       format (percentage) {

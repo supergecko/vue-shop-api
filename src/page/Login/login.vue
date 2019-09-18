@@ -164,7 +164,14 @@
           const scene = 1
           const sign = this.$md5(`${mobile}__${scene}__${timestamp}__thundercat`)
           let params = {mobile, timestamp, scene, sign}
+          const loading = this.$loading({
+            text: '发送中',
+            background: 'rgba(0, 0, 0, 0.7)',
+            fullscreen: true,
+            target: '.wrapper'
+          })
           sendCode(params).then(res => {
+            loading.close()
             console.log(res)
             if (res.status === 200) {
               this.sendCodeFlag = true
@@ -192,7 +199,14 @@
           const timestamp = Date.parse(new Date()) / 1000
           const sign = this.$md5(`${mobile}__${password}__${timestamp}__thundercat`)
           let params = {mobile, password, timestamp, sign}
+          const loading = this.$loading({
+            text: '登录中',
+            background: 'rgba(0, 0, 0, 0.7)',
+            fullscreen: true,
+            target: '.wrapper'
+          })
           userLogin(params).then(res => {
+            loading.close()
             console.log(res)
             if (res.status === 200) {
               console.log(res.data)
@@ -218,10 +232,18 @@
         const timestamp = Date.parse(new Date()) / 1000
         const sign = this.$md5(`${mobile}__${scene}__${password}__${password2}__${code}__${timestamp}__thundercat`)
         let params = {mobile, scene, password, password2, code, timestamp, invite_code, sign}
+        const loading = this.$loading({
+          text: '注册中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true,
+          target: '.wrapper'
+        })
         register(params).then(res => {
+          loading.close()
           console.log(res)
           if (res.code === 1) {
             console.log('成功了')
+            this.loginPage = true
             // this.$router.go(-1)
           } else {
             console.log('失败了')

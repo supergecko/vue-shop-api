@@ -1,5 +1,5 @@
 <template>
-  <div style="    background: #f7f7f7;">
+  <div style="background: #f7f7f7;">
     <div class="orderListWarp" style="background: #fff;">
       <el-row class="orderListHead">
         <div>订单信息</div>
@@ -7,20 +7,24 @@
       <el-row class="orderListForm">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
 
-          <el-form-item label="币种" prop="region">
-            <el-select v-model="ruleForm.region" placeholder="请选择币种">
-              <el-option label="Bitcoin" value="shanghai"></el-option>
-              <el-option label="Bitcoin Cash" value="beijing"></el-option>
+          <el-form-item label="购买数量" prop="num">
+            <el-input-number v-model="ruleForm.num" :min="1" :max="1000000000" label="描述文字"></el-input-number>
+          </el-form-item>
+
+          <el-form-item label="币种" prop="currency">
+            <el-select v-model="ruleForm.currency" placeholder="请选择币种" :disabled="goodsInfo.forbidden==1? true: false" >
+              <el-option :label=item.title :value=item.coin_id v-for="(item, i) in goodsInfo.coin" :key="i" v-if="goodsInfo.coin">
+              </el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="机型">
-            <el-row style="font-size: 20px;color: #32374a;">蚂蚁矿机15系列</el-row>
+            <el-row style="font-size: 20px;color: #32374a;" v-if="goodsInfo.goods">{{goodsInfo.goods.goods_name}}</el-row>
           </el-form-item>
 
           <el-form-item label="算力">
-            <el-input
-              placeholder="20 TH/S"
+            <el-input v-if="goodsInfo.goods"
+              :placeholder=goodsInfo.goods.hashrate
               :disabled="true"
               style="width: 217px">
             </el-input>
@@ -28,106 +32,146 @@
 
           <el-form-item label="套餐周期">
             <el-row style="display: flex">
-              <el-input
-                placeholder="420天"
+              <el-input v-if="goodsInfo.cycle"
+                :placeholder=goodsInfo.cycle[0].description
                 :disabled="true"
                 style="width: 217px;display: inline-block">
               </el-input>
-              <el-row style="margin-left: 20px">
-                (2019.10.30~2020.12.23)
-                <i class="el-icon-info"></i>
-              </el-row>
+<!--              <el-row style="margin-left: 20px">-->
+<!--                (2019.10.30~2020.12.23)-->
+<!--                <i class="el-icon-info"></i>-->
+<!--              </el-row>-->
             </el-row>
           </el-form-item>
 
           <el-form-item label="优惠卷" >
-            <el-select v-model="ruleForm.region" placeholder="无可用优惠劵" :disabled="true">
+            <el-select v-model="ruleForm.coupon" placeholder="无可用优惠劵" :disabled="true">
               <el-option label="Bitcoin" value="shanghai"></el-option>
               <el-option label="Bitcoin Cash" value="beijing"></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="矿池">
-            <el-radio-group v-model="radio1">
-              <el-radio :label="3">AntPool</el-radio>
-              <el-radio :label="6">BTC.com</el-radio>
-              <el-radio :label="9">F2Pool</el-radio>
-              <el-radio :label="12">ViaBTC</el-radio>
-              <el-radio :label="15">BTC.TOP</el-radio>
+          <el-form-item label="矿池" prop="orePool">
+            <el-radio-group v-model="ruleForm.orePool">
+              <el-radio :label=item.mine_id v-for="(item, i) in goodsInfo.mine" :key="i" v-if="goodsInfo.mine">{{item.name}}</el-radio>
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item label="收款方式" prop="resource">
-            <el-radio-group v-model="ruleForm.resource">
-              <el-radio label="打款至我的个人钱包"></el-radio>
+          <el-form-item label="托管方式" prop="trusteeshipM">
+            <el-radio-group v-model="ruleForm.trusteeshipM">
+              <el-radio :label=item.host_id v-for="(item, i) in goodsInfo.host" :key="i" v-if="goodsInfo.host" @change="switchingInput(item.title)">{{item.title}}</el-radio>
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item label="BCH收币地址" prop="resource">
-            <el-button @click="open">+ 添加新的BCH地址</el-button>
+          <el-form-item label="收币地址" v-if="paymentInputFlag" prop="btcAddress">
+            <el-select v-model="ruleForm.btcAddress" placeholder="请选择收币地址">
+              <el-option :label=item.address :value=item.wallet_id v-for="(item, i) in wallet_address" :key="i">
+              </el-option>
+            </el-select>
+            <el-button @click="open">+ 添加新的线上收币地址</el-button>
+          </el-form-item>
+
+          <el-form-item label="收货地址" v-else prop="userAddress">
+            <!--收货地址-->
+            <el-select v-model="ruleForm.userAddress" placeholder="请输入实际收货地址">
+              <el-option :label=item.address :value=item.address_id v-for="(item, i) in underLine_address" :key="i">
+              </el-option>
+            </el-select>
+            <!-- Form -->
+            <el-button type="text" @click="dialogFormVisible = true">+ 添加新的收货地址</el-button>
+
+            <el-dialog title="收货" :visible.sync="dialogFormVisible">
+              <el-form :model="form" :rules="formRules" ref="form" class="demo-ruleForm">
+                <el-form-item label="收获地址" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="address">
+                  <el-input v-model="form.address" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="收货人" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="consignee">
+                  <el-input v-model="form.consignee" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="收获手机" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="mobile">
+                  <el-input v-model="form.mobile" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="邮编" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="zipcode">
+                  <el-input v-model="form.zipcode" autocomplete="off"></el-input>
+                </el-form-item>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary"  @click="formCheckIn('form')">确 定</el-button>
+              </div>
+            </el-dialog>
           </el-form-item>
 
           <el-row class="orderListMiddle">
             <el-form-item label="算力费">
-              <el-row class="orderListMiddleText">$ 821.2</el-row>
+              <el-row class="orderListMiddleText" v-if="goodsInfo.goods">￥ {{goodsInfo.goods.shop_price}}<span> (单台算力费)</span></el-row>
             </el-form-item>
           </el-row>
 
 
-          <el-form-item label="电费交纳天数">
-            <el-radio-group v-model="radio">
-              <el-radio :label="3">10</el-radio>
-              <el-radio :label="6">20</el-radio>
-              <el-radio :label="9">30</el-radio>
-              <el-radio :label="12">40</el-radio>
+          <el-form-item label="电费交纳天数" style="padding-top: 15px" prop="electricityDays">
+            <el-radio-group v-model="ruleForm.electricityDays">
+              <el-radio :label="10" @change="changeDays">10</el-radio>
+              <el-radio :label="20" @change="changeDays">20</el-radio>
+              <el-radio :label="30" @change="changeDays">30</el-radio>
+              <el-radio :label="40" @change="changeDays">40</el-radio>
+              <el-radio :label="50" @change="changeDays">
+                  <el-input v-model=userInputDays placeholder="请输入天数" style="width: 217px" :disabled="ruleForm.electricityDays===50? false: true"></el-input>
+              </el-radio>
             </el-radio-group>
-            <el-row style="margin-top: 15px;margin-bottom: 15px">
-              <el-input v-model="input" placeholder="请输入天数" style="width: 217px"></el-input>
-            </el-row>
-            <el-row class="powerRateTipOne">
+            <el-row class="powerRateTipOne" style="margin-top: 15px">
               套餐中未交纳的电费剩余天数可以后续支付
             </el-row>
             <el-row class="powerRateTipTwo">
               <el-switch
-                v-model="value1"
-                active-text="后续电费从Matrixport钱包中自动扣除"
+                v-model="lmbPayment"
+                active-text="后续电费是否雷猫币支付"
                 inactive-text="">
               </el-switch>
             </el-row>
-
           </el-form-item>
 
           <el-row class="orderListMiddle">
             <el-form-item label="电费">
-              <el-row class="orderListMiddleText">$ 97.00 <span>= $0.0970/T/天 × 100T × 10天</span> </el-row>
+              <el-row class="orderListMiddleText">￥ {{totalElectricity}} <span v-if="goodsInfo.goods">= {{goodsInfo.goods.electricity}}元/度 × {{goodsInfo.goods.electricity_consumption}}度/天 × {{electricityDay}}天</span> </el-row>
             </el-form-item>
           </el-row>
 
           <el-row class="orderListMiddle totalCost">
             <el-form-item label="总计">
-              <el-row class="totalCostText">$4203.00</el-row>
+              <el-row class="totalCostText">￥ {{totalCase}}<span>= 单台费用*数量</span></el-row>
             </el-form-item>
             <el-row class="totalCostWarp">
               <el-row class="powerRateTipOne" style="width:337px">
                 套餐中未交纳的电费剩余天数可以后续支付
               </el-row>
               <el-row style="margin-top: 25px">
-                <el-button type="info" disabled class="checkInBtn">确定</el-button>
+                <el-button type="primary" class="checkInBtn"  @click="submitForm('ruleForm')">确定</el-button>
               </el-row>
               <el-row style="margin-top: 10px">
                 <el-checkbox v-model="checked">我接受<router-link to="/serviceAgreement" style="margin-left: 5px;">雷猫矿机用户服务协议</router-link></el-checkbox>
               </el-row>
-              <el-row style="margin-top: 10px;font-size: 14px;">
+              <el-row style="margin-top: 10px;font-size: 14px;margin-bottom: 20px">
                 如果你没有以下支付方式，请通过右下角的反馈入口联系客服
               </el-row>
             </el-row>
           </el-row>
 
-          <el-form-item label="支付方式">
-
+          <el-form-item label="支付方式" style="margin-top:22px;" prop="paymentMethod">
+            <el-radio-group v-model="ruleForm.paymentMethod" class="paymentMethodWarp">
+              <el-radio :label=item.pay_id class="paymentMethodItem" v-for="(item, i) in goodsInfo.pay" :key="i" v-if="goodsInfo.pay">
+                <el-image
+                  style="width: 36px; height:36px"
+                  :src='"../../../static/paymentMethod/"+item.description+".png"'
+                  fit="fill"></el-image>
+                <div style="text-align:center">{{item.name}}</div>
+              </el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-form>
       </el-row>
+
+      <!--注意事项-->
       <el-row>
         <div class="payment-notice">
           <div class="sub-amount">注意事项:</div>
@@ -158,84 +202,439 @@
         </div>
       </el-row>
     </div>
+
+    <!--弹窗支付-->
+    <el-dialog  :visible.sync="qrCodeFalg">
+      <!--线上支付-->
+      <el-row class="qrcodeUrlWarp" v-show="paymentTypeFlag">
+        <el-row style="font-size: 18px;margin-bottom: 10px" >请扫描下方二维码进行支付</el-row>
+        <el-row>
+          <el-image
+            style="width: 300px; height: 407px"
+            :src="qrCodeUrl"
+            fit="fill"></el-image>
+        </el-row>
+      </el-row>
+      <!--公账-->
+      <el-row v-show="!paymentTypeFlag">
+        <el-row style="font-size: 18px;text-align: center;margin-bottom: 15px">请线下转账对公账户</el-row>
+        <el-form label-position="right" label-width="80px" :model="formLabelAlign">
+          <el-form-item label="银行名称">
+            <el-input v-model="formLabelAlign.bank_name" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="户   名">
+            <el-input v-model="formLabelAlign.bank_title" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="账   号">
+            <el-input v-model="formLabelAlign.bank_account" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="开 户 行">
+            <el-input v-model="formLabelAlign.bank_open" disabled></el-input>
+          </el-form-item>
+        </el-form>
+      </el-row>
+      <div slot="footer" class="dialog-footer" style="text-align: center;">
+        <el-button @click="paymentFail">重新选购</el-button>
+        <el-button type="primary" @click="paymentSuccess">支付完成</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
+  import { goodsInfo, saveWallet, getWallet, buyNow, saveAddress } from '/api'
+  import { getItem } from './../../utils/newLocalStorage'
   export default {
     data () {
       return {
+        qrCodeUrl: '', // 二维码图片
+        qrCodeFalg: false, // 二维码弹框
+        dialogFormVisible: false,
+        paymentTypeFlag: false,
+        formLabelWidth: '80px',
+        form: {
+          address: '', // 收货地址
+          consignee: '', // 收货人
+          mobile: '', // 收获手机
+          zipcode: '' // 邮编
+        },
+        loadingWarp: '', // 加载
+        wallet_address: [], // 收币地址
+        underLine_address: [], // 线下收货地址
+        wallet_address_flag: false, // 收货/收币地址切换flag
+        coin_id: 1,
+        cycle_id: 1, // 周期的ID
+        address: '', // 用户收货地址
+        loading: true,
+        userInputDays: '', // 用户输入电费天数
+        goodsInfo: {}, // 商品详情
+        paymentInputFlag: true, // 收款地址flag
         input: '',
-        checked: true,
-        value1: true,
-        radio1: 6,
-        radio: 3,
+        checked: true, // 是否同意服务协议
+        lmbPayment: true, // 是否需要雷猫币支付
+        electricityDay: 0, // 小字的天数
+        totalElectricity: 0, // 总电费
+        initTotalElectricity: 0, // 初始化矿机单价价格
+        totalCase: 0, // 总费用
+        electricity: '', // 初始化电费单价价格
+        totalPower: '', // 每天总度数
+        formLabelAlign: {
+          bank_account: '',
+          bank_name: '',
+          bank_open: '',
+          bank_title: ''
+        },
         ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          currency: 'BTC', // 币种
+          coupon: '', // 优惠劵
+          trusteeshipM: '', // 托管方式
+          btcAddress: '', // 收币地址
+          userAddress: '', // 用户收货地址
+          orePool: '', // 矿池
+          electricityDays: '', // 电费天数
+          num: 1, // 购买数量
+          paymentMethod: '' // 支付方式
         },
         rules: {
-          name: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          // 购买数量校验
+          num: [
+            {required: true, message: '请确认购买数量', trigger: 'change'}
           ],
-          region: [
-            { required: true, message: '请选择活动区域', trigger: 'change' }
+          // 币种校验
+          currency: [
+            {required: true, message: '请选择币种', trigger: 'change'}
           ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+          // 矿池校验
+          orePool: [
+            {required: true, message: '请选择一个矿池', trigger: 'change'}
           ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          // 是否需要雷猫币支付校验
+          lmbPayment: [
+            {required: true, message: '请选择一个矿池', trigger: 'change'}
           ],
-          type: [
-            { type: 'array', required: true, message: '请至少选择一个矿池', trigger: 'change' }
+          // 托管方式
+          trusteeshipM: [
+            {required: true, message: '请选择托管方式', trigger: 'change'}
           ],
-          resource: [
-            { required: true, message: '请选择活动资源', trigger: 'change' }
+          // 收币地址
+          btcAddress: [
+            {required: true, message: '请选择收币地址', trigger: 'change'}
           ],
-          desc: [
-            { required: true, message: '请填写活动形式', trigger: 'blur' }
+          // 收货地址
+          userAddress: [
+            {required: true, message: '请选择收货地址', trigger: 'change'}
+          ],
+          // 电费天数
+          electricityDays: [
+            {required: true, message: '请选择电费交纳天数', trigger: 'change'}
+          ],
+          // 支付方式
+          paymentMethod: [
+            {required: true, message: '请选择支付方式', trigger: 'change'}
+          ]
+        },
+        formRules: {
+          // 收货地址校验
+          address: [
+            {required: true, message: '请输入收货地址', trigger: 'blur'}
+          ],
+          // 收货人校验
+          consignee: [
+            {required: true, message: '请输入收货人姓名', trigger: 'blur'}
+          ],
+          // 手机号校验
+          mobile: [
+            {required: true, message: '请输入手机号码', trigger: 'blur'}
+          ],
+          // 邮政编码校验
+          zipcode: [
+            {required: true, message: '请输入邮政编码', trigger: 'blur'}
           ]
         }
       }
     },
     methods: {
-      open () {
-        this.$prompt('请输入新的BTC地址', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-          inputErrorMessage: '邮箱格式不正确'
-        }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: '你的邮箱是: ' + value
-          })
-        }).catch(() => {})
+      // 完成支付
+      paymentSuccess () {
+        this.qrCodeFalg = false
+        this.qrCodeUrl = ''
+        this.$router.push({
+          path: '/user/orderList'
+        })
       },
-      submitForm (formName) {
+      paymentFail () {
+        this.qrCodeFalg = false
+        this.qrCodeUrl = ''
+        this.loadingOrderList()
+      },
+      // 用户收货地址提交
+      formCheckIn (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!')
+            const { address, consignee, mobile, zipcode } = this.form
+            const user_id = getItem('userID')
+            const timestamp = Date.parse(new Date()) / 1000
+            const sign = this.$md5(`${user_id}__${consignee}__${mobile}__${zipcode}__${address}__${timestamp}__thundercat`)
+            let params = {user_id, consignee, mobile, zipcode, address, timestamp, sign}
+            saveAddress(params).then(res => {
+              console.log(res.data.data)
+              if (res.status === 200 && res.data.code === 1) {
+                console.log('保存地址成功')
+                this.loadingOrderList()
+              } else {
+                this.$message.error('获取失败')
+              }
+            })
+            this.dialogFormVisible = false
           } else {
             console.log('error submit!!')
             return false
           }
         })
       },
-      resetForm (formName) {
-        this.$refs[formName].resetFields()
+      // 获取用户收币地址
+      getWallet () {
+        const user_id = getItem('userID')
+        if (this.ruleForm.currency === 'BTC') {
+          this.coin_id = 1
+        } else {
+          this.coin_id = this.ruleForm.currency
+        }
+        const coin_id = this.coin_id
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${user_id}__${coin_id}__${timestamp}__thundercat`)
+        let params = {user_id, coin_id, timestamp, sign}
+        getWallet(params).then(res => {
+          if (res.status === 200 && res.data.code === 1) {
+            this.wallet_address = res.data.data.address
+            if (this.wallet_address.length === 0) {
+              console.log('数组为空')
+            } else {
+              console.log('数组不为空')
+            }
+            this.loadingWarp.close()
+          } else {
+            this.$message.error('获取失败')
+          }
+        })
+      },
+      // 切换收币/收货地址
+      switchingInput (name) {
+        if (name === '用户自提') {
+          this.paymentInputFlag = false
+        } else {
+          this.paymentInputFlag = true
+        }
+      },
+      // 拉取订单信息
+      loadingOrderList () {
+        this.loadingWarp = this.$loading({
+          text: '加载中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true
+        })
+        const user_id = getItem('userID')
+        const share_activity_id = this.$route.query.share_activity_id
+        const goods_id = this.$route.query.goods_id
+        let params = {share_activity_id, goods_id, user_id}
+        goodsInfo(params).then(res => {
+          console.log(`商品详情${JSON.stringify(res.data.data)}`)
+          if (res.status === 200 && res.data.code === 1) {
+            this.goodsInfo = res.data.data
+            this.electricity = res.data.data.goods.electricity
+            this.totalCase = res.data.data.goods.shop_price
+            this.initTotalElectricity = res.data.data.goods.shop_price
+            this.totalPower = res.data.data.goods.electricity_consumption
+            this.cycle_id = res.data.data.cycle[0].cycle_id
+            this.underLine_address = res.data.data.user_address
+            this.getWallet()
+          } else {
+            console.log('登录失败')
+            this.ruleForm.errMsg = res.data.msg
+          }
+        })
+      },
+      // 电费天数切换
+      changeDays (e) {
+        if (e < 50) {
+          this.userInputDays = ''
+        }
+      },
+      // 添加新的线上收币地址
+      open () {
+        this.$prompt('请输入新的收货地址', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputValidator: (value) => {
+            if (value.trim().length < 1) {
+              return '输入不能为空'
+            }
+          },
+          inputErrorMessage: '输入不能为空'
+        }).then(({value}) => {
+          const user_id = getItem('userID')
+          const address = value
+          if (this.ruleForm.currency === 'BTC') {
+            this.coin_id = 1
+          } else {
+            this.coin_id = this.ruleForm.currency
+          }
+          const coin_id = this.coin_id
+          const timestamp = Date.parse(new Date()) / 1000
+          const sign = this.$md5(`${user_id}__${coin_id}__${address}__${timestamp}__thundercat`)
+          let params = {user_id, coin_id, address, timestamp, sign}
+          const loading = this.$loading({
+            text: '添加中',
+            background: 'rgba(0, 0, 0, 0.7)',
+            fullscreen: true,
+            target: '.wrapper'
+          })
+          saveWallet(params).then(res => {
+            loading.close()
+            console.log(res)
+            if (res.status === 200 && res.data.code === 1) {
+              this.$message({
+                type: 'success',
+                message: '添加成功'
+              })
+              this.loadingOrderList()
+            } else {
+              this.$message.error('添加失败,请重试')
+            }
+          })
+        }).catch(() => {})
+      },
+      // 购买矿机+电费
+      buyNow () {
+        const loading = this.$loading({
+          text: '购买中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true
+        })
+        if (this.ruleForm.currency === 'BTC') {
+          this.coin_id = 1
+        } else {
+          this.coin_id = this.ruleForm.currency
+        }
+        const {coupon, trusteeshipM, btcAddress, orePool, electricityDays, num, paymentMethod, userAddress} = this.ruleForm
+        const user_id = getItem('userID')
+        const share_activity_id = this.$route.query.share_activity_id
+        const coin_id = this.coin_id
+        const buy_num = num
+        const cycle_id = this.cycle_id
+        const coupon_id = coupon
+        const mine_id = orePool
+        const host_id = trusteeshipM
+        const address_id = userAddress // 收货地址
+        const wallet_id = btcAddress // 收币地址
+        const buy_day = electricityDays
+        const pay_id = paymentMethod
+        const deduct_ele_by_thundercat = this.lmbPayment
+        const goods_id = this.$route.query.goods_id
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${this.initTotalElectricity}__${this.electricity}__${user_id}__${timestamp}__thundercat`)
+        let params = {user_id, share_activity_id, coin_id, buy_num, cycle_id, coupon_id, mine_id, host_id, address_id, wallet_id, buy_day, pay_id, goods_id, deduct_ele_by_thundercat, timestamp, sign}
+        buyNow(params).then(res => {
+          loading.close()
+          if (res.status === 200 && res.data.code === 1) {
+            console.log(res.data.data.pay_type)
+            if (res.data.data.pay_type < 3) {
+              this.qrCodeUrl = res.data.data.base64
+              this.qrCodeFalg = true
+              this.paymentTypeFlag = true
+            } else if (res.data.data.pay_type === 3) {
+              this.$message({
+                message: '支付成功',
+                type: 'success'
+              })
+              this.$router.push({
+                path: '/user/orderList'
+              })
+            } else {
+              this.qrCodeFalg = true
+              this.paymentTypeFlag = false
+              this.formLabelAlign.bank_account = res.data.data.address.bank_account
+              this.formLabelAlign.bank_name = res.data.data.address.bank_name
+              this.formLabelAlign.bank_open = res.data.data.address.bank_open
+              this.formLabelAlign.bank_title = res.data.data.address.bank_title
+            }
+          } else {
+            this.$message.error('提交订单失败,请重试')
+            this.ruleForm.errMsg = res.data.msg
+          }
+        })
+      },
+      // 提交表单
+      submitForm (formName) {
+        if (this.checked === false) {
+          this.$message({
+            message: '请勾选用户服务协议',
+            type: 'warning'
+          })
+          return
+        }
+        if (this.checked === false) {
+          this.$message({
+            message: '请勾选用户服务协议',
+            type: 'warning'
+          })
+          return
+        }
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.buyNow()
+          } else {
+            this.$message({
+              message: '请检查信息是否填写完善',
+              type: 'warning'
+            })
+            return false
+          }
+        })
+      }
+    },
+    mounted () {
+      this.loadingOrderList()
+    },
+    watch: {
+      'ruleForm.electricityDays' (newName, oldName) {
+        if (newName < 50) {
+          this.totalElectricity = parseFloat(newName * this.electricity * this.totalPower).toFixed(2)
+          this.electricityDay = newName
+        }
+      },
+      'ruleForm.num' (newName, oldName) {
+        this.totalCase = this.initTotalElectricity
+        this.totalCase = (parseFloat(this.totalCase) + parseFloat(this.totalElectricity)) * newName
+        this.totalCase = parseFloat(this.totalCase).toFixed(2)
+      },
+      userInputDays (newName, oldName) {
+        this.totalElectricity = parseFloat(newName * this.electricity * this.totalPower).toFixed(2)
+        this.electricityDay = newName
+      },
+      totalElectricity (newName, oldName) {
+        this.totalCase = this.initTotalElectricity
+        this.totalCase = (parseFloat(this.totalCase) + parseFloat(newName)) * this.ruleForm.num
+        this.totalCase = parseFloat(this.totalCase).toFixed(2)
       }
     }
   }
 </script>
 <style>
+  .qrcodeUrlWarp{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .paymentMethodWarp{
+    display: flex;
+    align-items: center;
+  }
+  .paymentMethodItem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .orderListWarp{
     width: 1200px;
     margin: 0 auto;
@@ -297,16 +696,24 @@
     font-family: Rubik-Medium;
     font-size: 50px;
     color: #1c1f28;
-    padding-left: 272px;
+    text-align: center;
+    margin-left: -300px;
+    width: 1050px;
   }
 
   .orderListMiddleText{
     font-family: Rubik-Medium;
     font-size: 20px;
     color: #1c1f28;
-    padding-left: 272px;
+    width: 1050px;
+    text-align: center;
+    margin-left: -300px;
   }
   .orderListMiddleText span{
+    font-size: 16px;
+    color: rgb(153, 153, 153);
+  }
+  .totalCostText span{
     font-size: 16px;
     color: rgb(153, 153, 153);
   }
