@@ -1,39 +1,35 @@
 <template>
   <el-table
-    :data="tableData"
-    style="width: 100%">
+    :data="orderDataList"
+    style="width: 100%"
+    height="310">
     <el-table-column
-      prop="orderID"
+      prop="order_sn"
       label="订单号"
-      width="180">
+      width="170">
     </el-table-column>
     <el-table-column
-      prop="produce"
-      label="累计产出"
-      width="100">
-    </el-table-column>
-    <el-table-column
-      prop="power"
+      prop="hashrate"
       label="算力"
       width="100">
     </el-table-column>
     <el-table-column
-      prop="cycle"
+      prop="description"
       label="套餐周期"
       width="100">
     </el-table-column>
     <el-table-column
-      prop="orePool"
+      prop="mine_name"
       label="当前矿池"
       width="100">
     </el-table-column>
     <el-table-column
       prop="address"
       label="收益地址"
-      width="200">
+      width="290">
     </el-table-column>
     <el-table-column
-      prop="day"
+      prop="rest_day"
       label="剩余电费天数">
     </el-table-column>
   </el-table>
@@ -41,41 +37,11 @@
 
 <script>
   export default {
+    props: [
+      'orderDataList'
+    ],
     data () {
       return {
-        tableData: [{
-          orderID: '02',
-          produce: '1000',
-          power: '1010',
-          cycle: '1天',
-          orePool: '当前矿池',
-          address: '上海市普陀区金沙江路 1518 弄',
-          day: 1
-        }, {
-          orderID: '02',
-          produce: '1000',
-          power: '1010',
-          cycle: '1天',
-          orePool: '当前矿池',
-          address: '上海市普陀区金沙江路 1518 弄',
-          day: 1
-        }, {
-          orderID: '02',
-          produce: '1000',
-          power: '1010',
-          cycle: '1天',
-          orePool: '当前矿池',
-          address: '上海市普陀区金沙江路 1518 弄',
-          day: 1
-        }, {
-          orderID: '02',
-          produce: '1000',
-          power: '1010',
-          cycle: '1天',
-          orePool: '当前矿池',
-          address: '上海市普陀区金沙江路 1518 弄',
-          day: 1
-        }]
       }
     }
   }

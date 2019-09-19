@@ -5,6 +5,7 @@ import store from './store/'
 import VueLazyload from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
 import VueCookie from 'vue-cookie'
+import Clipboard from 'v-clipboard'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -19,6 +20,7 @@ Vue.use(VueAwesomeSwiper, /* { default global options } */)
 Vue.use(ElementUI)
 Vue.use(infiniteScroll)
 Vue.use(VueCookie)
+Vue.use(Clipboard)
 Vue.use(VueLazyload, {
   // preLoad: 1.3,
   // error: 'dist/error.png',

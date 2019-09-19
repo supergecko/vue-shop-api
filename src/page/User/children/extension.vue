@@ -22,15 +22,15 @@
           <div class="grid-content bg-purple">
             <div class="info-title">
               <div class="info-title__item"><span class="total-title">累计返佣金额</span>
-                <mallki class-name="mallki-text" text="0" class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
+                <mallki class-name="mallki-text" :text=add_up_coin class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
                 <span class="unit">雷猫币</span>
               </div>
               <div class="info-title__item"><span>累计邀请人数</span>
-                <mallki class-name="mallki-text" text="0" class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
+                <mallki class-name="mallki-text" :text=direct_number class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
                 <el-button type="primary"  @click="tab">点击查看详情</el-button>
               </div>
               <div class="info-title__item info-title__item--current"><span>当前身份</span>
-                <span class="measure-word rubik-medium">雷猫合伙人</span>
+                <span class="measure-word rubik-medium">{{identity}}</span>
                 <i class="el-icon-info"></i>
               </div>
             </div>
@@ -44,8 +44,8 @@
         <el-col :span="18">
           <div class="my-link">
             <label>我的邀请链接</label>
-            <el-input v-model="input" placeholder="请输入内容" class="main-link-input"></el-input>
-            <el-button type="primary">复制</el-button>
+            <el-input v-model="input" placeholder="请输入内容" class="main-link-input" disabled></el-input>
+            <el-button type="primary" v-clipboard=input v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler">复制</el-button>
           </div>
         </el-col>
         <el-col :span="6">
@@ -70,24 +70,24 @@
 
       <!--佣金-->
       <el-row class="withdraw-info">
-        <el-col :span="14">
+        <el-col :span="12" class="withdraw-num">
           <div class="withdraw-num">
             <div class="invite-text hit-value">
               <label>可提佣金</label>
-                <mallki class-name="mallki-text" text="0.00000000" class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
-              BTC
-            </div>
-            <div class="inv-tips withdraw-btn">
-              <el-button type="info">申请转账</el-button>
-              <i class="el-icon-info"></i>
+                <mallki class-name="mallki-text" :text=available class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
+              LMB
             </div>
           </div>
         </el-col>
-        <el-col :span="10">
-          <div class="withdraw-right">
-            <label class="address-label">提币地址</label>
-            <el-button type="primary">+ 添加</el-button>
+        <el-col :span="12" class="withdraw-num">
+          <div class="inv-tips withdraw-btn">
+            <el-button type="info">申请转账</el-button>
+            <i class="el-icon-info"></i>
           </div>
+<!--          <div class="withdraw-right">-->
+<!--            <label class="address-label">提币地址</label>-->
+<!--            <el-button type="primary">+ 添加</el-button>-->
+<!--          </div>-->
         </el-col>
       </el-row>
 
@@ -95,18 +95,23 @@
       <el-row class="detail-list-container">
         <el-col :span="24">
           <el-tabs v-model="activeName">
+            <!--返佣记录-->
             <el-tab-pane name="first">
               <span slot="label">返佣记录<i class="el-icon-info"></i></span>
-              返佣记录
+              <RakeBackDataList></RakeBackDataList>
             </el-tab-pane>
-            <el-tab-pane label="转账记录" name="second">转账记录</el-tab-pane>
+
+            <!--转账记录-->
+            <el-tab-pane label="转账记录" name="second">
+              <RakeBackDataList></RakeBackDataList>
+            </el-tab-pane>
           </el-tabs>
         </el-col>
 
-        <el-col :span="24" class="main-info-wrap">
-          <img src="../../../assets/img/data.png" alt />
-          <div class="txt">暂无数据...</div>
-        </el-col>
+<!--        <el-col :span="24" class="main-info-wrap">-->
+<!--          <img src="../../../assets/img/data.png" alt />-->
+<!--          <div class="txt">暂无数据...</div>-->
+<!--        </el-col>-->
       </el-row>
     </el-main>
   </div>
@@ -115,6 +120,9 @@
 <script>
   import YShelf from '/components/shelf'
   import Mallki from '/components/Mallki'
+  import RakeBackDataList from '/common/rakeBackDataList'
+  import { myPopularize } from '/api'
+  import { getItem } from './../../../utils/newLocalStorage'
 
   export default {
     data () {
@@ -122,17 +130,59 @@
         fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
         url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         activeName: 'first',
-        input: '这个一个邀请码'
+        input: '',
+        identity: '',
+        add_up_coin: 0, // 累计返佣雷猫币
+        direct_number: 0, // 累计邀请人数
+        available: 0, // 可提佣金
+        bonus_record: [] // 返佣记录
       }
     },
     methods: {
+      // Success event handler
+      clipboardSuccessHandler ({ value, event }) {
+        console.log('success', value)
+        this.$message.success('复制成功')
+      },
+      // Error event handler
+      clipboardErrorHandler ({ value, event }) {
+        console.log('error', value)
+      },
+      _myPopularize () {
+        const loading = this.$loading({
+          text: '加载中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true
+        })
+        const user_id = getItem('userID')
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${user_id}__${timestamp}__thundercat`)
+        let params = {user_id, timestamp, sign}
+        myPopularize(params).then(res => {
+          loading.close()
+          console.log(`我的推广${JSON.stringify(res.data.data)}`)
+          if (res.status === 200 && res.data.code === 1) {
+            this.input = res.data.data.popularize_url
+            this.add_up_coin = res.data.data.add_up_coin === null ? 0 : res.data.data.add_up_coin
+            this.direct_number = res.data.data.direct_number === null ? 0 : res.data.data.direct_number
+            this.available = res.data.data.available === null ? 0 : res.data.data.available
+            this.identity = res.data.data.identity
+          } else {
+            this.$message.error('网络赛车啦')
+          }
+        })
+      },
       tab (e) {
         this.$router.push({path: '/user/myTeam'})
       }
     },
+    created () {
+      this._myPopularize()
+    },
     components: {
       YShelf,
-      Mallki
+      Mallki,
+      RakeBackDataList
     }
   }
 </script>
@@ -192,7 +242,7 @@
   }
 
   .rubik-medium {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: bold;
     padding: 0 18px;
     color: #000000;
@@ -241,9 +291,9 @@
   }
   .withdraw-num{
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-around;
-    border-right: 1px solid #d8d8d8;
+    /*border-right: 1px solid #d8d8d8;*/
   }
   .withdraw-right{
     display: flex;

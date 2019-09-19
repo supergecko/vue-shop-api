@@ -12,7 +12,7 @@
                 style="width: 31px; height: 31px"
                 src="../../../../static/images/recommenderlogo.png"
                 fit="fill"></el-image>
-              <span>雷猫推荐人</span>
+              <span>{{leader.identity==1?'普通用户':'雷猫合伙人'}}</span>
             </el-col>
             <el-col :span="12" class="referenceHeaderRight">当前等级</el-col>
           </el-row>
@@ -20,7 +20,7 @@
             <el-col :span="12" class="referenceFooterLeft">
               <div class="FooterLeftItem1">{{leader.nickname}}</div>
               <div>邀请人数 2348923294</div>
-              <div>累计贡献值 342424242</div>
+              <div>累计贡献值 {{leader.results==null? 0 : leader.results}}</div>
             </el-col>
             <el-col :span="12" class="referenceFooterRight">
               <el-image
@@ -38,11 +38,11 @@
         <el-carousel :autoplay="false" type="card" ref="carousel" v-on:change="changeFun">
           <el-carousel-item v-for="(item, i) in children" :key="i" name="index" style="height: 264px;border-radius:10px;">
             <div class="myTeam1">
-              <div class="team1Title">雷猫合伙人</div>
+              <div class="team1Title">{{item.identity==1?'普通用户':'雷猫合伙人'}}</div>
               <el-row style="margin-top: 50px;">
                 <el-col :span="15" class="teamLeft">
-                  <div style="margin-bottom: 10px">用户名:{{item.nickname}}</div>
-                  <div>累计贡献值:213312</div>
+                  <div class="userName">用户名:{{item.nickname}}</div>
+                  <div>累计贡献值:{{item.results==null? 0 : item.results}}</div>
                 </el-col>
                 <el-col :span="9" style="text-align: center;margin-top: -20px;">
                   <el-image
@@ -128,6 +128,13 @@
 </script>
 
 <style scoped>
+  .userName{
+    padding-bottom: 10px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    width: 248px;
+  }
   .publicTitle{
     font-size:25px;
     font-family:WenQuanYi Zen Hei;
@@ -202,6 +209,10 @@
     color: rgba(236,237,251,1);
     font-size: 26px;
     margin-bottom: 15px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    width: 300px;
   }
   .referenceFooterRight{
     text-align: right;

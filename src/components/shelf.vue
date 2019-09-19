@@ -16,6 +16,10 @@
         <el-breadcrumb-item :to="{ path: '/user/extension' }">我的推广</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/user/myTeam' }">我的团队</el-breadcrumb-item>
       </el-breadcrumb>
+      <el-breadcrumb separator="/" v-if="thirdPath">
+        <el-breadcrumb-item :to="{ path: '/user/orderList' }">我的订单</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/user/chargeRecharge' }">电费充值</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
 
     <div>
@@ -32,7 +36,8 @@
       'titleFlag',
       'firstPath',
       'bgFlag',
-      'secondPath'
+      'secondPath',
+      'thirdPath'
     ]
   }
 </script>

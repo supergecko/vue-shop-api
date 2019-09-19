@@ -45,7 +45,7 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error)
 })
 
-// 将axios 的 post 方法，绑定到 vue 实例上面的 $post
+// 将axios 的 post 方法，绑定到 vue 实例上面的
 export const ypost = function (url, params) {
   return new Promise((resolve, reject) => {
     axios.post(url, params)

@@ -1,29 +1,24 @@
 <template>
   <el-table
-    :data="tableData"
+    :data="addressData"
     border
     style="width:100%"
-    :row-class-name="tableRowClassName">
+    :row-class-name="tableRowClassName"
+    height="400">
     <el-table-column
       prop="address"
       label="地址"
-      width="500">
+      width="800">
     </el-table-column>
     <el-table-column
-      prop="tip"
-      label="备注"
-      width="250">
-    </el-table-column>
-    <el-table-column
-      label="操作"
-      width="200">
+      label="操作">
       <template slot-scope="scope">
-        <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
-          type="text"
-          size="small">
-          删除
-        </el-button>
+<!--        <el-button-->
+<!--          @click.native.prevent="deleteRow(scope.$index, tableData)"-->
+<!--          type="text"-->
+<!--          size="small">-->
+<!--          删除-->
+<!--        </el-button>-->
         <el-button type="text" size="small" @click="open()">编辑</el-button>
       </template>
     </el-table-column>
@@ -31,7 +26,15 @@
 </template>
 
 <script>
+  import { saveWallet } from '/api'
+  import { getItem } from './../utils/newLocalStorage'
   export default {
+    props: [
+      'addressData'
+    ],
+    data () {
+      return {}
+    },
     methods: {
       // 切换样式
       tableRowClassName ({row, rowIndex}) {
@@ -58,55 +61,44 @@
 
         })
       },
-      // 编辑按钮
+      // 添加新的线上收币地址
       open () {
-        this.$prompt('请输入邮箱', '提示', {
+        this.$prompt('请输入新的收货地址', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-          inputErrorMessage: '邮箱格式不正确'
-        }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: '你的邮箱是: ' + value
+          inputValidator: (value) => {
+            if (value.trim().length < 1) {
+              return '输入不能为空'
+            }
+          },
+          inputErrorMessage: '输入不能为空'
+        }).then(({value}) => {
+          const user_id = getItem('userID')
+          const address = value
+          const coin_id = 1
+          const timestamp = Date.parse(new Date()) / 1000
+          const sign = this.$md5(`${user_id}__${coin_id}__${address}__${timestamp}__thundercat`)
+          let params = {user_id, coin_id, address, timestamp, sign}
+          const loading = this.$loading({
+            text: '添加中',
+            background: 'rgba(0, 0, 0, 0.7)',
+            fullscreen: true,
+            target: '.wrapper'
           })
-        }).catch(() => {
-
-        })
-      }
-    },
-
-    data  () {
-      return {
-        tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
+          saveWallet(params).then(res => {
+            loading.close()
+            console.log(res)
+            if (res.status === 200 && res.data.code === 1) {
+              this.$message({
+                type: 'success',
+                message: '添加成功'
+              })
+              this.loadingOrderList()
+            } else {
+              this.$message.error('添加失败,请重试')
+            }
+          })
+        }).catch(() => {})
       }
     }
   }

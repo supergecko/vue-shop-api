@@ -3,11 +3,11 @@
     <swiper :options="swiperOption">
       <swiper-slide v-for="(item,index) in grandson[flag]" :key="index">
         <div class="secondTeam">
-          <div class="team1Title">{{item.title}}</div>
+          <div class="team1Title">{{item.identity==1?'普通用户':'雷猫合伙人'}}</div>
           <el-row style="padding-top: 19px;">
             <el-col :span="15" class="teamLeft">
-              <div style="padding-bottom: 8px">用户名:{{item.nickname}}</div>
-              <div>累计贡献值:{{item.contribution}}</div>
+              <div class="userName">用户名:{{item.nickname}}</div>
+              <div>累计贡献值:{{item.results==null? 0 : item.results}}</div>
             </el-col>
             <el-col :span="9" style="text-align: center;margin-top: -1px">
               <el-image
@@ -129,6 +129,13 @@
   }
 </script>
 <style>
+  .userName{
+    padding-bottom: 8px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    width: 135px;
+  }
   .swiper-slide {
     width: 60%;
   }

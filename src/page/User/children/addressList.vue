@@ -3,52 +3,53 @@
     <y-shelf title="收益地址" style="margin-bottom: 10px;"></y-shelf>
 
     <el-main style="padding-top: 0px">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName">
         <!--BTC-->
         <el-tab-pane label="BTC" name="first">
           <div style="margin-bottom: 10px;">BTC 币种已支持的矿池：AntPool、BTC.com、F2Pool、ViaBTC、BTC.TOP</div>
-          <AddressData></AddressData>
+          <AddressData :addressData=wallet_address></AddressData>
           <div style="text-align: center;padding-top:20px">
-            <el-button type="primary" round @click="update('BTC')">添加新的BTC地址</el-button>
+            <el-button type="primary" round @click="open()">添加新的BTC地址</el-button>
           </div>
         </el-tab-pane>
 
         <!--ETH-->
-        <el-tab-pane label="ETH" name="second">
-          <div style="margin-bottom: 10px;">ETH 币种已支持的矿池：AntPool、BTC.com</div>
-          <AddressData></AddressData>
-          <div style="text-align: center;padding-top:20px">
-            <el-button type="primary" round @click="update('ETH')">添加新的ETH地址</el-button>
-          </div>
-        </el-tab-pane>
+<!--        <el-tab-pane label="ETH" name="second">-->
+<!--          <div style="margin-bottom: 10px;">ETH 币种已支持的矿池：AntPool、BTC.com</div>-->
+<!--          <AddressData></AddressData>-->
+<!--          <div style="text-align: center;padding-top:20px">-->
+<!--            <el-button type="primary" round @click="update('ETH')">添加新的ETH地址</el-button>-->
+<!--          </div>-->
+<!--        </el-tab-pane>-->
       </el-tabs>
     </el-main>
 
 
-    <!--添加地址弹窗-->
-    <y-popup :open="popupOpen" @close='popupOpen=false' :title="popupTitle">
-      <div slot="content" class="md" :data-id="msg.addressId">
-        <div>
-          <input type="text" :placeholder=currency v-model="msg.userName">
-        </div>
-        <div>
-          <input type="text" placeholder="请输入该地址的备注,可不填" v-model="msg.streetName">
-        </div>
-        <div>注：为了您的资金安全，后续添加地址时需要进行双身份验证，双身份验证是指需要校验邮箱、手机号、谷歌身份验证器等身份中的2种。</div>
-        <div>
-          <span><input type="checkbox" v-model="msg.isDefault" style="margin-right: 5px;">设为默认</span>
-        </div>
-        <y-button text='保存'
-                  class="btn"
-                  :classStyle="btnHighlight?'main-btn':'disabled-btn'"
-                  @btnClick="save({addressId:msg.addressId,userName:msg.userName,tel:msg.tel,streetName:msg.streetName,isDefault:msg.isDefault})">
-        </y-button>
-      </div>
-    </y-popup>
+    <!--添加地址弹窗暂废-->
+<!--    <y-popup :open="popupOpen" @close='popupOpen=false' :title="popupTitle">-->
+<!--      <div slot="content" class="md" :data-id="msg.addressId">-->
+<!--        <div>-->
+<!--          <input type="text" :placeholder=currency v-model="msg.userName">-->
+<!--        </div>-->
+<!--&lt;!&ndash;        <div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <input type="text" placeholder="请输入该地址的备注,可不填" v-model="msg.streetName">&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        <div>注：为了您的资金安全，后续添加地址时需要进行双身份验证，双身份验证是指需要校验邮箱、手机号、谷歌身份验证器等身份中的2种。</div>-->
+<!--&lt;!&ndash;        <div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <span><input type="checkbox" v-model="msg.isDefault" style="margin-right: 5px;">设为默认</span>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        <y-button text='保存'-->
+<!--                  class="btn"-->
+<!--                  :classStyle="btnHighlight?'main-btn':'disabled-btn'"-->
+<!--                  @btnClick="save()">-->
+<!--        </y-button>-->
+<!--      </div>-->
+<!--    </y-popup>-->
   </div>
 </template>
 <script>
-  import { addressList, addressUpdate, addressAdd, addressDel } from '/api/goods'
+  import { saveWallet, getWallet } from '/api'
+  import { getItem } from './../../../utils/newLocalStorage'
   import YButton from '/components/YButton'
   import YPopup from '/components/popup'
   import YShelf from '/components/shelf'
@@ -61,98 +62,89 @@
         popupOpen: false,
         popupTitle: '管理收益地址',
         msg: {
-          addressId: '',
-          userName: '',
-          tel: '',
-          streetName: '',
-          isDefault: false
+          userName: ''
         },
         activeName: 'first',
-        currency: ''
+        currency: '',
+        wallet_address: ''
       }
     },
     computed: {
       btnHighlight () {
         let msg = this.msg
-        // &&msg.tel
-        return msg.userName && msg.streetName
+        return msg.userName
       }
     },
     methods: {
-      handleClick (tab, event) {
-        console.log(tab, event)
-      },
-      _addressList () {
-        addressList().then(res => {
-          let data = res.result
-          if (data.length) {
-            this.addList = res.result
-            this.addressId = res.result[0].addressId || '1'
+      // 获取用户收币地址
+      getWallet () {
+        const loadingWarp = this.$loading({
+          text: '加载中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true
+        })
+        const user_id = getItem('userID')
+        const coin_id = 1
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${user_id}__${coin_id}__${timestamp}__thundercat`)
+        let params = {user_id, coin_id, timestamp, sign}
+        getWallet(params).then(res => {
+          if (res.status === 200 && res.data.code === 1) {
+            this.wallet_address = res.data.data.address
+            console.log(res.data.data.address)
+            if (this.wallet_address.length === 0) {
+              console.log('数组为空')
+            } else {
+              console.log('数组不为空')
+            }
+            loadingWarp.close()
           } else {
-            this.addList = []
+            this.$message.error('获取失败')
           }
         })
       },
-      _addressUpdate (params) {
-        addressUpdate(params).then(res => {
-          this._addressList()
-        })
-      },
-      _addressAdd (params) {
-        addressAdd(params).then(res => {
-          this._addressList()
-        })
-      },
-      changeDef (item) {
-        if (!item.isDefault) {
-          item.isDefault = true
-          this._addressUpdate(item)
-        }
-        return false
-      },
-      // 保存
-      save (p) {
-        if (p.addressId) {
-          this._addressUpdate(p)
-        } else {
-          delete p.addressId
-          this._addressAdd(p)
-        }
-        this.popupOpen = false
-      },
-      // 删除
-      del (addressId, i) {
-        addressDel({addressId}).then(res => {
-          if (res.status === '0') {
-            this.addList.splice(i, 1)
-          } else {
-            alert('删除失败')
-          }
-        })
-      },
-      // 修改
-      update (item) {
-        this.currency = '请输入' + item + '收益地址'
-        this.popupOpen = true
-        if (item) {
-          this.popupTitle = '管理收益地址'
-          this.msg.userName = item.userName
-          this.msg.tel = item.tel
-          this.msg.streetName = item.streetName
-          this.msg.isDefault = item.isDefault
-          this.msg.addressId = item.addressId
-        } else {
-          this.popupTitle = '新增收益地址'
-          this.msg.userName = ''
-          this.msg.tel = ''
-          this.msg.streetName = ''
-          this.msg.isDefault = false
-          this.msg.addressId = ''
-        }
+      // 添加新的线上收币地址
+      open () {
+        this.$prompt('请输入新的收货地址', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputValidator: (value) => {
+            if (value.trim().length < 1) {
+              return '输入不能为空'
+            }
+          },
+          inputErrorMessage: '输入不能为空'
+        }).then(({value}) => {
+          const user_id = getItem('userID')
+          const address = value
+          const coin_id = 1
+          const timestamp = Date.parse(new Date()) / 1000
+          const sign = this.$md5(`${user_id}__${coin_id}__${address}__${timestamp}__thundercat`)
+          let params = {user_id, coin_id, address, timestamp, sign}
+          const loading = this.$loading({
+            text: '添加中',
+            background: 'rgba(0, 0, 0, 0.7)',
+            fullscreen: true,
+            target: '.wrapper'
+          })
+          saveWallet(params).then(res => {
+            loading.close()
+            console.log(res)
+            if (res.status === 200 && res.data.code === 1) {
+              this.$message({
+                type: 'success',
+                message: '添加成功'
+              })
+              this.getWallet()
+            } else {
+              this.$message.error('添加失败,请重试')
+            }
+          })
+        }).catch(() => {})
       }
     },
     created () {
-      this._addressList()
+      this.getWallet()
     },
     components: {
       YButton,

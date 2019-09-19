@@ -19,22 +19,25 @@
               <div class="w">
                 <div class="nav-list">
                   <li>
-                    <router-link to="/" :style="{'color':this.$route.path=='/home'? '#5079d9':'#666'}">首页</router-link>
+                    <router-link to="/" :class="{classA: this.$route.path=='/home'? true:false}">首页</router-link>
                   </li>
                   <li>
-                    <router-link to="/crowdFunding" :style="{'color':this.$route.path=='/crowdFunding'? '#5079d9':'#666'}">矿机拼团</router-link>
+                    <router-link to="/crowdFunding" :class="{classA: this.$route.path=='/crowdFunding'? true:false}">矿机拼团</router-link>
                   </li>
                   <li>
-                    <router-link to="/jackpot" :style="{'color':this.$route.path=='/jackpot'? '#5079d9':'#666'}">奖池瓜分</router-link>
+                    <router-link to="/jackpot" :class="{classA: this.$route.path=='/jackpot'? true:false}">奖池瓜分</router-link>
                   </li>
                   <li>
-                    <router-link to="/rakeBack" :style="{'color':this.$route.path=='/rakeBack'? '#5079d9':'#666'}">推广返佣</router-link>
+                    <router-link to="/rakeBack" :class="{classA: this.$route.path=='/rakeBack'? true:false}">推广返佣</router-link>
                   </li>
                   <li>
-                    <router-link to="/mineField" :style="{'color':this.$route.path=='/mineField'? '#5079d9':'#666'}">雷猫矿场</router-link>
+                    <router-link to="/mineField" :class="{classA: this.$route.path=='/mineField'? true:false}">雷猫矿场</router-link>
                   </li>
                   <li>
-                    <router-link to="/aboutUs" :style="{'color':this.$route.path=='/aboutUs'? '#5079d9':'#666'}">关于我们</router-link>
+                    <router-link to="/news" :class="{classA: this.$route.path=='/news'? true:false}">新闻</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/aboutUs" :class="{classA: this.$route.path=='/aboutUs'? true:false}">关于我们</router-link>
                   </li>
                 </div>
               </div>
@@ -93,16 +96,16 @@
         user: {},
         // 列表
         navList: [{
-          text: '我的推广',
-          link: '/user/extension'
-        }, {
           text: '控制面板',
           link: '/user/information'
         }, {
           text: '我的订单',
           link: '/user/orderList'
         }, {
-          text: '收益地址',
+          text: '我的推广',
+          link: '/user/extension'
+        }, {
+          text: '钱包地址',
           link: '/user/addressList'
         }, {
           text: '我的礼券',
@@ -128,6 +131,8 @@
           this.$route.path === '/aboutUs' ||
           this.$route.path === '/orderList' ||
           this.$route.path === '/serviceAgreement' ||
+          this.$route.path === '/news' ||
+          this.$route.path === '/newDetails' ||
           this.$route.path === '/mineField') {
           // 计算是否吸顶
           if (this.showNav) {
@@ -182,6 +187,15 @@
 <style>
   .nav-sub .nav-list li a[data-v-a1bfd9a2]:hover{
     color: #4c84ff!important;
+    font-size: 14px!important;
+  }
+  .w-box .nav-list li{
+    font-size: 12px;
+  }
+  .classA {
+    color: #5079d9!important;
+    font-weight: bold;
+    font-size: 15px;
   }
 </style>
 <style lang="scss" rel="stylesheet/scss" scoped>
@@ -245,10 +259,10 @@
       display: flex;
       align-items: center;
       > a {
-        background: url(/static/images/global-logo-red@2x.png) no-repeat 50%;
+        background: url(/static/images/lmbLogo.png) no-repeat 50%;
         background-size: cover;
         display: block;
-        @include wh(50px, 40px);
+        @include wh(40px, 40px);
         text-indent: -9999px;
         background-position: 0 0;
       }
@@ -312,6 +326,7 @@
     }
     .nav-aside {
       display: flex;
+      margin-left: -105px;
     }
     // 用户
     .user {
@@ -706,6 +721,9 @@
       border-bottom: 1px solid #dadada;
       background-image: -webkit-linear-gradient(#fff, #f1f1f1);
       background-image: linear-gradient(#fff, #f1f1f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .nav-sub-wrapper {
       padding: 17px 0;
@@ -717,7 +735,7 @@
         display: flex;
         align-items: center;
         width: 1220px;
-        margin-left: 100px;
+        margin-left: -247px;
       }
       &:after {
         content: " ";
@@ -744,6 +762,7 @@
       display: flex;
       align-items: center;
       height: 100%;
+      width: 800px;
       li:first-child {
         padding-left: 0;
         a {

@@ -16,6 +16,8 @@ const goodsDetails = resolve => require(['/page/Goods/goodsDetails'], resolve)
 const Cart = resolve => require(['/page/Cart/cart'], resolve)
 const order = resolve => require(['/page/Order/order'], resolve)
 const user = resolve => require(['/page/User/user'], resolve)
+const news = resolve => require(['/page/News/news'], resolve)
+const newDetails = resolve => require(['/page/NewDetails/newDetails'], resolve)
 const orderList = resolve => require(['/page/User/children/order'], resolve)
 const myTeam = resolve => require(['/page/User/children/myTeam'], resolve)
 const information = resolve => require(['/page/User/children/information'], resolve)
@@ -50,7 +52,9 @@ export default new Router({
         {path: 'mineField', component: MineField},
         {path: 'aboutUs', component: AboutUs},
         {path: 'serviceAgreement', component: ServiceAgreement},
-        {path: 'goodsDetails', name: 'goodsDetails', component: goodsDetails}
+        {path: 'goodsDetails', name: 'goodsDetails', component: goodsDetails},
+        {path: '/news', name: 'news', component: news},
+        {path: '/newDetails', name: 'newDetails', component: newDetails}
       ]
     },
     {

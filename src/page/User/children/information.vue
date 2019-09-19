@@ -11,7 +11,7 @@
             <div class="header-title">
               <span class="iconfont icon-btc-"></span>
               <div class="name">BTC</div>
-              <div class="plan-num">0个套餐正在挖矿</div>
+              <div class="plan-num">{{num}}个套餐正在挖矿</div>
             </div>
           </el-card>
         </el-header>
@@ -31,7 +31,7 @@
                   <el-col :span="16">
                     <div class="total-title">总算力</div>
                     <div class="total-rate">
-                      <span class="rate-title">0</span>
+                      <span class="rate-title">{{hashrate_balance.hashrate}}</span>
                       <span class>Th/S</span>
                     </div>
                     <button class="rate-btn">购买更多</button>
@@ -55,7 +55,7 @@
                       </el-tooltip>
                     </div>
                     <div class="total-revenue">
-                      <span>0.00000000</span>
+                      <span>{{hashrate_balance.balance}}</span>
                       <span class="total-content">BTC</span>
                     </div>
                     <div class="total-detail">
@@ -80,14 +80,16 @@
                       <span class="el-icon-info"></span>
                     </el-tooltip>
                   </el-col>
-                  <el-col :span="12" class="more-wrap">
-                    <span>最近14天</span>&nbsp;
-                    <a style="color:#409EFF" @click="tab()">更多></a>
-                  </el-col>
+<!--                  <el-col :span="12" class="more-wrap">-->
+<!--                    <span>最近14天</span>&nbsp;-->
+<!--                    <a style="color:#409EFF" @click="tab()">更多></a>-->
+<!--                  </el-col>-->
                   <el-col :span="24" class="main-info-wrap">
-
-                    <img src="../../../assets/img/data.png" alt />
-                    <div class="txt">暂无数据...</div>
+                    <DailyOutput :dailyOutput=day_balance v-show="day_balance.length"></DailyOutput>
+<!--                    <el-row v-show="!day_balance.length">-->
+<!--                      <img src="../../../assets/img/data.png" alt />-->
+<!--                      <div class="txt">暂无数据...</div>-->
+<!--                    </el-row>-->
                   </el-col>
                 </el-card>
               </el-row>
@@ -108,16 +110,16 @@
               <span class="title-line-bottom bottomItem">每单产出</span>
                 <el-tabs v-model="activeName">
                   <el-tab-pane label="全部订单状态" name="first">
-                    <OrderOutput></OrderOutput>
+                    <OrderOutput :orderDataList=all_order></OrderOutput>
                   </el-tab-pane>
                   <el-tab-pane label="待运行" name="second">
-                    <OrderOutput></OrderOutput>
+                    <OrderOutput :orderDataList=init_order></OrderOutput>
                   </el-tab-pane>
                   <el-tab-pane label="运行中" name="third">
-                    <OrderOutput></OrderOutput>
+                    <OrderOutput :orderDataList=doing_order></OrderOutput>
                   </el-tab-pane>
                   <el-tab-pane label="已结束" name="fourth">
-                    <OrderOutput></OrderOutput>
+                    <OrderOutput :orderDataList=end_order></OrderOutput>
                   </el-tab-pane>
                 </el-tabs>
             </el-card>
@@ -129,9 +131,11 @@
 </template>
 <script>
   import YButton from '/components/YButton'
-  import { upload, updateheadimage } from '/api/index'
+  import { controlPanel } from '/api'
+  import { getItem } from './../../../utils/newLocalStorage'
   import YShelf from '/components/shelf'
   import OrderOutput from '/common/OrderOutput'
+  import DailyOutput from '/common/dailyOutput'
   import vueCropper from 'vue-cropper'
   import { mapState, mapMutations } from 'vuex'
   export default {
@@ -161,7 +165,14 @@
         activeIndex: 1,
         tabPosition: 1,
         order: [1, 2, 3, 4],
-        activeName: 'first'
+        activeName: 'first',
+        num: 0, // 套餐数量
+        hashrate_balance: {}, // 总算力和总产出数组
+        all_order: [], // 全部订单
+        init_order: [], // 待运行
+        doing_order: [], // 运行中
+        end_order: [], // 已结束
+        day_balance: [] // 每日产出
       }
     },
     computed: {
@@ -171,64 +182,54 @@
       ...mapMutations([
         'RECORD_USERINFO'
       ]),
+      _controlPanel () {
+        const loading = this.$loading({
+          text: '加载中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true
+        })
+        const user_id = getItem('userID')
+        const coin_id = 1
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${user_id}__${coin_id}__${timestamp}__thundercat`)
+        let params = {user_id, coin_id, timestamp, sign}
+        controlPanel(params).then(res => {
+          loading.close()
+          if (res.status === 200 && res.data.code === 1) {
+            console.log(`控制面${JSON.stringify(res.data.data)}`)
+            this.num = res.data.data.num === null ? 0 : res.data.data.num
+            this.hashrate_balance = res.data.data.hashrate_balance
+            this.all_order = res.data.data.all_order
+            this.init_order = res.data.data.init_order
+            this.doing_order = res.data.data.doing_order
+            this.end_order = res.data.data.end_order
+            this.day_balance = res.data.data.day_balance
+          } else {
+            this.$message.error('网络赛车啦')
+          }
+        })
+      },
       tab (e) {
         this.$router.push({path: '/user/dailyOutput'})
       },
-      upimg (e) {
-        var file = e.target.files[0]
-        if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-          alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
-          return false
-        }
-        var reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = (e) => {
-          this.option.img = e.target.result
-        }
-      },
-      cropper () {
-        if (this.option.img) {
-          this.$refs.cropper.getCropData((data) => {
-            this.imgSrc = data
-            upload({imgData: data}).then(res => {
-              if (res.status === '0') {
-                let path = res.result.path
-                updateheadimage({imageSrc: path}).then(res1 => {
-                  if (res1.status === '0') {
-                    let info = this.userInfo
-                    info.avatar = path
-                    this.RECORD_USERINFO({info: info})
-                    alert('更换成功')
-                    this.editAvatarShow = false
-                  }
-                })
-              }
-            })
-          })
-        } else {
-          alert('别玩我啊 先选照骗')
-        }
-      },
       editAvatar () {
         this.editAvatarShow = true
-      },
-      realTime (data) {
-        this.previews = data
-        let w = 100 / data.w
-        this.option.zoom = w
       }
+    },
+    created () {
+      this._controlPanel()
     },
     components: {
       YButton,
       YShelf,
       vueCropper,
-      OrderOutput
+      OrderOutput,
+      DailyOutput
     }
   }
 </script>
 <style lang="scss" scoped>
   @import "../../../assets/style/mixin";
-
   .avatar-box {
     height: 124px;
     display: flex;

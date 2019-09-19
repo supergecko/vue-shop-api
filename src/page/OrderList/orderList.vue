@@ -2,7 +2,7 @@
   <div style="background: #f7f7f7;">
     <div class="orderListWarp" style="background: #fff;">
       <el-row class="orderListHead">
-        <div>订单信息</div>
+        <div>产品信息</div>
       </el-row>
       <el-row class="orderListForm">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
@@ -63,12 +63,12 @@
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item label="收币地址" v-if="paymentInputFlag" prop="btcAddress">
-            <el-select v-model="ruleForm.btcAddress" placeholder="请选择收币地址">
+          <el-form-item label="钱包地址" v-if="paymentInputFlag" prop="btcAddress">
+            <el-select v-model="ruleForm.btcAddress" placeholder="请选择钱包地址">
               <el-option :label=item.address :value=item.wallet_id v-for="(item, i) in wallet_address" :key="i">
               </el-option>
             </el-select>
-            <el-button @click="open">+ 添加新的线上收币地址</el-button>
+            <el-button @click="open">+ 添加新的线上钱包地址</el-button>
           </el-form-item>
 
           <el-form-item label="收货地址" v-else prop="userAddress">
@@ -101,22 +101,24 @@
               </div>
             </el-dialog>
           </el-form-item>
+          <el-form-item label="产品总价">
+            <el-row class="orderListMiddleText" v-if="goodsInfo.goods">￥ {{goodsInfo.goods.shop_price}}<span> (单台价格)</span></el-row>
+          </el-form-item>
 
-          <el-row class="orderListMiddle">
-            <el-form-item label="算力费">
-              <el-row class="orderListMiddleText" v-if="goodsInfo.goods">￥ {{goodsInfo.goods.shop_price}}<span> (单台算力费)</span></el-row>
-            </el-form-item>
+          <el-row class="orderListMiddle" style="padding-left: 0px;padding-top: 8px;">
+            <el-row class="orderListHead">
+              <div>电费详情</div>
+            </el-row>
           </el-row>
 
 
           <el-form-item label="电费交纳天数" style="padding-top: 15px" prop="electricityDays">
             <el-radio-group v-model="ruleForm.electricityDays">
-              <el-radio :label="10" @change="changeDays">10</el-radio>
-              <el-radio :label="20" @change="changeDays">20</el-radio>
-              <el-radio :label="30" @change="changeDays">30</el-radio>
-              <el-radio :label="40" @change="changeDays">40</el-radio>
-              <el-radio :label="50" @change="changeDays">
-                  <el-input v-model=userInputDays placeholder="请输入天数" style="width: 217px" :disabled="ruleForm.electricityDays===50? false: true"></el-input>
+              <el-radio :label="30" @change="changeDays">1个月</el-radio>
+              <el-radio :label="90" @change="changeDays">3个月</el-radio>
+              <el-radio :label="150" @change="changeDays">5个月</el-radio>
+              <el-radio :label="200" @change="changeDays">
+                  <el-input v-model=userInputDays placeholder="请输入月数(例如6代表6个月)" style="width: 217px" :disabled="ruleForm.electricityDays===200? false: true"></el-input>
               </el-radio>
             </el-radio-group>
             <el-row class="powerRateTipOne" style="margin-top: 15px">
@@ -133,13 +135,13 @@
 
           <el-row class="orderListMiddle">
             <el-form-item label="电费">
-              <el-row class="orderListMiddleText">￥ {{totalElectricity}} <span v-if="goodsInfo.goods">= {{goodsInfo.goods.electricity}}元/度 × {{goodsInfo.goods.electricity_consumption}}度/天 × {{electricityDay}}天</span> </el-row>
+              <el-row class="orderListMiddleText">￥ {{totalElectricity}} <span v-if="goodsInfo.goods">= {{goodsInfo.goods.electricity}}元/度 × {{goodsInfo.goods.electricity_consumption}}度/天 × {{electricityDay/30}}个月</span> </el-row>
             </el-form-item>
           </el-row>
 
           <el-row class="orderListMiddle totalCost">
             <el-form-item label="总计">
-              <el-row class="totalCostText">￥ {{totalCase}}<span>= 单台费用*数量</span></el-row>
+              <el-row class="totalCostText">￥ {{totalCase}}<span>= (单台费用+电费)*数量</span></el-row>
             </el-form-item>
             <el-row class="totalCostWarp">
               <el-row class="powerRateTipOne" style="width:337px">
@@ -258,9 +260,9 @@
           zipcode: '' // 邮编
         },
         loadingWarp: '', // 加载
-        wallet_address: [], // 收币地址
+        wallet_address: [], // 钱包地址
         underLine_address: [], // 线下收货地址
-        wallet_address_flag: false, // 收货/收币地址切换flag
+        wallet_address_flag: false, // 收货/钱包地址切换flag
         coin_id: 1,
         cycle_id: 1, // 周期的ID
         address: '', // 用户收货地址
@@ -287,7 +289,7 @@
           currency: 'BTC', // 币种
           coupon: '', // 优惠劵
           trusteeshipM: '', // 托管方式
-          btcAddress: '', // 收币地址
+          btcAddress: '', // 钱包地址
           userAddress: '', // 用户收货地址
           orePool: '', // 矿池
           electricityDays: '', // 电费天数
@@ -315,9 +317,9 @@
           trusteeshipM: [
             {required: true, message: '请选择托管方式', trigger: 'change'}
           ],
-          // 收币地址
+          // 钱包地址
           btcAddress: [
-            {required: true, message: '请选择收币地址', trigger: 'change'}
+            {required: true, message: '请选择钱包地址', trigger: 'change'}
           ],
           // 收货地址
           userAddress: [
@@ -391,7 +393,7 @@
           }
         })
       },
-      // 获取用户收币地址
+      // 获取用户钱包地址
       getWallet () {
         const user_id = getItem('userID')
         if (this.ruleForm.currency === 'BTC') {
@@ -455,11 +457,11 @@
       },
       // 电费天数切换
       changeDays (e) {
-        if (e < 50) {
+        if (e < 200) {
           this.userInputDays = ''
         }
       },
-      // 添加新的线上收币地址
+      // 添加新的线上钱包地址
       open () {
         this.$prompt('请输入新的收货地址', '提示', {
           confirmButtonText: '确定',
@@ -525,7 +527,7 @@
         const mine_id = orePool
         const host_id = trusteeshipM
         const address_id = userAddress // 收货地址
-        const wallet_id = btcAddress // 收币地址
+        const wallet_id = btcAddress // 钱包地址
         const buy_day = electricityDays
         const pay_id = paymentMethod
         const deduct_ele_by_thundercat = this.lmbPayment
@@ -597,7 +599,7 @@
     },
     watch: {
       'ruleForm.electricityDays' (newName, oldName) {
-        if (newName < 50) {
+        if (newName < 200) {
           this.totalElectricity = parseFloat(newName * this.electricity * this.totalPower).toFixed(2)
           this.electricityDay = newName
         }
@@ -609,7 +611,7 @@
       },
       userInputDays (newName, oldName) {
         this.totalElectricity = parseFloat(newName * this.electricity * this.totalPower).toFixed(2)
-        this.electricityDay = newName
+        this.electricityDay = newName * 30
       },
       totalElectricity (newName, oldName) {
         this.totalCase = this.initTotalElectricity

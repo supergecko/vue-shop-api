@@ -4,6 +4,7 @@
 
     <el-main style="padding-top: 0px">
       <el-tabs v-model="activeName" @tab-click="handleClick">
+        <!--算力订单-->
         <el-tab-pane label="算力套餐订单" name="first">
           <OrderData :order_list=order_list v-if="order_list.length"></OrderData>
           <div v-else>
@@ -12,22 +13,16 @@
             </div>
           </div>
         </el-tab-pane>
+
+        <!--电费订单-->
         <el-tab-pane label="电费订单" name="second">
-          <OrderData v-if="orderList.length"></OrderData>
+          <ElectricityOrder :electricity_list=electricity_list v-if="electricity_list.length"></ElectricityOrder>
           <div v-else>
             <div style="padding: 100px 0;text-align: center">
               你还未创建过订单
             </div>
           </div>
         </el-tab-pane>
-<!--        <el-tab-pane label="合并支付电费单" name="third">-->
-<!--          <OrderData v-if="orderList.length"></OrderData>-->
-<!--          <div v-else>-->
-<!--            <div style="padding: 100px 0;text-align: center">-->
-<!--              你还未创建过订单-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </el-tab-pane>-->
       </el-tabs>
     </el-main>
 
@@ -37,6 +32,7 @@
   import { orderDataList } from '/api'
   import YShelf from '/components/shelf'
   import OrderData from '/common/orderDataList'
+  import ElectricityOrder from '/common/electricityOrder'
   import { getItem } from './../../../utils/newLocalStorage'
 
   export default {
@@ -44,7 +40,6 @@
       return {
         order_list: [], // 算力订单数组
         electricity_list: [], // 电费订单数组
-        orderList: [],
         activeName: 'first'
       }
     },
@@ -80,7 +75,8 @@
     },
     components: {
       YShelf,
-      OrderData
+      OrderData,
+      ElectricityOrder
     }
   }
 </script>

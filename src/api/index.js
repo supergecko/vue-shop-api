@@ -64,3 +64,19 @@ export const myCoupon = (params) => {
 export const polularizeDetail = (params) => {
   return ypost(`${baseUrl}/home/panel/popularizeDetail`, params)
 }
+// 新闻列表1
+export const newsLlist = (params) => {
+  return ypost(`${baseUrl}/home/article/articleList`, params)
+}
+// 新闻详情1
+export const newsDetails = (params) => {
+  return ypost(`${baseUrl}/home/article/detail`, params)
+}
+// 我的推广1
+export const myPopularize = (params) => {
+  return ypost(`${baseUrl}/home/panel/myPopularize`, params)
+}
+// 控制面板1
+export const controlPanel = (params) => {
+  return ypost(`${baseUrl}/home/panel/index`, params)
+}
