@@ -82,5 +82,25 @@ export const controlPanel = (params) => {
 }
 // 公告
 export const marquee = (params) => {
-  return ypost(`${baseUrl}/home/article/hot `, params)
+  return ypost(`${baseUrl}/home/article/hot`, params)
+}
+// 获取用户收货地址1
+export const getUserAddress = (params) => {
+  return ypost(`${baseUrl}/home/user/userAddress`, params)
+}
+// 修改电子钱包地址1
+export const editWallet = (params) => {
+  return ypost(`${baseUrl}/home/user/editwallet`, params)
+}
+// 修改收货地址接口
+export const editAddress = (params) => {
+  return ypost(`${baseUrl}/home/user/editAddress`, params)
+}
+// 是否绑定矿池
+export const isBindMine = (params) => {
+  return ypost(`${baseUrl}/home/panel/isBindMine`, params)
+}
+// 绑定矿池
+export const bindMine = (params) => {
+  return ypost(`${baseUrl}/home/panel/bindMine`, params)
 }

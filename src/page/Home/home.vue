@@ -318,7 +318,6 @@
 <script>
   import { homePage } from '/api'
   import YShelf from '/components/shelf'
-  import product from '/components/product'
 
   export default {
     data () {
@@ -420,8 +419,7 @@
       this.play()
     },
     components: {
-      YShelf,
-      product
+      YShelf
     }
   }
 </script>

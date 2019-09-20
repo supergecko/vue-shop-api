@@ -2,7 +2,7 @@
   <div>
     <y-shelf title="我的推广" secondPath="true" titleFlag="true" style="margin-bottom: 10px;"></y-shelf>
     <el-main style="padding-top: 0px">
-<!--      爷爷-->
+      <!--爷爷-->
       <el-row>
         <el-row class="publicTitle">我的推荐人</el-row>
         <el-row class="referenceWarp">
@@ -32,7 +32,7 @@
         </el-row>
       </el-row>
 
-<!--      儿子-->
+      <!--儿子-->
       <el-row>
         <el-row class="publicTitle secondTitle">我邀请的人</el-row>
         <el-carousel :autoplay="false" type="card" ref="carousel" v-on:change="changeFun">
@@ -56,7 +56,7 @@
         </el-carousel>
       </el-row>
 
-<!--      孙子-->
+      <!--孙子-->
       <el-row style="display: flex;justify-content: center">
         <el-image
           style="width: 52px; height: 52px"

@@ -85,11 +85,11 @@
 <!--                    <a style="color:#409EFF" @click="tab()">更多></a>-->
 <!--                  </el-col>-->
                   <el-col :span="24" class="main-info-wrap">
-                    <DailyOutput :dailyOutput=day_balance v-show="day_balance.length"></DailyOutput>
-<!--                    <el-row v-show="!day_balance.length">-->
-<!--                      <img src="../../../assets/img/data.png" alt />-->
-<!--                      <div class="txt">暂无数据...</div>-->
-<!--                    </el-row>-->
+                    <DailyOutput :dailyOutput=day_balance v-if="day_balance.length===0"></DailyOutput>
+                    <el-row v-else>
+                      <img src="../../../assets/img/data.png" alt />
+                      <div class="txt">暂无数据...</div>
+                    </el-row>
                   </el-col>
                 </el-card>
               </el-row>
@@ -127,11 +127,40 @@
         </el-main>
       </el-container>
     </div>
+
+    <el-dialog title="绑定矿池" :visible.sync="dialogFormVisible" style="width:50%;margin: 0 auto;text-align: center ">
+      <el-form :model="form" :rules="formRules" ref="form" class="demo-ruleForm">
+        <!--鱼池名称-->
+        <el-form-item label="鱼池名称" prop="poolName" :label-width="formLabelWidth">
+          <el-select v-model="form.poolName" placeholder="请选择活动区域" style="width: 100%;">
+            <el-option :label=item.description :value=item.mine_id v-for="(item, i) in mine" :key="i">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <!--矿池账号-->
+        <el-form-item label="矿池账号" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="poolId">
+          <el-input v-model="form.poolId" style="width: 100%"></el-input>
+        </el-form-item>
+        <!-- 矿池密码-->
+        <el-form-item label="矿池密码" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="poolPassword">
+          <el-input v-model="form.poolPassword" style="width: 100%" show-password></el-input>
+        </el-form-item>
+        <!--用户名-->
+        <el-form-item label="用 户 名" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="poolUserName">
+          <el-input v-model="form.poolUserName" style="width: 100%"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer" style="text-align: center;">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary"  @click="formCheckIn('form')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
   import YButton from '/components/YButton'
-  import { controlPanel } from '/api'
+  import { controlPanel, isBindMine, bindMine } from '/api'
   import { getItem } from './../../../utils/newLocalStorage'
   import YShelf from '/components/shelf'
   import OrderOutput from '/common/OrderOutput'
@@ -143,6 +172,33 @@
       return {
         imgSrc: '',
         editAvatarShow: false,
+        dialogFormVisible: false,
+        formLabelWidth: '80px',
+        mine: [],
+        form: {
+          poolName: '', // 矿池名称
+          poolId: '', // 矿池账号
+          poolPassword: '', // 矿池密码
+          poolUserName: '' // 用户名
+        },
+        formRules: {
+          // 矿池名称校验
+          poolName: [
+            {required: true, message: '请输入矿池名称', trigger: 'change'}
+          ],
+          // 矿池账号校验
+          poolId: [
+            {required: true, message: '请输入矿池账号', trigger: 'blur'}
+          ],
+          // 矿池密码校验
+          poolPassword: [
+            {required: true, message: '请输入矿池密码', trigger: 'blur'}
+          ],
+          // 用户名校验
+          poolUserName: [
+            {required: true, message: '请输入用户名', trigger: 'blur'}
+          ]
+        },
         cropContext: '',
         cropperImg: '',
         previews: {},
@@ -182,6 +238,53 @@
       ...mapMutations([
         'RECORD_USERINFO'
       ]),
+      // 是否绑定矿池
+      _isBindMine () {
+        const user_id = getItem('userID')
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${user_id}__${timestamp}__thundercat`)
+        let params = {user_id, timestamp, sign}
+        isBindMine(params).then(res => {
+          if (res.status === 200 && res.data.code === 1) {
+            if (res.data.data.bind_status === 0) {
+              this.dialogFormVisible = true
+              this.mine = res.data.data.mine
+            } else {
+              this.dialogFormVisible = false
+            }
+          } else {
+            this.$message.error('获取失败')
+          }
+        })
+      },
+      // 矿池绑定
+      formCheckIn (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const { poolUserName, poolName, poolId, poolPassword } = this.form
+            const user_id = getItem('userID')
+            const username = poolUserName
+            const mine_id = poolName
+            const account = poolId
+            const password = poolPassword
+            const timestamp = Date.parse(new Date()) / 1000
+            const sign = this.$md5(`${user_id}__${account}__${password}__${username}__${mine_id}__${timestamp}__thundercat`)
+            let params = {user_id, account, password, timestamp, username, mine_id, sign}
+            bindMine(params).then(res => {
+              console.log(res.data.data)
+              if (res.status === 200 && res.data.code === 1) {
+                console.log('矿池绑定成功')
+              } else {
+                this.$message.error('获取失败')
+              }
+            })
+            this.dialogFormVisible = false
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      },
       _controlPanel () {
         const loading = this.$loading({
           text: '加载中',
@@ -217,6 +320,7 @@
       }
     },
     created () {
+      this._isBindMine()
       this._controlPanel()
     },
     components: {

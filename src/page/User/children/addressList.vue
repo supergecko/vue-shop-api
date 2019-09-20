@@ -50,7 +50,6 @@
 <script>
   import { saveWallet, getWallet } from '/api'
   import { getItem } from './../../../utils/newLocalStorage'
-  import YButton from '/components/YButton'
   import YPopup from '/components/popup'
   import YShelf from '/components/shelf'
   import AddressData from '/common/addressDataList'
@@ -147,7 +146,6 @@
       this.getWallet()
     },
     components: {
-      YButton,
       YPopup,
       YShelf,
       AddressData

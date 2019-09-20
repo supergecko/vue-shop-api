@@ -121,8 +121,7 @@
         loginPage: true,
         ruleForm: {
           userName: '',
-          userPwd: '',
-          errMsg: ''
+          userPwd: ''
         },
         registered: {
           mobile: '', // 手机号
@@ -173,16 +172,18 @@
           sendCode(params).then(res => {
             loading.close()
             console.log(res)
-            if (res.status === 200) {
+            if (res.status === 200 && res.data.code === 1) {
               this.sendCodeFlag = true
               this.sendCodeText = 60
               this.intervalId = setInterval(() => {
                 this.sendCodeText--
               }, 1000)
-              console.log('成功了')
+              this.$message({
+                message: '发送成功',
+                type: 'success'
+              })
             } else {
-              console.log('失败了')
-              this.ruleForm.errMsg = res.msg
+              this.$message.error('网络赛车啦')
             }
           })
         }
