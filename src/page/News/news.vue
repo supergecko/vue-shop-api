@@ -1,29 +1,23 @@
 <template>
   <div class="news">
     <div class="head">
-      <el-row>
-        <el-col :span="2">&nbsp;</el-col>
-        <el-col :span="22">
+      <div>
+        <div class="title-wrap">
           <el-breadcrumb class="nav"
                          separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>新闻</el-breadcrumb-item>
           </el-breadcrumb>
-        </el-col>
-
-      </el-row>
-      <el-row>
-        <el-col :span="7">&nbsp;</el-col>
-        <el-col :span="10">
           <p class="head-title hand">新闻报道</p>
           <p class="head-describe">
             <span>对于我们的读者，请在下面查阅媒体关于雷猫矿机最新的文章报道</span>
             <br />
             <span>对于资讯媒体，请通过lintingxin@linglu666.cn联系我们</span>
           </p>
-        </el-col>
-      </el-row>
+        </div>
+      </div>
     </div>
+
     <el-row>
       <el-col :span="24">
         <div class="main">
@@ -229,5 +223,9 @@ span {
 }
 .hand {
   cursor: pointer;
+}
+.title-wrap {
+  width: 1200px;
+  margin: 0 auto;
 }
 </style>
