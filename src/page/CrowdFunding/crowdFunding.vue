@@ -8,35 +8,38 @@
                   <div>
                     <div class="contentHeaderBtn">{{item.title}}</div>
                     <span>预计开始挖矿时间</span>
-                    <el-tag type="warning">{{item.create_time}}</el-tag>
+                    <el-tag type="warning">{{item.dig_time}}</el-tag>
                   </div>
                   <div class="downTime">
                     距离本轮团购时间还有
-                    <span>10</span>:
-                    <span>06</span>:
-                    <span>30</span>
+                    <span>{{item.rest_day}}</span>
+                    <span>天</span>
                   </div>
               </div>
               <div class="contentMiddle">
                 <div class="middleItem1">
                   <span>最低算力</span>
-                  <i class="el-icon-warning"></i>
+                  <el-tooltip content="该专区最低算力机型" placement="top">
+                    <span class="el-icon-info"></span>
+                  </el-tooltip>
                   <div>
-                    $<span>0.3801</span>/G/天
+                    <span>{{item.minimum_hashrate}}</span>TH / S
                   </div>
                 </div>
                 <div class="middleItem2">
                   <span>电费</span>
-                  <i class="el-icon-warning"></i>
+                  <el-tooltip content="根据设备功耗计算每日电费 " placement="top">
+                    <span class="el-icon-info"></span>
+                  </el-tooltip>
                   <div>
-                    $<span>2.3853</span>/G/天
+                    <span>{{item.electricity_cost}}</span> 元 / 天
                   </div>
                 </div>
                 <div class="middleItem3">
-                  <el-tag>LTC</el-tag>
+                  <el-tag>BTC</el-tag>
                   <span>来自BTC.com的理论收益</span>
                   <div>
-                    $<span>1.5797</span>/G/天
+                    ￥<span>{{item.income}}</span> BTC
                   </div>
                 </div>
               </div>
@@ -48,14 +51,18 @@
           </el-col>
           <el-col :span="7" class="lmbRightItem">
             <div class="grid-content bg-purple-light middleHeaderRight">
-              <div class="rightHeader">
-                <div style="font-size:80px">3</div>
-                <div class="rightHeaderItem">
-                  <div style="font-size:28px;margin-top:8px;">世代</div>
-                  <div style="font-size:20px;margin-bottom:16px;">矿机</div>
-                </div>
-              </div>
-              <div>- 蚂蚁矿机 L3++ <i class="el-icon-warning"></i>-</div>
+<!--              <el-image-->
+<!--                style="width: 300px; height: 180px"-->
+<!--                src="../../../static/lmbImg/img20.png"-->
+<!--                fit="fill"></el-image>-->
+<!--              <div class="rightHeader">-->
+<!--                <div style="font-size:80px">3</div>-->
+<!--                <div class="rightHeaderItem">-->
+<!--                  <div style="font-size:28px;margin-top:8px;">世代</div>-->
+<!--                  <div style="font-size:20px;margin-bottom:16px;">矿机</div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div>- 蚂蚁矿机 L3++ <i class="el-icon-warning"></i>-</div>-->
             </div>
           </el-col>
         </el-row>
@@ -64,11 +71,12 @@
             <div class="goodItem">
               <div class="goodItemHead">
                 <div style="padding-bottom: 13px">{{item1.description}}</div>
-                <div>{{item1.hashrate}}</div>
+                <div style="font-size: 14px;">算力:{{item1.hashrate}}</div>
                 <div class="hotBTn" :style="{'display':item1.rate==100 ? 'block':'none'}">抢光了</div>
               </div>
-              <div class="goodItemMiddle">
-                {{item1.hashrate_cost}}
+              <div>功耗:{{item1.electricity_consumption}} W</div>
+              <div class="goodItemMiddle" style="font-size: 14px;">
+                月化收益:{{item1.income}} BTC
               </div>
               <div class="goodItemFooter">
                 <el-progress :percentage=item1.rate  :format="format" style="width:182px"></el-progress>
@@ -85,7 +93,7 @@
 </template>
 
 <script>
-  import { goodsList } from '/api/index'
+  import { goodsList } from '/api'
 
   export default {
     data () {
@@ -107,12 +115,13 @@
         return percentage === 100 ? '售磐' : `已售${percentage}%`
       }
     },
-    mounted () {
+    created () {
       const page = 1
       let params = {page}
       goodsList(params).then(res => {
         if (res.status === 200) {
           this.goodsList = res.data.data
+          console.log(res.data.data)
         } else {
           console.log('获取商品列表失败')
           this.ruleForm.errMsg = res.data.msg
@@ -218,17 +227,20 @@
   }
   .downTime{
     position: absolute;
-    top: 18px;
-    right: 416px;
+    top: 69px;
+    right: 80px;
+    color: black;
+    font-weight: bold;
+    font-size: 17px;
   }
   .downTime span{
-    background:rgba(6,69,146,1);
     display: inline-block;
-    width:22px;
-    height:22px;
+    height: 30px;
     text-align: center;
-    line-height: 22px;
+    line-height: 30px;
     margin-right: 4px;
+    color: red;
+    font-size: 35px;
   }
   .lmbGoodsWarp{
     margin-top: 22px;
@@ -251,12 +263,12 @@
   .goodItemHead{
     height: 92px;
     width: 198px;
-    border-bottom: 1px solid rgba(244,244,244,1);
+    /*border-bottom: 1px solid rgba(244,244,244,1);*/
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-size:18px;
+    font-size:22px;
     font-family:PingFang SC;
     font-weight:bold;
     color:rgba(60,58,60,1);

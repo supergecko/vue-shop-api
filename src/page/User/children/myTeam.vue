@@ -3,7 +3,39 @@
     <y-shelf title="我的推广" secondPath="true" titleFlag="true" style="margin-bottom: 10px;"></y-shelf>
     <el-main style="padding-top: 0px">
       <!--爷爷-->
-      <el-row>
+      <!--为空的时候-->
+      <el-row v-show="(JSON.stringify(leader) === '{}')">
+        <el-row class="publicTitle">
+          <el-row style="margin-bottom: -6px">我的推荐人</el-row>
+          <el-row class="publicTitleFooterBtn"></el-row>
+        </el-row>
+        <el-row class="referenceWarp">
+          <el-row>
+            <el-col :span="12" class="referenceHeaderLeft">
+              <el-image
+                style="width: 31px; height: 31px"
+                src="../../../../static/images/recommenderlogo.png"
+                fit="fill"></el-image>
+              <div style="font-size: 30px;">当前等级</div>
+            </el-col>
+            <el-col :span="12" class="referenceHeaderRight">{{leader.identity==1?'普通用户':'雷猫合伙人'}}</el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12" class="referenceFooterLeft">
+              <div class="FooterLeftItem1">暂无</div>
+              <div>邀请人数 暂无</div>
+              <div>累计贡献值 暂无</div>
+            </el-col>
+            <el-col :span="12" class="referenceFooterRight">
+              <el-image
+                style="width: 100px; height: 100px"
+                :src="leader.qrcode"
+                fit="fill"></el-image>
+            </el-col>
+          </el-row>
+        </el-row>
+      </el-row>
+      <el-row v-show="!(JSON.stringify(leader) === '{}')">
         <el-row class="publicTitle">我的推荐人</el-row>
         <el-row class="referenceWarp">
           <el-row>
@@ -25,7 +57,7 @@
             <el-col :span="12" class="referenceFooterRight">
               <el-image
                 style="width: 100px; height: 100px"
-                :src="leader.avatar"
+                :src="leader.qrcode"
                 fit="fill"></el-image>
             </el-col>
           </el-row>
@@ -33,7 +65,32 @@
       </el-row>
 
       <!--儿子-->
-      <el-row>
+      <el-row v-show="children.length===0">
+        <el-row class="publicTitle secondTitle">
+          <el-row style="margin-bottom: -6px">我邀请的人</el-row>
+          <el-row class="publicTitleFooterBtn"></el-row>
+        </el-row>
+        <el-carousel :autoplay="false" type="card" ref="carousel" v-on:change="changeFun" style="width: 950px;margin: 0 auto;">
+          <el-carousel-item v-for="(item, i) in 3" :key="i" name="index" style="height: 264px;border-radius:10px;">
+            <div class="myTeam1">
+              <div class="team1Title">普通用户</div>
+              <el-row style="margin-top: 50px;">
+                <el-col :span="15" class="teamLeft">
+                  <div class="userName">用户名:暂无</div>
+                  <div>累计贡献值:暂无</div>
+                </el-col>
+                <el-col :span="9" style="text-align: center;margin-top: -20px;">
+                  <el-image
+                    style="width: 100px; height: 100px"
+                    src="http://www.dterdal.com/public/code.png"
+                    fit="fill"></el-image>
+                </el-col>
+              </el-row>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+      </el-row>
+      <el-row v-show="!(children.length===0)">
         <el-row class="publicTitle secondTitle">我邀请的人</el-row>
         <el-carousel :autoplay="false" type="card" ref="carousel" v-on:change="changeFun">
           <el-carousel-item v-for="(item, i) in children" :key="i" name="index" style="height: 264px;border-radius:10px;">

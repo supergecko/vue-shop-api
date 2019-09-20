@@ -54,7 +54,7 @@
                     <ul>
                       <!--头像-->
                       <li class="nav-user-avatar">
-                        <p class="name">陈二狗</p>
+<!--                        <p class="name">陈二狗</p>-->
                       </li>
                       <li v-for="(item, i) in navList" :key="i">
                         <router-link :to="item.link">{{item.text}}</router-link>
@@ -96,6 +96,9 @@
         user: {},
         // 列表
         navList: [{
+          text: '账户中心',
+          link: '/user/userInfo'
+        }, {
           text: '控制面板',
           link: '/user/information'
         }, {
@@ -104,9 +107,6 @@
         }, {
           text: '我的推广',
           link: '/user/extension'
-        }, {
-          text: '钱包地址',
-          link: '/user/addressList'
         }, {
           text: '我的礼券',
           link: '/user/coupon'

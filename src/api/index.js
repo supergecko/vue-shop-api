@@ -104,3 +104,11 @@ export const isBindMine = (params) => {
 export const bindMine = (params) => {
   return ypost(`${baseUrl}/home/panel/bindMine`, params)
 }
+// 订单详情
+export const orderDetail = (params) => {
+  return ypost(`${baseUrl}/home/order/orderDetail`, params)
+}
+// 奖池列表
+export const jackpotIndex = (params) => {
+  return ypost(`${baseUrl}/home/jackpot/index`, params)
+}

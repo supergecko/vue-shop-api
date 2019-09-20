@@ -50,6 +50,10 @@
                 <el-input type="password" v-model="registered.userPwd2" autocomplete="off" placeholder="请再次输入密码"></el-input>
               </el-form-item>
 
+              <el-form-item label="邀请码">
+                <el-input type="text" v-model="registered.userPhone" autocomplete="off" placeholder="请输入邀请码"></el-input>
+              </el-form-item>
+
               <el-form-item>
                 <el-button type="primary" @click="submitForm('registered')">注册</el-button>
                 <el-button @click="resetForm('registered')">重置</el-button>
@@ -127,7 +131,8 @@
           mobile: '', // 手机号
           verificationCode: '', // 验证码
           userPwd: '',
-          userPwd2: ''
+          userPwd2: '',
+          userPhone: '' // 用户的邀请码
         },
         rules: {
           mobile: [
@@ -171,7 +176,6 @@
           })
           sendCode(params).then(res => {
             loading.close()
-            console.log(res)
             if (res.status === 200 && res.data.code === 1) {
               this.sendCodeFlag = true
               this.sendCodeText = 60
@@ -209,14 +213,16 @@
           userLogin(params).then(res => {
             loading.close()
             console.log(res)
-            if (res.status === 200) {
+            if (res.status === 200 && res.data.code === 1) {
               console.log(res.data)
               this.UPDATE_ID({info: res.data.data})
-              console.log('登录成功')
+              this.$message({
+                message: '登录成功',
+                type: 'success'
+              })
               this.$router.go(-1)
             } else {
-              console.log('登录失败')
-              this.ruleForm.errMsg = res.data.msg
+              this.$message.error('网络赛车啦')
             }
           })
         }
@@ -224,11 +230,11 @@
 
       // 注册
       register () {
-        const { mobile, userPwd, userPwd2, verificationCode } = this.registered
+        const { mobile, userPwd, userPwd2, verificationCode, userPhone } = this.registered
         const password = userPwd
         const password2 = userPwd2
         const code = verificationCode
-        const invite_code = ''
+        const invite_code = userPhone
         const scene = 1
         const timestamp = Date.parse(new Date()) / 1000
         const sign = this.$md5(`${mobile}__${scene}__${password}__${password2}__${code}__${timestamp}__thundercat`)
@@ -242,13 +248,15 @@
         register(params).then(res => {
           loading.close()
           console.log(res)
-          if (res.code === 1) {
-            console.log('成功了')
+          if (res.status === 200 && res.data.code === 1) {
+            this.$message({
+              message: '注册成功',
+              type: 'success'
+            })
             this.loginPage = true
             // this.$router.go(-1)
           } else {
-            console.log('失败了')
-            this.ruleForm.errMsg = res.msg
+            this.$message.error('网络赛车啦')
           }
         })
       },
@@ -265,6 +273,11 @@
       },
       resetForm (formName) {
         this.$refs[formName].resetFields()
+      }
+    },
+    created () {
+      if (this.$route.query.invite_code) {
+        this.registered.userPhone = this.$route.query.invite_code
       }
     },
     components: {

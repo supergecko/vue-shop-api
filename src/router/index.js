@@ -12,6 +12,7 @@ const RakeBack = resolve => require(['/page/RakeBack/rakeBack'], resolve)
 const Jackpot = resolve => require(['/page/Jackpot/Jackpot'], resolve)
 const user = resolve => require(['/page/User/user'], resolve)
 const news = resolve => require(['/page/News/news'], resolve)
+const orderDetail = resolve => require(['/page/Order/orderDetail'], resolve)
 const newDetails = resolve => require(['/page/NewDetails/newDetails'], resolve)
 const orderList = resolve => require(['/page/User/children/order'], resolve)
 const userInfo = resolve => require(['/page/User/children/userInfo'], resolve)
@@ -68,7 +69,8 @@ export default new Router({
         { path: 'extension', name: '我的推广', component: extension },
         { path: 'dailyOutput', name: '每日产出', component: dailyOutput },
         { path: 'chargeRecharge', name: '电费充值', component: chargeRecharge },
-        { path: 'userInfo', name: '账户中心', component: userInfo }
+        { path: 'userInfo', name: '账户中心', component: userInfo },
+        { path: 'orderDetail', name: 'orderDetail', component: orderDetail }
       ]
     },
     { path: '*', redirect: '/home' }

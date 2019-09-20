@@ -21,7 +21,7 @@
 <!--      </el-table-column>-->
 <!--      <el-table-column-->
 <!--        prop="Get"-->
-<!--        label="预计瓜分雷猫币">-->
+<!--        label="预计瓜分雷猫积分">-->
 <!--      </el-table-column>-->
 <!--    </el-table>-->
     <el-row class="tableWarp">
@@ -29,28 +29,31 @@
         <el-col :span="5">排名</el-col>
         <el-col :span="9">账号</el-col>
         <el-col :span="9">累计贡献值</el-col>
-        <el-col :span="9">预计瓜分雷猫币</el-col>
+        <el-col :span="9">预计瓜分雷猫积分</el-col>
       </el-row>
       <el-row>
-        <el-row v-for="(item,index) in 10" :key="index">
+        <el-row v-for="(item,index) in order_list" :key="index">
           <el-row class="tableHeader tableList" :style="{'background': (index%2==0 ? 'rgb(2,25,70)':'')}">
-            <el-col :span="5">1</el-col>
-            <el-col :span="9">12345678901</el-col>
-            <el-col :span="9">￥2561244</el-col>
-            <el-col :span="9">￥2561244232</el-col>
+            <el-col :span="5">{{item.rank}}</el-col>
+            <el-col :span="9">{{item.mobile}}</el-col>
+            <el-col :span="9">￥{{item.all_results}}</el-col>
+            <el-col :span="9">￥{{item.get_thundercat_coin}}</el-col>
           </el-row>
         </el-row>
       </el-row>
     </el-row>
-    <div class="championFooter">
-      <div class="footerBtn">查看更多</div>
-    </div>
+<!--    <div class="championFooter">-->
+<!--      <div class="footerBtn">查看更多</div>-->
+<!--    </div>-->
   </div>
 
 </template>
 
 <script>
   export default {
+    props: [
+      'order_list'
+    ],
     data () {
       return {
         tableData: [{

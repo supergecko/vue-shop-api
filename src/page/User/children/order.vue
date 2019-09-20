@@ -7,21 +7,25 @@
         <!--算力订单-->
         <el-tab-pane label="算力套餐订单" name="first">
           <OrderData :order_list=order_list v-if="order_list.length"></OrderData>
-          <div v-else>
-            <div style="padding: 100px 0;text-align: center">
-              你还未创建过订单
-            </div>
-          </div>
+          <el-row v-else style="background: #fff;display: flex;flex-direction: column;justify-content: center;align-items: center;height: 400px;">
+            <el-image
+              style="width: 160px; height: 115px"
+              src="../../../static/imgs/data.png"
+              fit="fill"></el-image>
+            <div class="txt">暂无数据...</div>
+          </el-row>
         </el-tab-pane>
 
         <!--电费订单-->
         <el-tab-pane label="电费订单" name="second">
           <ElectricityOrder :electricity_list=electricity_list v-if="electricity_list.length"></ElectricityOrder>
-          <div v-else>
-            <div style="padding: 100px 0;text-align: center">
-              你还未创建过订单
-            </div>
-          </div>
+          <el-row v-else style="background: #fff;display: flex;flex-direction: column;justify-content: center;align-items: center;height: 400px;">
+            <el-image
+              style="width: 160px; height: 115px"
+              src="../../../static/imgs/data.png"
+              fit="fill"></el-image>
+            <div class="txt">暂无数据...</div>
+          </el-row>
         </el-tab-pane>
       </el-tabs>
     </el-main>

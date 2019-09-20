@@ -29,35 +29,37 @@
                 <div>
                   <div class="contentHeaderBtn">{{activity.title}}</div>
                   <span>预计开始挖矿时间</span>
-                  <el-tag type="warning">{{activity.create_time}}</el-tag>
+                  <el-tag type="warning">{{activity.dig_time}}</el-tag>
                 </div>
                 <div class="downTime">
                   距离本轮团购时间还有
-                  <span>10</span>:
-                  <span>06</span>:
-                  <span>30</span>
+                  <span>{{activity.rest_day}}天</span>
                 </div>
               </div>
               <div class="contentMiddle">
                 <div class="middleItem1">
                   <span>最低算力</span>
-                  <i class="el-icon-warning"></i>
+                  <el-tooltip content="该专区最低算力机型" placement="top">
+                    <span class="el-icon-info"></span>
+                  </el-tooltip>
                   <div>
-                    $<span>0.3801</span>/G/天
+                    <span>{{activity.minimum_hashrate}}</span>TH / S
                   </div>
                 </div>
                 <div class="middleItem2">
                   <span>电费</span>
-                  <i class="el-icon-warning"></i>
+                  <el-tooltip content="根据设备功耗计算每日电费 " placement="top">
+                    <span class="el-icon-info"></span>
+                  </el-tooltip>
                   <div>
-                    $<span>2.3853</span>/G/天
+                    <span>{{activity.electricity_cost}}</span> 元 / 天
                   </div>
                 </div>
                 <div class="middleItem3">
-                  <el-tag>LTC</el-tag>
+                  <el-tag>BTC</el-tag>
                   <span>来自BTC.com的理论收益</span>
                   <div>
-                    $<span>1.5797</span>/G/天
+                    ￥<span>{{activity.income}}</span> BTC
                   </div>
                 </div>
               </div>
@@ -69,14 +71,18 @@
           </el-col>
           <el-col :span="7" class="lmbRightItem">
             <div class="grid-content bg-purple-light middleHeaderRight">
-              <div class="rightHeader">
-                <div style="font-size:80px">3</div>
-                <div class="rightHeaderItem">
-                  <div style="font-size:28px;margin-top:8px;">世代</div>
-                  <div style="font-size:20px;margin-bottom:16px;">矿机</div>
-                </div>
-              </div>
-              <div>- 蚂蚁矿机 L3++ <i class="el-icon-warning"></i>-</div>
+<!--              <el-image-->
+<!--                style="width: 300px; height: 200px"-->
+<!--                src="../../../static/lmbImg/img20.png"-->
+<!--                fit="fill"></el-image>-->
+<!--              <div class="rightHeader">-->
+<!--                <div style="font-size:80px">3</div>-->
+<!--                <div class="rightHeaderItem">-->
+<!--                  <div style="font-size:28px;margin-top:8px;">世代</div>-->
+<!--                  <div style="font-size:20px;margin-bottom:16px;">矿机</div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div>- 蚂蚁矿机 L3++ <i class="el-icon-warning"></i>-</div>-->
             </div>
           </el-col>
         </el-row>
@@ -85,16 +91,17 @@
             <div class="goodItem">
               <div class="goodItemHead">
                 <div style="padding-bottom: 13px">{{item.description}}</div>
-                <div>{{item.hashrate}}</div>
-                <div class="hotBTn" :style="{'display':item.sales_sum_value/item.store_count==1 ? 'block':'none'}">抢光了</div>
+                <div style="font-size: 14px;">算力:{{item.hashrate}}</div>
+                <div class="hotBTn" :style="{'display':item.rate==100 ? 'block':'none'}">抢光了</div>
               </div>
-              <div class="goodItemMiddle">
-                {{item.hashrate_cost}}
+              <div>功耗:{{item.electricity_consumption}} W</div>
+              <div class="goodItemMiddle" style="font-size: 14px;">
+                月化收益:{{item.income}} BTC
               </div>
               <div class="goodItemFooter">
-                <el-progress :percentage=(item.sales_sum_value/item.store_count)*100 style="width:182px" :format="format"></el-progress>
-                <el-button type="primary" :disabled="item.sales_sum_value/item.store_count==1? true: false" style="width:214px;margin-top:16px;" @click="openOrderList(share_activity_id, item.goods_id)">
-                  {{item.sales_sum_value/item.store_count==1? '即将补货': '立即抢购'}}
+                <el-progress :percentage=item.rate style="width:182px" :format="format"></el-progress>
+                <el-button type="primary" :disabled="item.rate==100? true: false" style="width:214px;margin-top:16px;" @click="openOrderList(share_activity_id, item.goods_id)">
+                  {{item.rate==100? '即将补货': '立即抢购'}}
                 </el-button>
                 <div class="goodItemFooterText">— {{item.goods_name}} —</div>
               </div>
@@ -135,14 +142,14 @@
         <el-row class="thirdItem">
           <el-col :span="12" style="width: 100%;display: flex;justify-content: center;">
             <el-image
-              style="width: 60px; height: 60px;border: 1px dashed rgb(28, 31, 40);margin-right: 2px"
+              style="width: 60px; height: 60px;margin-right: 10px"
               src="../../../static/lmbImg/img3.png"
               fit="fill"></el-image>
             <el-row style="width: 208px">雷猫商城所销售矿机均为全新机器非二手充新</el-row>
           </el-col>
           <el-col :span="12" style="width: 100%;display: flex;justify-content: center;">
             <el-image
-              style="width: 60px; height: 60px;border: 1px dashed rgb(28, 31, 40);margin-right: 2px"
+              style="width: 60px; height: 60px;margin-right: 10px"
               src="../../../static/lmbImg/img5.png"
               fit="fill"></el-image>
             <el-row style="width: 208px">凡雷猫商城所售矿机，提供终身维护，180天质保期内出现问题无需买家二次付费</el-row>
@@ -151,14 +158,14 @@
         <el-row class="thirdItem">
           <el-col :span="12" style="width: 100%;display: flex;justify-content: center;">
             <el-image
-              style="width: 60px; height: 60px;border: 1px dashed rgb(28, 31, 40);margin-right: 2px"
+              style="width: 60px; height: 60px;margin-right: 10px"
               src="../../../static/lmbImg/img4.png"
               fit="fill"></el-image>
             <el-row style="width: 208px">在雷猫商城购买矿机并委托雷猫商城托管，1个月内出现问题返厂维修，买家所有损失，雷猫商城将全额补偿（补偿额=用户机型24小时收益*掉线/维修天数-用户机型24小时电费*掉线/维修天数）</el-row>
           </el-col>
           <el-col :span="12" style="width: 100%;display: flex;justify-content: center;">
             <el-image
-              style="width: 60px; height: 60px;border: 1px dashed rgb(28, 31, 40);margin-right: 2px"
+              style="width: 60px; height: 60px;margin-right: 10px"
               src="../../../static/lmbImg/img6.png"
               fit="fill"></el-image>
             <el-row style="width: 208px">凡委托雷猫商城托管矿机，当月因停电造成停机时长超过48小时，雷猫商城将补偿用户当月所有损失。当日因停电造成停机时长超过6小时，当日电费全免。</el-row>
@@ -176,17 +183,17 @@
       <el-row style="width: 1220px;margin: 0 auto">
         <el-col :span="6" class="firstItem">
           <el-image
-            style="width: 160px; height: 160px;border:1px dashed #a6afbb;"
+            style="width: 160px; height: 160px;"
             src="../../../static/lmbImg/img7.png"
             fit="fill"></el-image>
           <div class="firstItemText">用户购买套餐</div>
         </el-col>
         <el-col :span="6" class="firstItem">
           <el-image
-            style="width: 160px; height: 160px;border:1px dashed #a6afbb;"
+            style="width: 160px; height: 160px;"
             src="../../../static/lmbImg/img8.png"
             fit="fill"></el-image>
-          <div class="firstItemText">雷猫矿机分时共享平台</div>
+          <div class="firstItemText">雷猫商城</div>
           <el-image
             style="width: 74px; height: 74px;margin-top: 24px;margin-bottom: 7px"
             src="../../../static/lmbImg/up.png"
@@ -194,14 +201,14 @@
         </el-col>
         <el-col :span="6" class="firstItem">
           <el-image
-            style="width: 160px; height: 160px;border:1px dashed #a6afbb;"
+            style="width: 160px; height: 160px;"
             src="../../../static/lmbImg/img9.png"
             fit="fill"></el-image>
           <div class="firstItemText">矿池分配收益</div>
         </el-col>
         <el-col :span="6" class="firstItem">
           <el-image
-            style="width: 160px; height: 160px;border:1px dashed #a6afbb;"
+            style="width: 160px; height: 160px;"
             src="../../../static/lmbImg/img10.png"
             fit="fill"></el-image>
           <div class="firstItemText">用户收到收益</div>
@@ -264,7 +271,7 @@
     <!--内容三-->
     <section class="secondMiddle">
       <el-row class="firstMiddleHeader">
-        <el-row class="firstMiddleTitle">值得信赖的矿机分时共享平台</el-row>
+        <el-row class="firstMiddleTitle">值得信赖的矿机商城</el-row>
         <el-row class="firstMiddleText">500万+用户量 重购率80% 每日产出100+BTC</el-row>
       </el-row>
 
@@ -272,7 +279,7 @@
         <el-col :span="6">
           <el-row class="secondItem">
             <el-image
-              style="width: 126px; height: 126px;border:1px dashed #a6afbb;"
+              style="width: 126px; height: 126px;"
               src="../../../static/lmbImg/img15.png"
               fit="fill"></el-image>
             <div class="secondItemText">雷猫顶级供货方</div>
@@ -282,7 +289,7 @@
         <el-col :span="6">
           <el-row class="secondItem">
             <el-image
-              style="width: 126px; height: 126px;border:1px dashed #a6afbb;"
+              style="width: 126px; height: 126px;"
               src="../../../static/lmbImg/img16.png"
               fit="fill"></el-image>
             <div class="secondItemText">五大矿池深度合作</div>
@@ -292,7 +299,7 @@
         <el-col :span="6">
           <el-row class="secondItem">
             <el-image
-              style="width: 126px; height: 126px;border:1px dashed #a6afbb;"
+              style="width: 126px; height: 126px;"
               src="../../../static/lmbImg/img17.png"
               fit="fill"></el-image>
             <div class="secondItemText">支持矿池直接打款</div>
@@ -302,7 +309,7 @@
         <el-col :span="6">
           <el-row class="secondItem">
             <el-image
-              style="width: 126px; height: 126px;border:1px dashed #a6afbb;"
+              style="width: 126px; height: 126px;"
               src="../../../static/lmbImg/img18.png"
               fit="fill"></el-image>
             <div class="secondItemText">24小时维护的专业团队</div>
@@ -558,17 +565,20 @@
   }
   .downTime{
     position: absolute;
-    top: 18px;
-    right: 416px;
+    top: 69px;
+    right: 80px;
+    color: black;
+    font-weight: bold;
+    font-size: 17px;
   }
   .downTime span{
-    background:rgba(6,69,146,1);
     display: inline-block;
-    width:22px;
-    height:22px;
+    height: 30px;
     text-align: center;
-    line-height: 22px;
+    line-height: 30px;
     margin-right: 4px;
+    color: red;
+    font-size: 35px;
   }
   .lmbGoodsWarp{
     margin-top: 22px;
@@ -591,12 +601,12 @@
   .goodItemHead{
     height: 92px;
     width: 198px;
-    border-bottom: 1px solid rgba(244,244,244,1);
+    /*border-bottom: 1px solid rgba(244,244,244,1);*/
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-size:18px;
+    font-size:22px;
     font-family:PingFang SC;
     font-weight:bold;
     color:rgba(60,58,60,1);
@@ -929,7 +939,7 @@
     text-align: center;
   }
   .middleFooterLeftItem .el-image{
-    border:1px dashed #a6afbb;
+    
     margin-top: 10px;
   }
   .middleFooterWarp{

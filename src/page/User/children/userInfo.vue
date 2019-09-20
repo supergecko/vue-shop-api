@@ -26,13 +26,13 @@
 
           <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
             <el-form :model="form" :rules="formRules" ref="form" class="demo-ruleForm">
-              <el-form-item label="收获地址" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="address">
+              <el-form-item label="收货地址" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="address">
                 <el-input v-model="form.address" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="收货人" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="consignee">
                 <el-input v-model="form.consignee" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="收获手机" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="mobile">
+              <el-form-item label="收货手机" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="mobile">
                 <el-input v-model="form.mobile" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="邮编" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="zipcode">
@@ -130,7 +130,7 @@
       },
       // 添加新的钱包地址
       open () {
-        this.$prompt('请输入新的收货地址', '提示', {
+        this.$prompt('请输入新的钱包地址', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputValidator: (value) => {

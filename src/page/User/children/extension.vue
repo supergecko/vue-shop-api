@@ -44,8 +44,8 @@
         <el-col :span="18">
           <div class="my-link">
             <label>我的邀请链接</label>
-            <el-input v-model="input" placeholder="请输入内容" class="main-link-input" disabled></el-input>
-            <el-button type="primary" v-clipboard=input v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler">复制</el-button>
+            <el-input v-model="input" placeholder="请输入内容" class="main-link-input" disabled :value=input id="test"></el-input>
+            <el-button type="primary" @click="copyText">复制</el-button>
           </div>
         </el-col>
         <el-col :span="6">
@@ -139,14 +139,12 @@
       }
     },
     methods: {
-      // Success event handler
-      clipboardSuccessHandler ({ value, event }) {
-        console.log('success', value)
-        this.$message.success('复制成功')
-      },
-      // Error event handler
-      clipboardErrorHandler ({ value, event }) {
-        console.log('error', value)
+      copyText () {
+        this.$copyText(this.input).then(function (e) {
+          console.log('复制成功')
+        }, function (e) {
+          console.log('复制失败，请重试')
+        })
       },
       _myPopularize () {
         const loading = this.$loading({

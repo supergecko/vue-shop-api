@@ -36,8 +36,6 @@
           {name: '账户中心', path: 'userInfo', icon: 'el-icon-user-solid'},
           {name: '控制面板', path: 'information', icon: 'el-icon-time'},
           {name: '我的订单', path: 'orderList', icon: 'el-icon-edit-outline'},
-          {name: '钱包地址', path: 'addressList', icon: 'el-icon-location-outline'},
-          // {name: '收货地址', path: 'receivingAddress', icon: 'el-icon-location-outline'},
           {name: '我的推广', path: 'extension', icon: 'el-icon-star-on'},
           {name: '我的礼卷', path: 'coupon', icon: 'el-icon-star-on'}
         ],

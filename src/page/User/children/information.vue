@@ -131,8 +131,8 @@
     <el-dialog title="绑定矿池" :visible.sync="dialogFormVisible" style="width:50%;margin: 0 auto;text-align: center ">
       <el-form :model="form" :rules="formRules" ref="form" class="demo-ruleForm">
         <!--鱼池名称-->
-        <el-form-item label="鱼池名称" prop="poolName" :label-width="formLabelWidth">
-          <el-select v-model="form.poolName" placeholder="请选择活动区域" style="width: 100%;">
+        <el-form-item label="矿池名称" prop="poolName" :label-width="formLabelWidth">
+          <el-select v-model="form.poolName" placeholder="请选择矿池" style="width: 100%;">
             <el-option :label=item.description :value=item.mine_id v-for="(item, i) in mine" :key="i">
             </el-option>
           </el-select>
@@ -184,7 +184,7 @@
         formRules: {
           // 矿池名称校验
           poolName: [
-            {required: true, message: '请输入矿池名称', trigger: 'change'}
+            {required: true, message: '请选择矿池', trigger: 'change'}
           ],
           // 矿池账号校验
           poolId: [
