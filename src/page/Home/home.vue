@@ -105,23 +105,86 @@
     </section>
 
     <!--内容一-->
+    <section class="sectionWarp1">
+      <el-row class="firstMiddleTitle"  style="margin-top: 77px;margin-bottom: 82px">你是否遇到以下问题？</el-row>
+      <el-row style="width: 100%">
+        <el-col :span="10" class="tipTextWarp">
+          <span class="tipText">想要挖矿，不知从何下手？</span>
+          <span class="tipText">有了矿机，家里电价高？不会/没时间维护？</span>
+        </el-col>
+        <el-col :span="4">
+          <el-image
+            style="width: 198px; height: 198px"
+            src="../../../static/lmbImg/img1.png"
+            fit="fill"></el-image>
+        </el-col>
+        <el-col :span="10" class="tipTextWarp" style="align-items: flex-start;">
+          <span class="tipText">想买矿机，不知道找谁买？怕被骗？</span>
+          <span class="tipText">找人托管矿机，托管方不专业矿机不稳定？</span>
+        </el-col>
+      </el-row>
+      <el-row class="secondItemWarp">
+        <el-image
+          style="width: 176px; height: 176px;position: absolute;"
+          src="../../../static/lmbImg/img2.png"
+          fit="fill"></el-image>
+        <el-row class="firstMiddleTitle"> 郑重承诺</el-row>
+        <el-row>雷猫商城本着为矿工提供专业一条龙服务的原则</el-row>
+      </el-row>
+      <el-row class="thirdItemWarp">
+        <el-row class="thirdItem">
+          <el-col :span="12" style="width: 100%;display: flex;justify-content: center;">
+            <el-image
+              style="width: 60px; height: 60px;border: 1px dashed rgb(28, 31, 40);margin-right: 2px"
+              src="../../../static/lmbImg/img3.png"
+              fit="fill"></el-image>
+            <el-row style="width: 208px">雷猫商城所销售矿机均为全新机器非二手充新</el-row>
+          </el-col>
+          <el-col :span="12" style="width: 100%;display: flex;justify-content: center;">
+            <el-image
+              style="width: 60px; height: 60px;border: 1px dashed rgb(28, 31, 40);margin-right: 2px"
+              src="../../../static/lmbImg/img5.png"
+              fit="fill"></el-image>
+            <el-row style="width: 208px">凡雷猫商城所售矿机，提供终身维护，180天质保期内出现问题无需买家二次付费</el-row>
+          </el-col>
+        </el-row>
+        <el-row class="thirdItem">
+          <el-col :span="12" style="width: 100%;display: flex;justify-content: center;">
+            <el-image
+              style="width: 60px; height: 60px;border: 1px dashed rgb(28, 31, 40);margin-right: 2px"
+              src="../../../static/lmbImg/img4.png"
+              fit="fill"></el-image>
+            <el-row style="width: 208px">在雷猫商城购买矿机并委托雷猫商城托管，1个月内出现问题返厂维修，买家所有损失，雷猫商城将全额补偿（补偿额=用户机型24小时收益*掉线/维修天数-用户机型24小时电费*掉线/维修天数）</el-row>
+          </el-col>
+          <el-col :span="12" style="width: 100%;display: flex;justify-content: center;">
+            <el-image
+              style="width: 60px; height: 60px;border: 1px dashed rgb(28, 31, 40);margin-right: 2px"
+              src="../../../static/lmbImg/img6.png"
+              fit="fill"></el-image>
+            <el-row style="width: 208px">凡委托雷猫商城托管矿机，当月因停电造成停机时长超过48小时，雷猫商城将补偿用户当月所有损失。当日因停电造成停机时长超过6小时，当日电费全免。</el-row>
+          </el-col>
+        </el-row>
+      </el-row>
+    </section>
+
+    <!--内容二-->
     <section class="firstMiddle">
       <el-row class="firstMiddleHeader">
-        <div class="firstMiddleTitle">来雷猫轻松挖矿</div>
-        <div class="firstMiddleText">简化挖矿繁琐步骤，打包矿机购买、物流、矿场选择、机器维护、矿池接入的复杂环节</div>
+        <div class="firstMiddleTitle" style="color:#ffffff;">来雷猫轻松挖矿</div>
+        <div class="firstMiddleText" style="color:#ffffff;">简化挖矿繁琐步骤，打包矿机购买、物流、矿场选择、机器维护、矿池接入的复杂环节</div>
       </el-row>
       <el-row style="width: 1220px;margin: 0 auto">
         <el-col :span="6" class="firstItem">
           <el-image
-            style="width: 160px; height: 160px;border:1px dashed #1c1f28;"
-            src="../../../static/lmbImg/purchase.png"
+            style="width: 160px; height: 160px;border:1px dashed #a6afbb;"
+            src="../../../static/lmbImg/img7.png"
             fit="fill"></el-image>
           <div class="firstItemText">用户购买套餐</div>
         </el-col>
         <el-col :span="6" class="firstItem">
           <el-image
-            style="width: 160px; height: 160px;border:1px dashed #1c1f28;"
-            src="../../../static/lmbImg/sharePc.png"
+            style="width: 160px; height: 160px;border:1px dashed #a6afbb;"
+            src="../../../static/lmbImg/img8.png"
             fit="fill"></el-image>
           <div class="firstItemText">雷猫矿机分时共享平台</div>
           <el-image
@@ -131,15 +194,15 @@
         </el-col>
         <el-col :span="6" class="firstItem">
           <el-image
-            style="width: 160px; height: 160px;border:1px dashed #1c1f28;"
-            src="../../../static/lmbImg/income.png"
+            style="width: 160px; height: 160px;border:1px dashed #a6afbb;"
+            src="../../../static/lmbImg/img9.png"
             fit="fill"></el-image>
           <div class="firstItemText">矿池分配收益</div>
         </el-col>
         <el-col :span="6" class="firstItem">
           <el-image
-            style="width: 160px; height: 160px;border:1px dashed #1c1f28;"
-            src="../../../static/lmbImg/profit.png"
+            style="width: 160px; height: 160px;border:1px dashed #a6afbb;"
+            src="../../../static/lmbImg/img10.png"
             fit="fill"></el-image>
           <div class="firstItemText">用户收到收益</div>
         </el-col>
@@ -150,7 +213,7 @@
             <div class="middleFooterLeftItem">
               <el-image
                 style="width: 80px; height: 80px"
-                src="../../../static/lmbImg/purchaseMachine.png"
+                src="../../../static/lmbImg/img11.png"
                 fit="fill"></el-image>
               <div>采购矿机</div>
             </div>
@@ -163,7 +226,7 @@
             <div class="middleFooterLeftItem">
               <el-image
                 style="width: 80px; height: 80px"
-                src="../../../static/lmbImg/transport.png"
+                src="../../../static/lmbImg/img12.png"
                 fit="fill"></el-image>
               <div>运输矿机矿场</div>
             </div>
@@ -176,7 +239,7 @@
             <div class="middleFooterLeftItem">
               <el-image
                 style="width: 80px; height: 80px"
-                src="../../../static/lmbImg/debug.png"
+                src="../../../static/lmbImg/img13.png"
                 fit="fill"></el-image>
               <div style="padding: 0 16px;">调试矿机联通矿池</div>
             </div>
@@ -189,7 +252,7 @@
             <div class="middleFooterLeftItem">
               <el-image
                 style="width: 80px; height: 80px"
-                src="../../../static/lmbImg/operation.png"
+                src="../../../static/lmbImg/img14.png"
                 fit="fill"></el-image>
               <div>运维管理</div>
             </div>
@@ -198,64 +261,55 @@
       </el-row>
     </section>
 
-    <!--内容二-->
+    <!--内容三-->
     <section class="secondMiddle">
       <el-row class="firstMiddleHeader">
         <el-row class="firstMiddleTitle">值得信赖的矿机分时共享平台</el-row>
         <el-row class="firstMiddleText">500万+用户量 重购率80% 每日产出100+BTC</el-row>
       </el-row>
-      <el-row class="secondWarp">
-        <el-row class="secondItem">
-          <el-col :span="14" class="secondItemLeft">
+
+      <el-row >
+        <el-col :span="6">
+          <el-row class="secondItem">
+            <el-image
+              style="width: 126px; height: 126px;border:1px dashed #a6afbb;"
+              src="../../../static/lmbImg/img15.png"
+              fit="fill"></el-image>
             <div class="secondItemText">雷猫顶级供货方</div>
             <div class="secondItemExplain">雷猫提供最新款矿机支持矿机质量保证</div>
-          </el-col>
-          <el-col :span="10" class="secondItemRight">
+          </el-row>
+        </el-col>
+        <el-col :span="6">
+          <el-row class="secondItem">
             <el-image
-              style="width: 136px; height: 136px;border:1px dashed #1c1f28;"
-              src="../../../static/lmbImg/supplier.png"
+              style="width: 126px; height: 126px;border:1px dashed #a6afbb;"
+              src="../../../static/lmbImg/img16.png"
               fit="fill"></el-image>
-          </el-col>
-        </el-row>
-        <el-row class="secondItem">
-          <el-col :span="14" class="secondItemLeft">
             <div class="secondItemText">五大矿池深度合作</div>
             <div class="secondItemExplain">BTC.com、AnlPool、F2Pool、ViaBTC、BTC.TCP五大矿池合作，支持用户自由选择矿池挖矿</div>
-          </el-col>
-          <el-col :span="10" class="secondItemRight">
+          </el-row>
+        </el-col>
+        <el-col :span="6">
+          <el-row class="secondItem">
             <el-image
-              style="width: 136px; height: 136px;border:1px dashed #1c1f28;"
-              src="../../../static/lmbImg/cooperation.png"
+              style="width: 126px; height: 126px;border:1px dashed #a6afbb;"
+              src="../../../static/lmbImg/img17.png"
               fit="fill"></el-image>
-          </el-col>
-        </el-row>
-      </el-row>
-      <el-row class="secondWarp">
-        <el-row class="secondItem">
-          <el-col :span="14" class="secondItemLeft">
             <div class="secondItemText">支持矿池直接打款</div>
             <div class="secondItemExplain">可选择矿池直接将受益打给用户,BitDeer不参与收益的分配与划拨</div>
-          </el-col>
-          <el-col :span="10" class="secondItemRight">
+          </el-row>
+        </el-col>
+        <el-col :span="6">
+          <el-row class="secondItem">
             <el-image
-              style="width: 136px; height: 136px;border:1px dashed #1c1f28;"
-              src="../../../static/lmbImg/card.png"
+              style="width: 126px; height: 126px;border:1px dashed #a6afbb;"
+              src="../../../static/lmbImg/img18.png"
               fit="fill"></el-image>
-          </el-col>
-        </el-row>
-        <el-row class="secondItem">
-          <el-col :span="14" class="secondItemLeft">
             <div class="secondItemText">24小时维护的专业团队</div>
             <div class="secondItemExplain">平台24小时提供专业的挖矿服务保障人员
             </div>
-          </el-col>
-          <el-col :span="10" class="secondItemRight">
-            <el-image
-              style="width: 136px; height: 136px;border:1px dashed #1c1f28;"
-              src="../../../static/lmbImg/team.png"
-              fit="fill"></el-image>
-          </el-col>
-        </el-row>
+          </el-row>
+        </el-col>
       </el-row>
     </section>
 
@@ -379,6 +433,51 @@
   }
 </style>
 <style lang="scss" rel="stylesheet/scss" scoped>
+  .sectionWarp1{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 1220px;
+    height:1074px;
+    background:rgba(255,255,255,1);
+    margin: 0 auto;
+  }
+  .tipTextWarp{
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 198px;
+    padding-bottom: 31px;
+    padding-top: 28px;
+  }
+  .tipText{
+    border-bottom: 2px solid rgba(106,108,116,1);
+    padding-bottom: 8px;
+    width: auto;
+  }
+  .secondItemWarp{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 176px;
+    position: relative;
+    margin-top: 42px;
+  }
+  .thirdItemWarp{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 53px;
+  }
+  .thirdItem{
+    display: flex;
+    justify-content: center;
+    width: 1220px;
+    margin-bottom: 88px;
+  }
   /*众筹样式开始*/
   .lmbWarp{
     background-image: url("../../../static/lmbImg/LMBgoodsBg.png");
@@ -781,7 +880,11 @@
 
   /*内容一*/
   .firstMiddle{
-
+    background:rgba(4,57,106,1);
+    width: 1220px;
+    height:1074px;
+    margin: 0 auto;
+    padding-top: 88px;
   }
   .firstMiddleTitle{
     font-size:32px;
@@ -803,7 +906,7 @@
     font-size:16px;
     font-family:Microsoft YaHei;
     font-weight:400;
-    color:rgba(90,94,113,1);
+    color:#ffffff;
     margin-top: 5px;
   }
   .firstItem{
@@ -815,7 +918,7 @@
   .firstMiddleFooter{
     width:766px;
     height:222px;
-    border:1px dashed rgba(166,175,187,1);
+    border:1px solid rgba(63,135,202,1);
     display: flex;
     justify-content: space-around;
     margin-left: 73px;
@@ -828,7 +931,7 @@
     text-align: center;
   }
   .middleFooterLeftItem .el-image{
-    border:1px dashed #1c1f28;
+    border:1px dashed #a6afbb;
     margin-top: 10px;
   }
   .middleFooterWarp{
@@ -840,26 +943,27 @@
     background:rgba(255,255,255,1);
     padding-top: 119px;
     padding-bottom: 60px;
+    width: 1220px;
+    margin: 0 auto;
+    height: 635px;
   }
   .secondItem{
-    width:351px;
-    height:204px;
-    background:rgba(255,255,255,1);
-    box-shadow:0px 3px 19px 0px rgba(2,14,29,0.19);
-    margin-right: 69px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .secondWarp{
     display: flex;
     justify-content: center;
-    padding-left: -69px;
-    margin-bottom: 60px;
   }
   .secondItemText{
     font-size:18px;
     font-family:PingFang SC;
     font-weight:bold;
     color:rgba(60,58,60,1);
-    margin-bottom: 19px;
+    margin-bottom: 13px;
+    margin-top: 13px;
   }
   .secondItemExplain{
     width:154px;
@@ -868,6 +972,7 @@
     font-weight:400;
     color:rgba(60,58,60,1);
     line-height:20px;
+    text-align: center;
   }
   .secondItemLeft{
     padding-top: 58px;
