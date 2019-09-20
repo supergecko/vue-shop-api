@@ -1,9 +1,12 @@
 <template>
   <div class="about3">
     <div class="block">
-      <el-carousel height="604px" trigger="click">
-        <el-carousel-item v-for="(src,index) in bannerImg" :key="index">
-          <img src="../../../static/imgs/banner.png" alt />
+      <el-carousel height="604px"
+                   trigger="click">
+        <el-carousel-item v-for="(src,index) in bannerImg"
+                          :key="index">
+          <img src="../../../static/imgs/banner.png"
+               alt />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -16,7 +19,8 @@
 
       <div class="content">
         <el-row>
-          <el-col :span="11" class="content-left">
+          <el-col :span="11"
+                  class="content-left">
             <span class="border-top"></span>
             <h3 class="h3">雷猫矿机</h3>
             <p class="p-content">
@@ -33,8 +37,10 @@
               </span>
             </p>
           </el-col>
-          <el-col :span="13" class="content-right">
-            <img src="../../../static/imgs/kuangji.png" alt />
+          <el-col :span="13"
+                  class="content-right">
+            <img src="../../../static/imgs/kuangji.png"
+                 alt />
           </el-col>
         </el-row>
       </div>
@@ -46,7 +52,9 @@
         <div class="bottom-border"></div>
       </div>
       <div class="relation-content">
-        <img width="750px" src="../../../static/imgs/bottom2.png" alt />
+        <img width="750px"
+             src="../../../static/imgs/bottom2.png"
+             alt />
         <div class="num">
           <p>
             电话
@@ -73,26 +81,27 @@
 </template>
 
 <script>
-  export default {
-    data: function () {
-      return {
-        bannerImg: [
-          '../../../static/imgs/banner.png',
-          '../../../static/imgs/banner.png',
-          '../../../static/imgs/banner.png'
-        ]
-      }
-    },
-    methods: {}
-  }
+export default {
+  data: function () {
+    return {
+      bannerImg: [
+        '../../../static/imgs/banner.png',
+        '../../../static/imgs/banner.png',
+        '../../../static/imgs/banner.png'
+      ]
+    }
+  },
+  methods: {}
+}
 </script>
 
 <style scoped>
-  .about3 {
-    width: 1220px;
-    margin: 0 auto;
-  }
-  /* .el-carousel__indicator--horizontal{
+.about3 {
+  width: 1220px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+/* .el-carousel__indicator--horizontal{
     width: 16px;
     height: 16px;
     background: rgba(89, 126, 247, 1);
@@ -104,123 +113,122 @@
     background: rgba(89, 126, 247, 1);
     border-radius: 50%;
   } */
-  .about,
-  .relation {
-    width: 100%;
-    text-align: center;
-  }
-  .title {
-    display: inline-block;
-    margin: 77px auto;
-    text-align: center;
-    margin-bottom: 103px;
-  }
-  .bottom-border {
-    width: 60px;
-    height: 8px;
-    background: rgba(81, 78, 81, 1);
-    margin: 22px auto 0;
-  }
-  .h2 {
-    font-size: 30px;
-    font-family: Microsoft YaHei;
-    font-weight: 400;
-    color: rgba(60, 58, 60, 1);
-  }
+.about,
+.relation {
+  width: 100%;
+  text-align: center;
+}
+.title {
+  display: inline-block;
+  margin: 77px auto;
+  text-align: center;
+  margin-bottom: 103px;
+}
+.bottom-border {
+  width: 60px;
+  height: 8px;
+  background: rgba(81, 78, 81, 1);
+  margin: 22px auto 0;
+}
+.h2 {
+  font-size: 30px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: rgba(60, 58, 60, 1);
+}
 
-  .content {
-    padding: 0 118px;
-  }
-  .content-left {
-    padding: 17px 0;
-  }
-  .content-left::before {
-    display: block;
-    content: "";
-    width: 52px;
-    height: 1px;
-    background: rgba(60, 58, 60, 1);
-  }
-  .h3 {
-    margin-top: 35px;
-    width: 96px;
-    height: 24px;
-    font-size: 24px;
-    font-family: Microsoft YaHei;
-    font-weight: bold;
-    color: rgba(60, 58, 60, 1);
-  }
-  .p-content {
-    margin-top: 80px;
-    text-align: left;
-    color: #3c3a3c;
-    font-size: 16px;
-    line-height: 25px;
-    /* font-family: MicrosoftYaHeiLight; */
-  }
-  .content-right {
-    text-align: right;
-  }
+.content {
+  padding: 0 118px;
+}
+.content-left {
+  padding: 17px 0;
+}
+.content-left::before {
+  display: block;
+  content: "";
+  width: 52px;
+  height: 1px;
+  background: rgba(60, 58, 60, 1);
+}
+.h3 {
+  margin-top: 35px;
+  width: 96px;
+  height: 24px;
+  font-size: 24px;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  color: rgba(60, 58, 60, 1);
+}
+.p-content {
+  margin-top: 80px;
+  text-align: left;
+  color: #3c3a3c;
+  font-size: 16px;
+  line-height: 25px;
+  /* font-family: MicrosoftYaHeiLight; */
+}
+.content-right {
+  text-align: right;
+}
 
-  .relation .title {
-    margin-top: 187px;
-    margin-bottom: 100px;
-  }
-  .relation{
-    margin-bottom: 173px;
-  }
-  .relation-content {
-    padding: 0 118px;
-    text-align: left;
-    position: relative;
-  }
-  .num {
-    width: 426px;
-    height: 292px;
-    background: rgba(232, 238, 246, 1);
-    position: absolute;
-    top: 70px;
-    right: 118px;
-  }
-  .num p{
-    color: #3C3A3C;
-    margin: 66px 0 0 84px;
-    line-height: 25px;;
-  }
-  .bottom{
-    width: 100%;
-    height: 118px;
-    background: url("../../../static/imgs/bottom.png");
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center
-  }
-  .wrap{
-    list-style: none;
-  }
-  .wrap a{
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 300;
-    color: #fff;
-    margin-left: 10px;
-    border-right: 2px rgba(231,229,229,1) solid;
-    padding-right: 10px;
-  }
-  .wrap a:hover{
-    color: #5079d9;
-  }
-  .wrap li{
-    float: left;
-
-  }
-  .wrap li:last-child a{
-    border: none;
-  }
-  .bottom p{
-    font-size: 12px;
-    font-weight: 300;
-    color: #fff;
-  }
+.relation .title {
+  margin-top: 187px;
+  margin-bottom: 100px;
+}
+.relation {
+  margin-bottom: 173px;
+}
+.relation-content {
+  padding: 0 118px;
+  text-align: left;
+  position: relative;
+}
+.num {
+  width: 426px;
+  height: 292px;
+  background: rgba(232, 238, 246, 1);
+  position: absolute;
+  top: 70px;
+  right: 118px;
+}
+.num p {
+  color: #3c3a3c;
+  margin: 66px 0 0 84px;
+  line-height: 25px;
+}
+.bottom {
+  width: 100%;
+  height: 118px;
+  background: url("../../../static/imgs/bottom.png");
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.wrap {
+  list-style: none;
+}
+.wrap a {
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 300;
+  color: #fff;
+  margin-left: 10px;
+  border-right: 2px rgba(231, 229, 229, 1) solid;
+  padding-right: 10px;
+}
+.wrap a:hover {
+  color: #5079d9;
+}
+.wrap li {
+  float: left;
+}
+.wrap li:last-child a {
+  border: none;
+}
+.bottom p {
+  font-size: 12px;
+  font-weight: 300;
+  color: #fff;
+}
 </style>
