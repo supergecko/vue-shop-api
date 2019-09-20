@@ -1,6 +1,12 @@
 <template>
   <div class="newDetail">
     <div class="wrap">
+      <el-breadcrumb class="nav"
+                     separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/news' }">新闻</el-breadcrumb-item>
+        <el-breadcrumb-item>新闻详情</el-breadcrumb-item>
+      </el-breadcrumb>
       <div class="header">
         <div class="title">
           <h1 class="h1">{{ this.new.title }}</h1>
@@ -38,10 +44,17 @@ export default {
     let params = {
       article_id: id
     }
+
+    // axios.get('http://www.dterdal.com/home/article/detail',
+    //   { params: {
+    //     article_id: id
+    //   } }).then(res => {
+    //   this.new = res.data.data
+    //   console.log(this.new)
+    // })
     newsDetails(params)
       .then(res => {
         this.new = res.data.data
-        console.log(this.new)
       })
   },
   methods: {},
@@ -59,6 +72,7 @@ export default {
 <style scoped>
 .newDetail {
   background-color: #eff2f5;
+  padding: 20px 0;
 }
 .wrap {
   width: 1200px;
@@ -92,5 +106,8 @@ export default {
 .c-content {
   font-size: 16px;
   color: #666;
+}
+.nav {
+  margin-bottom: 30px;
 }
 </style>
