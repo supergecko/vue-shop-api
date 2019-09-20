@@ -1,5 +1,5 @@
 const baseUrl = '/api1'
-import {ypost} from './public'
+import { ypost } from './public'
 // 登陆1
 export const userLogin = (params) => {
   return ypost(`${baseUrl}/home/user/do_login`, params)
@@ -79,4 +79,8 @@ export const myPopularize = (params) => {
 // 控制面板1
 export const controlPanel = (params) => {
   return ypost(`${baseUrl}/home/panel/index`, params)
+}
+// 公告
+export const marquee = (params) => {
+  return ypost(`${baseUrl}/home/article/hot `, params)
 }
