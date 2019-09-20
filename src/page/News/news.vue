@@ -2,13 +2,24 @@
   <div class="news">
     <div class="head">
       <el-row>
+        <el-col :span="2">&nbsp;</el-col>
+        <el-col :span="22">
+          <el-breadcrumb class="nav"
+                         separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>新闻</el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-col>
+
+      </el-row>
+      <el-row>
         <el-col :span="7">&nbsp;</el-col>
         <el-col :span="10">
-          <p class="head-title">新闻报道</p>
+          <p class="head-title hand">新闻报道</p>
           <p class="head-describe">
-            <span>对于我们的读者，请在下面查阅媒体关于BitDeer最新的文章报道</span>
+            <span>对于我们的读者，请在下面查阅媒体关于雷猫矿机最新的文章报道</span>
             <br />
-            <span>对于资讯媒体，请通过service@bitdeer.com联系我们</span>
+            <span>对于资讯媒体，请通过lintingxin@linglu666.cn联系我们</span>
           </p>
         </el-col>
       </el-row>
@@ -17,7 +28,7 @@
       <el-col :span="24">
         <div class="main">
           <ul class="ul">
-            <li class="li"
+            <li class="li hand"
                 v-for="(item,index) in newsList"
                 :key="index"
                 @click="toPath(index)">
@@ -112,7 +123,7 @@ export default {
 .head {
   min-width: 1200px;
   background-color: #fff;
-  padding: 40px 0 20px;
+  padding: 20px 0 20px;
   text-align: center;
 }
 .head-title {
@@ -130,7 +141,7 @@ export default {
 
 .main {
   background-color: rgba(0, 0, 0, 0);
-  padding: 30px 0;
+  padding: 20px 0;
   box-sizing: border-box;
 }
 .ul {
@@ -212,5 +223,11 @@ export default {
   text-align: center;
   padding: 15px 0;
   background: rgb(220, 220, 220);
+}
+span {
+  cursor: pointer;
+}
+.hand {
+  cursor: pointer;
 }
 </style>
