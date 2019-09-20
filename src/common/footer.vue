@@ -2,13 +2,11 @@
   <div class="bottom">
     <div class="content">
       <el-col :span="6">
-        <div class="name hand"></div>
-        <div class="copyright hand">Copyright © 2019 BitDeer All Rights Reserved</div>
+        <div class="name"></div>
+        <div class="copyright">Copyright © 2019 BitDeer All Rights Reserved</div>
         <div class="iconLink">
-          <a href="#"
-             class="iconfont icon-qq-copy-copy"></a>
-          <a href="#"
-             class="iconfont icon-logo-wechat"></a>
+          <a class="iconfont icon-qq-copy-copy"></a>
+          <a class="iconfont icon-logo-wechat"></a>
         </div>
       </el-col>
       <el-col :span="11">
@@ -18,61 +16,60 @@
             <span>矿机共享套餐</span>
           </div>
           <div class="link">
-            <a href="#"
-               class>计算器</a>
+            <span>计算器</span>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="title">信息</div>
           <div class="link">
             <!---->
-            <a href="#"
-               class>关于我们</a>
+            <span href="#"
+                  class>关于我们</span>
           </div>
           <div class="link">
             <!---->
-            <a href="#"
-               class>联系我们</a>
+            <span href="#"
+                  class>联系我们</span>
           </div>
           <div class="link">
             <!---->
-            <a href="#"
-               class>公告中心</a>
+            <span href="#"
+                  class>公告中心</span>
           </div>
           <div class="link">
             <!---->
-            <a href="#"
-               class>新闻</a>
+            <span href="#"
+                  class>新闻</span>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="title">支持</div>
           <div class="link">
             <!---->
-            <a href="#"
-               class>商务合作</a>
+            <span href="#"
+                  class>商务合作</span>
           </div>
           <div class="link">
             <!---->
-            <a href="#"
-               target="_blank"
-               rel="nofollow">帮助中心</a>
+            <span href="#"
+                  target="_blank"
+                  rel="nofollow">帮助中心</span>
           </div>
           <div class="link">
             <!---->
-            <a href="#"
-               target="_blank"
-               rel="nofollow">提交工单</a>
+            <span href="#"
+                  target="_blank"
+                  rel="nofollow">提交工单</span>
           </div>
           <div class="link">
             <!---->
-            <a href="/#"
-               class>隐私条款</a>
+            <span href="/#"
+                  class>隐私条款</span>
           </div>
           <div class="link">
             <!---->
-            <a href="#"
-               class>用户条款</a>
+            <span href="#"
+                  class>用户条款</span>
           </div>
         </el-col>
       </el-col>
@@ -81,8 +78,7 @@
         <div class="el-row">
           <div class="title rubik-medium">主要汇率</div>
           <div class="list">
-            <span class="hand"
-                  v-for="(item, i) in footerRate.info"
+            <span v-for="(item, i) in footerRate.info"
                   :key="i">1{{item.title}} = {{item.amount}}美元</span>
           </div>
         </div>
@@ -140,14 +136,12 @@ export default {
   color: #fff;
   text-decoration: none;
   opacity: 0.45;
-  cursor: pointer;
 }
 .link a {
   font-size: 14px;
   color: #fff;
   text-decoration: none;
   opacity: 0.45;
-  cursor: pointer;
 }
 
 .rate {
@@ -176,11 +170,5 @@ export default {
 .iconfont:hover {
   color: #fff;
   text-decoration: none;
-}
-.title {
-  cursor: pointer;
-}
-.hand {
-  cursor: pointer;
 }
 </style>
