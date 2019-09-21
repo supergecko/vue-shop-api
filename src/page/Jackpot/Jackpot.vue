@@ -11,7 +11,7 @@
           <el-col :span="10">
             <div class="grid-content bg-purple leftContent">
               <div class="titleLeft">
-                <div class="leftItem1"><span class="titleNumber">100</span>万</div>
+                <div class="leftItem1"><span class="titleNumber">0</span>万</div>
                 <div class="leftItem1">雷猫积分</div>
               </div>
               <div class="leftItem2">奖池金额</div>
@@ -50,7 +50,9 @@
           </el-col>
         </el-row>
         <el-row class="footerWarp">
-          <div class="footerBtn">立即邀请好友</div>
+          <div class="footerBtn">
+            <router-link to="/rakeBack">立即邀请好友</router-link>
+          </div>
         </el-row>
       </el-row>
 
@@ -90,48 +92,48 @@
 </template>
 
 <script>
-  import { jackpotIndex } from '/api'
-  import JackpotDataList from '/common/jackpotDataList'
-  import { getItem } from './../../utils/newLocalStorage'
-  export default {
-    data () {
-      return {
-        jackpot_thundercat_coin: 0, // 奖池总LMB
-        rankList: [], // 排行榜
-        all_team_order: [] // 团队贡献
-      }
-    },
-    methods: {
-      _jackpotIndex () {
-        const loading = this.$loading({
-          text: '加载中',
-          background: 'rgba(0, 0, 0, 0.7)',
-          fullscreen: true
-        })
-        const page = 1
-        const user_id = getItem('userID')
-        const timestamp = Date.parse(new Date()) / 1000
-        const sign = this.$md5(`${user_id}__${page}__${timestamp}__thundercat`)
-        let params = {page, user_id, timestamp, sign}
-        jackpotIndex(params).then(res => {
-          loading.close()
-          if (res.status === 200 && res.data.code === 1) {
-            console.log(res.data.data)
-            this.jackpot_thundercat_coin = res.data.data.jackpot_thundercat_coin
-            this.rankList = res.data.data.rankList
-            this.all_team_order = res.data.all_team_order
-          } else {
-            this.$message.error('网络赛车啦')
-          }
-        })
-      }
-    },
-    created () {
-      this._jackpotIndex()
-    },
-    components: {
-      JackpotDataList
+import { jackpotIndex } from '/api'
+import JackpotDataList from '/common/jackpotDataList'
+import { getItem } from './../../utils/newLocalStorage'
+export default {
+  data () {
+    return {
+      jackpot_thundercat_coin: 0, // 奖池总LMB
+      rankList: [], // 排行榜
+      all_team_order: [] // 团队贡献
     }
+  },
+  methods: {
+    _jackpotIndex () {
+      const loading = this.$loading({
+        text: '加载中',
+        background: 'rgba(0, 0, 0, 0.7)',
+        fullscreen: true
+      })
+      const page = 1
+      const user_id = getItem('userID')
+      const timestamp = Date.parse(new Date()) / 1000
+      const sign = this.$md5(`${user_id}__${page}__${timestamp}__thundercat`)
+      let params = { page, user_id, timestamp, sign }
+      jackpotIndex(params).then(res => {
+        loading.close()
+        if (res.status === 200 && res.data.code === 1) {
+          console.log(res.data.data)
+          this.jackpot_thundercat_coin = res.data.data.jackpot_thundercat_coin
+          this.rankList = res.data.data.rankList
+          this.all_team_order = res.data.all_team_order
+        } else {
+          this.$message.error('网络赛车啦')
+        }
+      })
+    }
+  },
+  created () {
+    this._jackpotIndex()
+  },
+  components: {
+    JackpotDataList
+  }
 }
 </script>
 
@@ -298,6 +300,9 @@
   font-size: 18px;
   font-family: Source Han Sans CN;
   font-weight: 400;
+  color: rgba(2, 24, 70, 1);
+}
+.footerBtn a {
   color: rgba(2, 24, 70, 1);
 }
 .middleTitle {
