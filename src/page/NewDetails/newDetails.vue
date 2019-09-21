@@ -110,4 +110,7 @@ export default {
 .nav {
   margin-bottom: 30px;
 }
+img {
+  width: 320px;
+}
 </style>
