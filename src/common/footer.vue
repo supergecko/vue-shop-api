@@ -66,7 +66,7 @@
         <div class="el-row">
           <div class="title rubik-medium">主要汇率</div>
           <div class="list">
-            <span v-for="(item, i) in footerRate.info"
+            <span v-for="(item, i) in footerRate"
                   :key="i">1{{item.title}} = {{item.amount}}美元</span>
           </div>
         </div>
@@ -75,10 +75,12 @@
   </div>
 </template>
 <script>
+import { getItem } from '../utils/newLocalStorage'
+
 export default {
   data () {
     return {
-      footerRate: this.$store.state.footerRate
+      footerRate: getItem('footRate')
     }
   }
 }
@@ -108,6 +110,7 @@ export default {
   font-weight: bold;
 }
 .copyright {
+  width: 200px;
   font-size: 12px;
   padding: 20px 0 10px;
   color: #fff;
@@ -149,6 +152,7 @@ export default {
 .list span {
   margin-top: 20px;
   margin-right: 10px;
+  width: 160px;
 }
 .iconfont {
   font-size: 25px;
