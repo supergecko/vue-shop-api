@@ -46,9 +46,9 @@
             <li>价格</li>
           </ul>
           <ul>
-            <li>{{ order.goods_name }}</li>
+            <li>{{ order.goods_name }}TH/s</li>
             <li>{{ pay.title }}</li>
-            <li>{{ order.goods_num }}</li>
+            <li>{{ order.goods_num }}台</li>
             <li>{{ order.hashrate }}TH/s</li>
             <li>{{ order.cycle_day }}</li>
             <li>{{ order.add_time }}</li>
