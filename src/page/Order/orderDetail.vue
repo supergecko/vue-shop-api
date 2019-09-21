@@ -49,7 +49,7 @@
             <li>{{ order.goods_name }}</li>
             <li>{{ pay.title }}</li>
             <li>{{ order.goods_num }}</li>
-            <li>{{ order.hashrate }}</li>
+            <li>{{ order.hashrate }}TH/s</li>
             <li>{{ order.cycle_day }}</li>
             <li>{{ order.add_time }}</li>
             <li>{{ order.final_price }}元</li>
