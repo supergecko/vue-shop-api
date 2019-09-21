@@ -35,6 +35,16 @@
       <div class="info">
         <div class="title"><span>商品信息</span></div>
         <div class="content">
+          <ul class="info-title"
+              style="margin-top: 20px;background: rgb(250,250,250);">
+            <li>型号</li>
+            <li>币种</li>
+            <li>数量</li>
+            <li>算力</li>
+            <li>品牌</li>
+            <li>预计交付时间</li>
+            <li>价格</li>
+          </ul>
           <ul>
             <li>{{ order.goods_name }}</li>
             <li>{{ pay.title }}</li>
@@ -44,8 +54,8 @@
             <li>{{ order.add_time }}</li>
             <li>{{ order.final_price }}元</li>
           </ul>
-          <ul style="margin-top: 20px;">
-            <li>{{ ele.all_day }}</li>
+          <ul>
+            <li>{{ ele.all_day }}天 电费</li>
             <li>--</li>
             <li>--</li>
             <li>--</li>
@@ -219,10 +229,14 @@ export default {
 .info {
   margin-bottom: 40px;
   .content {
+    .info-title {
+      box-sizing: border-box;
+    }
     ul {
       list-style: none;
       display: flex;
       flex-direction: row;
+      padding: 20px 10px;
       li {
         flex: 1;
       }
