@@ -12,11 +12,11 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import md5 from 'js-md5'
 import axios from 'axios'
-import { getItem } from './utils/newLocalStorage'
+import { getItem, setItem } from './utils/newLocalStorage'
 import { homePage } from '/api'
 
 Vue.prototype.$md5 = md5
-Vue.use(VueAwesomeSwiper, /* { default global options } */)
+Vue.use(VueAwesomeSwiper)
 Vue.use(ElementUI)
 Vue.use(VueClipboard)
 Vue.use(infiniteScroll)
@@ -30,10 +30,10 @@ Vue.use(VueLazyload, {
 Vue.config.productionTip = false
 
 axios.interceptors.response.use(config => {
-// 返回请求正确的结果
+  // 返回请求正确的结果
   return config
 }, function (error) {
-// 错误的请求结果处理，这里的代码根据后台的状态码来决定错误的输出信息
+  // 错误的请求结果处理，这里的代码根据后台的状态码来决定错误的输出信息
   if (error && error.response) {
     switch (error.response.status) {
       case 400:
@@ -93,7 +93,7 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     if (to.path === '/login') {
-      next({path: '/'})
+      next({ path: '/' })
     }
     next()
   }
@@ -101,7 +101,13 @@ router.beforeEach(function (to, from, next) {
 
 homePage().then(res => {
   if (res.status === 200) {
-    store.commit('ADD_FOOTERRATE', {info: res.data.data.rate})
+    store.commit('ADD_FOOTERRATE', { info: res.data.data.rate })
+    setItem({
+      name: 'footRate',
+      value: res.data.data.rate,
+      expires: 86400000,
+      startTime: Date.parse(new Date())
+    })
   } else {
     this.ruleForm.errMsg = res.data.msg
   }
