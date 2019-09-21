@@ -2,8 +2,8 @@
   <div class="bottom">
     <div class="content">
       <el-col :span="6">
-        <div class="name"></div>
-        <div class="copyright">Copyright © 2019 BitDeer All Rights Reserved</div>
+        <div class="name">Thunder Cat</div>
+        <div class="copyright">Copyright © 2019 Thunder Cat All Rights Reserved</div>
         <div class="iconLink">
           <a class="iconfont icon-qq-copy-copy"></a>
           <a class="iconfont icon-logo-wechat"></a>
@@ -13,10 +13,10 @@
         <el-col :span="8">
           <div class="title">产品</div>
           <div class="link">
-            <span>矿机共享套餐</span>
-          </div>
-          <div class="link">
-            <span>计算器</span>
+            <span>
+              <router-link class="router-link"
+                           to="/crowdFunding">矿机购买</router-link>
+            </span>
           </div>
         </el-col>
         <el-col :span="8">
@@ -24,22 +24,16 @@
           <div class="link">
             <!---->
             <span href="#"
-                  class>关于我们</span>
+                  class>
+              <router-link to="/aboutUs">关于我们</router-link>
+            </span>
           </div>
           <div class="link">
             <!---->
             <span href="#"
-                  class>联系我们</span>
-          </div>
-          <div class="link">
-            <!---->
-            <span href="#"
-                  class>公告中心</span>
-          </div>
-          <div class="link">
-            <!---->
-            <span href="#"
-                  class>新闻</span>
+                  class>
+              <router-link to="/news">新闻</router-link>
+            </span>
           </div>
         </el-col>
         <el-col :span="8">
@@ -47,29 +41,23 @@
           <div class="link">
             <!---->
             <span href="#"
-                  class>商务合作</span>
-          </div>
-          <div class="link">
-            <!---->
-            <span href="#"
-                  target="_blank"
-                  rel="nofollow">帮助中心</span>
-          </div>
-          <div class="link">
-            <!---->
-            <span href="#"
-                  target="_blank"
-                  rel="nofollow">提交工单</span>
+                  class>
+              <router-link to="/aboutUs">商务合作</router-link>
+            </span>
           </div>
           <div class="link">
             <!---->
             <span href="/#"
-                  class>隐私条款</span>
+                  class>
+              <router-link to="/privacyAgreement">隐私条款</router-link>
+            </span>
           </div>
           <div class="link">
             <!---->
             <span href="#"
-                  class>用户条款</span>
+                  class>
+              <router-link to="/userAgreement">用户条款</router-link>
+            </span>
           </div>
         </el-col>
       </el-col>
@@ -113,10 +101,11 @@ export default {
   color: #fff;
 }
 .name {
-  width: 105px;
   height: 18px;
-  background: url(//assets.bitdeer.cn/_nuxt/img/4afb937.png);
+  line-height: 18px;
   background-size: 105px 18px;
+  font-size: 20px;
+  font-weight: bold;
 }
 .copyright {
   font-size: 12px;
@@ -141,7 +130,7 @@ export default {
   font-size: 14px;
   color: #fff;
   text-decoration: none;
-  opacity: 0.45;
+  /* opacity: 0.45; */
 }
 
 .rate {
