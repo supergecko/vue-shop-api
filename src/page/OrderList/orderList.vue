@@ -30,7 +30,7 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item label="套餐周期">
+          <el-form-item label="品牌">
             <el-row style="display: flex">
               <el-input v-if="goodsInfo.cycle"
                 :placeholder=goodsInfo.cycle[0].description
@@ -135,7 +135,7 @@
 
           <el-row class="orderListMiddle">
             <el-form-item label="电费">
-              <el-row class="orderListMiddleText">￥ {{totalElectricity}} <span v-if="goodsInfo.goods">= {{goodsInfo.goods.electricity}}元/度 × {{goodsInfo.goods.electricity_consumption}}度/天 × {{electricityDay/30}}个月</span> </el-row>
+              <el-row class="orderListMiddleText">￥ {{totalElectricity}} <span v-if="goodsInfo.goods">= {{goodsInfo.goods.electricity}}元/天  × {{electricityDay/30}}个月(单台电费)</span> </el-row>
             </el-form-item>
           </el-row>
 
@@ -179,7 +179,7 @@
           <div class="sub-amount">注意事项:</div>
           <div class="notice-item">
             <h4 class="rubik-medium">法律声明</h4>
-            <div class="tips-text">矿机共享共享服务在以下国家或地区被禁止:巴尔干半岛、白俄罗斯、缅甸、科特迪瓦(象牙海岸)，克里米亚-乌克兰、古巴、刚果民主共和国、伊朗、伊拉克、利比里亚、朝鲜、苏丹、叙利亚、委内瑞拉、津巴布韦、中国香港和中国大陆。请确认矿机共享服务在您的国家或地区是合法的。否则，您将承担一切法律后果。</div>
+            <div class="tips-text">矿机服务在以下国家或地区被禁止:巴尔干半岛、白俄罗斯、缅甸、科特迪瓦(象牙海岸)，克里米亚-乌克兰、古巴、刚果民主共和国、伊朗、伊拉克、利比里亚、朝鲜、苏丹、叙利亚、委内瑞拉、津巴布韦、中国香港和中国大陆。请确认矿机服务在您的国家或地区是合法的。否则，您将承担一切法律后果。</div>
           </div>
           <div class="notice-item">
             <h4 class="rubik-medium">无法退款</h4>
@@ -187,7 +187,7 @@
           </div>
           <div class="notice-item">
             <h4 class="rubik-medium">定价规则</h4>
-            <div class="tips-text">矿机共享套餐的定价会根据数字货币价格等多因素调整。实际购买价格以用户付款时为准，后续即使价格发生变化，雷猫也不会对这个订单进行差价补偿。</div>
+            <div class="tips-text">矿机服务套餐的定价会根据数字货币价格等多因素调整。实际购买价格以用户付款时为准，后续即使价格发生变化，雷猫也不会对这个订单进行差价补偿。</div>
           </div>
           <div class="notice-item">
             <h4 class="rubik-medium">算力波动说明</h4>
@@ -278,7 +278,6 @@
         initTotalElectricity: 0, // 初始化矿机单价价格
         totalCase: 0, // 总费用
         electricity: '', // 初始化电费单价价格
-        totalPower: '', // 每天总度数
         formLabelAlign: {
           bank_account: '',
           bank_name: '',
@@ -445,7 +444,6 @@
             this.electricity = res.data.data.goods.electricity
             this.totalCase = res.data.data.goods.shop_price
             this.initTotalElectricity = res.data.data.goods.shop_price
-            this.totalPower = res.data.data.goods.electricity_consumption
             this.cycle_id = res.data.data.cycle[0].cycle_id
             this.underLine_address = res.data.data.user_address
             this.getWallet()
@@ -600,8 +598,9 @@
     watch: {
       'ruleForm.electricityDays' (newName, oldName) {
         if (newName < 200) {
-          this.totalElectricity = parseFloat(newName * this.electricity * this.totalPower).toFixed(2)
           this.electricityDay = newName
+          this.totalElectricity = parseFloat(newName) * parseFloat(this.electricity)
+          this.totalElectricity = parseFloat(this.totalElectricity).toFixed(2)
         }
       },
       'ruleForm.num' (newName, oldName) {
@@ -610,8 +609,10 @@
         this.totalCase = parseFloat(this.totalCase).toFixed(2)
       },
       userInputDays (newName, oldName) {
-        this.totalElectricity = parseFloat(newName * this.electricity * this.totalPower).toFixed(2)
-        this.electricityDay = newName * 30
+        if (this.ruleForm.electricityDays === 200) {
+          this.totalElectricity = parseFloat(newName * this.electricity).toFixed(2)
+          this.electricityDay = newName * 30
+        }
       },
       totalElectricity (newName, oldName) {
         this.totalCase = this.initTotalElectricity

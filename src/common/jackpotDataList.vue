@@ -31,7 +31,15 @@
         <el-col :span="9">累计贡献值</el-col>
         <el-col :span="9">预计瓜分雷猫积分</el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="order_list.length===0">
+        <el-row class="tableHeader tableList">
+          <el-col :span="5"></el-col>
+          <el-col :span="9"></el-col>
+          <el-col :span="9"></el-col>
+          <el-col :span="9"></el-col>
+        </el-row>
+      </el-row>
+      <el-row v-else>
         <el-row v-for="(item,index) in order_list"
                 :key="index">
           <el-row class="tableHeader tableList"
@@ -41,14 +49,6 @@
             <el-col :span="9">￥{{item.all_results}}</el-col>
             <el-col :span="9">￥{{item.get_thundercat_coin}}</el-col>
           </el-row>
-        </el-row>
-      </el-row>
-      <el-row v-if="!order_list">
-        <el-row class="tableHeader tableList">
-          <el-col :span="5"></el-col>
-          <el-col :span="9"></el-col>
-          <el-col :span="9"></el-col>
-          <el-col :span="9"></el-col>
         </el-row>
       </el-row>
     </el-row>

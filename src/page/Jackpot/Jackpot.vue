@@ -14,7 +14,7 @@
                 <div class="leftItem1"><span class="titleNumber">0</span>万</div>
                 <div class="leftItem1">雷猫积分</div>
               </div>
-              <div class="leftItem2">奖池金额</div>
+              <div class="leftItem2">奖池积分</div>
               <div class="leftItem3">
                 <el-image style="width: 14px; height: 14px"
                           src="../../../static/images/icon-info.png"
@@ -31,15 +31,15 @@
               <div>
                 <div style="display: flex;margin-top: 28px">
                   <span class="rightNumber">1</span>
-                  <span style="webkit-text-fill-color: transparent;">商城全部营业额的1%会注入奖池</span>
+                  <span style="webkit-text-fill-color: transparent;">商城全部成交金额的1%会注入奖池</span>
                 </div>
                 <div style="display: flex;margin-top: 28px">
                   <span class="rightNumber">2</span>
-                  <span style="webkit-text-fill-color: transparent;">累计贡献值排行榜最高的前三名能够参与奖池奖金的发放</span>
+                  <span style="webkit-text-fill-color: transparent;">累计贡献值排行榜最高的前三名能够参与奖池积分的发放</span>
                 </div>
                 <div style="display: flex;margin-top: 28px">
                   <span class="rightNumber">3</span>
-                  <span style="webkit-text-fill-color: transparent;">奖池奖金发放规则：按照个人贡献值进行比例分配</span>
+                  <span style="webkit-text-fill-color: transparent;">奖池积分发放规则：按照个人贡献值进行比例分配</span>
                 </div>
                 <div style="display: flex;margin-top: 28px">
                   <span class="rightNumber">4</span>

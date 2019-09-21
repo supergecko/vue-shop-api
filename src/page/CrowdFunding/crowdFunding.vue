@@ -39,7 +39,7 @@
                   <el-tag>BTC</el-tag>
                   <span>来自BTC.com的理论收益</span>
                   <div>
-                    ￥<span>{{item.income}}</span> BTC
+                    <span>{{item.income}}</span> BTC / 月
                   </div>
                 </div>
               </div>
@@ -71,8 +71,8 @@
             <div class="goodItem">
               <div class="goodItemHead">
                 <div style="padding-bottom: 13px">{{item1.description}}</div>
-                <div style="font-size: 14px;">算力:{{item1.hashrate}}</div>
-                <div class="hotBTn" :style="{'display':item1.rate==100 ? 'block':'none'}">抢光了</div>
+                <div style="font-size: 14px;">算力:{{item1.hashrate}} Th / s</div>
+                <div class="hotBTn" :style="{'display':item1.on_sale==0 ? 'block':'none'}">抢光了</div>
               </div>
               <div>功耗:{{item1.electricity_consumption}} W</div>
               <div class="goodItemMiddle" style="font-size: 14px;">
@@ -80,8 +80,8 @@
               </div>
               <div class="goodItemFooter">
                 <el-progress :percentage=item1.rate  :format="format" style="width:182px"></el-progress>
-                <el-button type="primary" :disabled="item1.rate==100? true: false" style="width:214px;margin-top:16px;" @click="openOrderList(item.share_activity_id, item1.goods_id)">
-                  {{item1.rate==100? '即将补货': '立即抢购'}}
+                <el-button type="primary" :disabled="item1.on_sale==0? true: false" style="width:214px;margin-top:16px;" @click="openOrderList(item.share_activity_id, item1.goods_id)">
+                  {{item1.on_sale==0? '即将补货': '立即抢购'}}
                 </el-button>
                 <div class="goodItemFooterText">— {{item1.goods_name}} —</div>
               </div>

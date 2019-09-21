@@ -98,13 +98,13 @@
             <!--返佣记录-->
             <el-tab-pane name="first">
               <span slot="label">返佣记录<i class="el-icon-info"></i></span>
-              <RakeBackDataList></RakeBackDataList>
+              <RakeBackDataList :bonus_record=bonus_record></RakeBackDataList>
             </el-tab-pane>
 
             <!--转账记录-->
-            <el-tab-pane label="转账记录" name="second">
-              <RakeBackDataList></RakeBackDataList>
-            </el-tab-pane>
+<!--            <el-tab-pane label="转账记录" name="second">-->
+<!--              <RakeBackDataList></RakeBackDataList>-->
+<!--            </el-tab-pane>-->
           </el-tabs>
         </el-col>
 
