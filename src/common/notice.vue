@@ -2,7 +2,7 @@
   <div class="vueBox">
     <div class="marquee">
       <div class="marquee_title">
-        <span>最新战报</span>
+        <span>最新新闻</span>
       </div>
       <div class="marquee_box">
         <ul class="marquee_list"

@@ -34,7 +34,9 @@
                       <span class="rate-title">{{hashrate_balance.hashrate}}</span>
                       <span class>Th/S</span>
                     </div>
-                    <button class="rate-btn">购买更多</button>
+                    <button class="rate-btn">
+                      <router-link to="/crowdFunding">购买更多</router-link>
+                    </button>
                   </el-col>
                 </el-row>
                 <!-- </el-card> -->
@@ -85,7 +87,7 @@
 <!--                    <a style="color:#409EFF" @click="tab()">更多></a>-->
 <!--                  </el-col>-->
                   <el-col :span="24" class="main-info-wrap">
-                    <DailyOutput :dailyOutput=day_balance v-if="day_balance.length===0"></DailyOutput>
+                    <DailyOutput :dailyOutput=day_balance v-if="!(day_balance.length===0)"></DailyOutput>
                     <el-row v-else>
                       <img src="../../../assets/img/data.png" alt />
                       <div class="txt">暂无数据...</div>
@@ -97,7 +99,15 @@
             <el-col :span="9" style="padding-left: 10px;">
               <el-card class="box-card" :body-style="{ padding: '0 0 0 20px'}">
                 <span class="title-line-bottom">矿池分配</span>
-                <el-col :span="24" class="main-info-wrap">
+                <el-col  class="main-info-wrap" v-show="!this.poolFalg">
+                  <el-row style="background: #2889fc;">
+                    <el-image
+                      style="width: 236px; height: 70px"
+                      src="../../../static/imgs/pool.png"
+                      fit="fiit"></el-image>
+                  </el-row>
+                </el-col>
+                <el-col :span="24" class="main-info-wrap" v-show="this.poolFalg">
                   <img src="../../../assets/img/data.png" alt />
                   <div class="txt">暂无数据...</div>
                 </el-col>
@@ -175,6 +185,7 @@
         dialogFormVisible: false,
         formLabelWidth: '80px',
         mine: [],
+        poolFalg: false, // 鱼池图标flag
         form: {
           poolName: '', // 矿池名称
           poolId: '', // 矿池账号
@@ -248,9 +259,11 @@
           if (res.status === 200 && res.data.code === 1) {
             if (res.data.data.bind_status === 0) {
               this.dialogFormVisible = true
+              this.poolFalg = true
               this.mine = res.data.data.mine
             } else {
               this.dialogFormVisible = false
+              this.poolFalg = false
             }
           } else {
             this.$message.error('获取失败')
@@ -271,11 +284,10 @@
             const sign = this.$md5(`${user_id}__${account}__${password}__${username}__${mine_id}__${timestamp}__thundercat`)
             let params = {user_id, account, password, timestamp, username, mine_id, sign}
             bindMine(params).then(res => {
-              console.log(res.data.data)
               if (res.status === 200 && res.data.code === 1) {
-                console.log('矿池绑定成功')
+                this._isBindMine()
               } else {
-                this.$message.error('获取失败')
+                this.$message.error('请稍后重试')
               }
             })
             this.dialogFormVisible = false
@@ -299,7 +311,6 @@
         controlPanel(params).then(res => {
           loading.close()
           if (res.status === 200 && res.data.code === 1) {
-            console.log(`控制面${JSON.stringify(res.data.data)}`)
             this.num = res.data.data.num === null ? 0 : res.data.data.num
             this.hashrate_balance = res.data.data.hashrate_balance
             this.all_order = res.data.data.all_order

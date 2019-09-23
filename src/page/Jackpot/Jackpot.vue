@@ -118,10 +118,9 @@ export default {
       jackpotIndex(params).then(res => {
         loading.close()
         if (res.status === 200 && res.data.code === 1) {
-          console.log(res.data.data)
           this.jackpot_thundercat_coin = res.data.data.jackpot_thundercat_coin
           this.rankList = res.data.data.rankList
-          this.all_team_order = res.data.all_team_order
+          this.all_team_order = res.data.data.all_team_order
         } else {
           this.$message.error('网络赛车啦')
         }

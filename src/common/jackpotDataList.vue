@@ -31,15 +31,18 @@
         <el-col :span="9">累计贡献值</el-col>
         <el-col :span="9">预计瓜分雷猫积分</el-col>
       </el-row>
-      <el-row v-if="order_list.length===0">
-        <el-row class="tableHeader tableList">
-          <el-col :span="5"></el-col>
-          <el-col :span="9"></el-col>
-          <el-col :span="9"></el-col>
-          <el-col :span="9"></el-col>
+      <el-row v-show="order_list.length===0" v-if="order_list">
+        <el-row v-for="(item,index) in 10" :key="index">
+          <el-row class="tableHeader tableList"
+                  :style="{'background': (index%2==0 ? 'rgb(2,25,70)':'')}">
+            <el-col :span="5">{{index+1}}</el-col>
+            <el-col :span="9"></el-col>
+            <el-col :span="9"></el-col>
+            <el-col :span="9"></el-col>
+          </el-row>
         </el-row>
       </el-row>
-      <el-row v-else>
+      <el-row v-show="!(order_list.length===0)" v-if="order_list">
         <el-row v-for="(item,index) in order_list"
                 :key="index">
           <el-row class="tableHeader tableList"
@@ -61,11 +64,11 @@
 
 <script>
 export default {
-  props: [
-    'order_list'
-  ],
+  props: {
+    order_list: Array
+  },
   created () {
-
+    console.log(this.order_list)
   },
   data () {
     return {

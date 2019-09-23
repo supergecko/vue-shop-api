@@ -9,7 +9,7 @@
             <div class="invite-banner">
               <div class="banner-txt">
                 <div class="banner-slogon">邀请奖励滚滚而来</div>
-                <div class="sub-slogon">超优套餐送好友，雷猫币返佣拿不停</div>
+                <div class="sub-slogon">超优套餐送好友，雷猫积分返佣拿不停</div>
               </div>
             </div>
           </div>
@@ -23,7 +23,7 @@
             <div class="info-title">
               <div class="info-title__item"><span class="total-title">累计返佣金额</span>
                 <mallki class-name="mallki-text" :text=add_up_coin class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
-                <span class="unit">雷猫币</span>
+                <span class="unit">雷猫积分</span>
               </div>
               <div class="info-title__item"><span>累计邀请人数</span>
                 <mallki class-name="mallki-text" :text=direct_number class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
@@ -59,14 +59,14 @@
       </el-row>
 
       <!--规则-->
-      <el-row style="background: #fafafa;">
-        <el-col :span="24">
-          <div class="intro">
-            <h3 class="rubik-medium">详细规则：</h3>
-            <p>被邀请者的使用邀请者链接成功注册并下单，邀请者可获得被邀请者首单算力费金额的百分比返佣，比例由邀请者的等级决定，每次返佣金额最高为$1000</p>
-          </div>
-        </el-col>
-      </el-row>
+<!--      <el-row style="background: #fafafa;">-->
+<!--        <el-col :span="24">-->
+<!--          <div class="intro">-->
+<!--            <h3 class="rubik-medium">详细规则：</h3>-->
+<!--            <p>被邀请者的使用邀请者链接成功注册并下单，邀请者可获得被邀请者首单算力费金额的百分比返佣，比例由邀请者的等级决定，每次返佣金额最高为$1000</p>-->
+<!--          </div>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
 
       <!--佣金-->
       <el-row class="withdraw-info">
@@ -132,7 +132,7 @@
         activeName: 'first',
         input: '',
         identity: '',
-        add_up_coin: 0, // 累计返佣雷猫币
+        add_up_coin: 0, // 累计返佣雷猫积分
         direct_number: 0, // 累计邀请人数
         available: 0, // 可提佣金
         bonus_record: [] // 返佣记录
