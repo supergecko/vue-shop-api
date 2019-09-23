@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-table
+    <el-table v-if="!(addressData.length===0)"
       :data="addressData"
       border
       style="width:100%"
@@ -24,6 +24,10 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-row  class="main-info-wrap" v-else>
+      <img src="../assets/img/data.png" alt />
+      <div class="txt">暂无数据...</div>
+    </el-row>
     <!--收货地址-->
     <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="formRules" ref="form" class="demo-ruleForm">
@@ -46,7 +50,6 @@
       </div>
     </el-dialog>
   </el-row>
-
 </template>
 
 <script>
@@ -185,6 +188,14 @@
   }
 </script>
 <style>
+  .main-info-wrap {
+    min-height: 278px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-top: 1px solid #e8e8e8;
+  }
   .el-table .warning-row {
     background: oldlace;
   }

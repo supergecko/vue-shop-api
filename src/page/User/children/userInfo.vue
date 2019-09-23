@@ -19,15 +19,20 @@
         <div>收货地址</div>
       </el-row>
       <el-row>
-        <div style="margin-bottom: 10px;margin-top: 15px">该地址用于用户自提</div>
+<!--        <div style="margin-bottom: 10px;margin-top: 15px">该地址用于用户自提</div>-->
         <AddressData :addressData=userAddress :isAddress=true @getWallet="getWallet"></AddressData>
         <div style="text-align: center;padding-top:20px">
-          <el-button type="text" @click="dialogFormVisible = true">+ 添加新的收货地址</el-button>
+          <el-button type="primary" round @click="dialogFormVisible = true">添加新的收货地址</el-button>
 
-          <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+          <el-dialog title="收货地址" :visible.sync="dialogFormVisible" style="width:50%;margin: 0 auto;text-align: center ">
             <el-form :model="form" :rules="formRules" ref="form" class="demo-ruleForm">
-              <el-form-item label="收货地址" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="address">
-                <el-input v-model="form.address" autocomplete="off"></el-input>
+              <el-form-item label="收货地址" :label-width="formLabelWidth" prop="address">
+                <el-cascader
+                  size="large"
+                  :options="options"
+                  v-model="form.address"
+                  @change="handleChange" style="width: 100%;">
+                </el-cascader>
               </el-form-item>
               <el-form-item label="收货人" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="consignee">
                 <el-input v-model="form.consignee" autocomplete="off"></el-input>
@@ -48,9 +53,9 @@
       </el-row>
 
       <!--修改登录密码-->
-      <el-row class="orderListHead">
-        <div>修改登录密码</div>
-      </el-row>
+<!--      <el-row class="orderListHead">-->
+<!--        <div>修改登录密码</div>-->
+<!--      </el-row>-->
     </el-main>
   </el-row>
 </template>
@@ -60,10 +65,12 @@
   import { saveWallet, getWallet, saveAddress, getUserAddress } from '/api'
   import { getItem } from './../../../utils/newLocalStorage'
   import AddressData from '/common/addressDataList'
+  import { regionData, CodeToText } from 'element-china-area-data'
 
   export default {
     data () {
       return {
+        options: regionData,
         wallet_address: [], // 用户钱包地址
         userAddress: [], // 用户收货地址
         dialogFormVisible: false,
@@ -102,6 +109,12 @@
       }
     },
     methods: {
+      handleChange (value) {
+        console.log(value)
+        console.log(CodeToText[this.form.address[0]])
+        console.log(CodeToText[this.form.address[1]])
+        console.log(CodeToText[this.form.address[2]])
+      },
       // 获取用户钱包地址
       getWallet () {
         this.loadingWarp = this.$loading({
@@ -217,7 +230,7 @@
       }
     },
     created () {
-      this.getWallet()
+      // this.getWallet()
     },
     components: {
       YShelf,

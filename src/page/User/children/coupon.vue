@@ -7,7 +7,7 @@
         <!--可用卡卷-->
         <el-tab-pane name="first">
           <span slot="label">可用卡券<span style="color:#409EFF;">(0)</span></span>
-          <el-row v-if="available.length">
+          <el-row v-if="!(available.length===0)">
             <el-col :span="8" class="couponWarp" v-for="(item, i) in available" :key="i">
               <el-row class="couponItem couponItem2">
                 <el-row class="couponBtnHeader">
@@ -25,19 +25,23 @@
               </el-row>
             </el-col>
           </el-row>
-          <el-row class="couponNoneWarp" v-else>
-            <el-image
-              style="width: 132px; height: 116px"
-              src="../../../../static/images/none.png"
-              fit="fill"></el-image>
-            <el-row class="couponNoneText">空空如也</el-row>
+          <el-row class="main-info-wrap" v-else>
+            <img src="../../../assets/img/data.png" alt />
+            <div class="txt">暂无数据...</div>
           </el-row>
+<!--          <el-row class="couponNoneWarp" v-else>-->
+<!--            <el-image-->
+<!--              style="width: 132px; height: 116px"-->
+<!--              src="../../../../static/images/none.png"-->
+<!--              fit="fill"></el-image>-->
+<!--            <el-row class="couponNoneText">空空如也</el-row>-->
+<!--          </el-row>-->
         </el-tab-pane>
 
         <!--已用&失效-->
         <el-tab-pane name="second">
           <span slot="label">已用&失效<span style="color:#409EFF;">(0)</span></span>
-          <el-row v-if="unavailable.length">
+          <el-row v-if="!(unavailable.length===0)">
             <el-col :span="8" class="couponWarp" v-for="(item, i) in unavailable" :key="i">
               <el-row class="couponItem">
                 <el-row class="couponBtnHeader">
@@ -55,14 +59,17 @@
               </el-row>
             </el-col>
           </el-row>
-
-          <el-row class="couponNoneWarp" v-else>
-            <el-image
-              style="width: 132px; height: 116px"
-              src="../../../../static/images/none.png"
-              fit="fill"></el-image>
-            <el-row class="couponNoneText">空空如也</el-row>
+          <el-row class="main-info-wrap" v-else>
+            <img src="../../../assets/img/data.png" alt />
+            <div class="txt">暂无数据...</div>
           </el-row>
+<!--          <el-row class="couponNoneWarp" v-else>-->
+<!--            <el-image-->
+<!--              style="width: 132px; height: 116px"-->
+<!--              src="../../../../static/images/none.png"-->
+<!--              fit="fill"></el-image>-->
+<!--            <el-row class="couponNoneText">空空如也</el-row>-->
+<!--          </el-row>-->
         </el-tab-pane>
       </el-tabs>
     </el-main>
@@ -113,6 +120,14 @@
   }
 </script>
 <style>
+  .main-info-wrap {
+    min-height: 205px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /*border-top: 1px solid #e8e8e8;*/
+  }
   .couponNoneWarp{
     display: flex;
     flex-direction: column;

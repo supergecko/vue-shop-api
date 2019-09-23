@@ -6,12 +6,12 @@
     <el-table-column
       prop="create_day"
       label="日期"
-      width="280">
+      width="275">
     </el-table-column>
     <el-table-column
       prop="balance"
       label="每日产出"
-      width="280">
+      width="275">
     </el-table-column>
   </el-table>
 </template>

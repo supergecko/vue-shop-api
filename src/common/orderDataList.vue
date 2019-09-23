@@ -9,11 +9,11 @@
     </el-table-column>
     <el-table-column prop="order_sn"
                      label="订单ID"
-                     width="180">
+                     width="200">
     </el-table-column>
     <el-table-column prop="goods_name"
                      label="商品名称"
-                     width="160">
+                     width="130">
     </el-table-column>
     <el-table-column prop="actual_price"
                      label="订单总金额"
@@ -22,7 +22,7 @@
     </el-table-column>
     <el-table-column prop="order_status"
                      label="订单状态"
-                     width="160"
+                     width="150"
                      :filters="[
       { text: '待支付', value: '待支付' },
       { text: '确认中', value: '确认中' },
@@ -42,6 +42,7 @@
     </el-table-column>
     <el-table-column prop="actual_price"
                      label="订单详情"
+                     width="140"
                      :formatter="formatter">
       <template slot-scope="scope">
         <el-button type="text"

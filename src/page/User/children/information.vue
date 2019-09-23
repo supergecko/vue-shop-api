@@ -634,7 +634,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border-top: 1px solid #e8e8e8;
+    /*border-top: 1px solid #e8e8e8;*/
   }
   .txt {
     margin-top: 15px;

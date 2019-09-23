@@ -73,9 +73,8 @@
         <el-col :span="12" class="withdraw-num">
           <div class="withdraw-num">
             <div class="invite-text hit-value">
-              <label>可提佣金</label>
+              <label>可用雷猫积分：</label>
                 <mallki class-name="mallki-text" :text=available class="rubik-medium" style="padding: 0;margin-bottom: -7px;"/>
-              LMB
             </div>
           </div>
         </el-col>
@@ -128,7 +127,7 @@
     data () {
       return {
         fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
-        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+        url: 'http://www.dterdal.com/public/code.png',
         activeName: 'first',
         input: '',
         identity: '',

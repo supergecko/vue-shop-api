@@ -101,18 +101,18 @@
               </div>
             </el-dialog>
           </el-form-item>
-          <el-form-item label="产品总价">
+          <el-form-item label="产品单价">
             <el-row class="orderListMiddleText" v-if="goodsInfo.goods">￥ {{goodsInfo.goods.shop_price}}<span> (单台价格)</span></el-row>
           </el-form-item>
 
-          <el-row class="orderListMiddle" style="padding-left: 0px;padding-top: 8px;">
+          <el-row class="orderListMiddle" style="padding-left: 0px;padding-top: 8px;" v-if="electricityFalg">
             <el-row class="orderListHead">
               <div>电费详情</div>
             </el-row>
           </el-row>
 
 
-          <el-form-item label="电费交纳天数" style="padding-top: 15px" prop="electricityDays">
+          <el-form-item label="电费交纳天数" style="padding-top: 15px" prop="electricityDays" v-if="electricityFalg">
             <el-radio-group v-model="ruleForm.electricityDays">
               <el-radio :label="30" @change="changeDays">1个月</el-radio>
               <el-radio :label="90" @change="changeDays">3个月</el-radio>
@@ -133,7 +133,7 @@
             </el-row>
           </el-form-item>
 
-          <el-row class="orderListMiddle">
+          <el-row class="orderListMiddle" v-if="electricityFalg">
             <el-form-item label="电费">
               <el-row class="orderListMiddleText">￥ {{totalElectricity}} <span v-if="goodsInfo.goods">= {{goodsInfo.goods.electricity}}元/天  × {{electricityDay/30}}个月(单台电费)</span> </el-row>
             </el-form-item>
@@ -253,6 +253,7 @@
         dialogFormVisible: false,
         paymentTypeFlag: false,
         formLabelWidth: '80px',
+        electricityFalg: true, // 电费是否需要显示
         form: {
           address: '', // 收货地址
           consignee: '', // 收货人
@@ -275,7 +276,8 @@
         lmbPayment: true, // 是否需要雷猫币支付
         electricityDay: 0, // 小字的天数
         totalElectricity: 0, // 总电费
-        initTotalElectricity: 0, // 初始化矿机单价价格
+        initMinePrice: 0, // 初始化矿机单价价格
+        initTotalElectricity: 0, // 初始化总电费
         totalCase: 0, // 总费用
         electricity: '', // 初始化电费单价价格
         formLabelAlign: {
@@ -422,8 +424,17 @@
       switchingInput (name) {
         if (name === 2) {
           this.paymentInputFlag = false
+          this.electricityFalg = false
+          this.totalElectricity = 0
+          this.totalCase = this.initMinePrice * this.ruleForm.num
+          this.totalCase = parseFloat(this.totalCase).toFixed(2)
         } else {
           this.paymentInputFlag = true
+          this.electricityFalg = true
+          this.totalElectricity = this.initTotalElectricity
+          this.totalCase = this.initMinePrice
+          this.totalCase = (parseFloat(this.totalCase) + parseFloat(this.totalElectricity)) * this.ruleForm.num
+          this.totalCase = parseFloat(this.totalCase).toFixed(2)
         }
       },
       // 拉取订单信息
@@ -443,7 +454,7 @@
             this.goodsInfo = res.data.data
             this.electricity = res.data.data.goods.electricity
             this.totalCase = res.data.data.goods.shop_price
-            this.initTotalElectricity = res.data.data.goods.shop_price
+            this.initMinePrice = res.data.data.goods.shop_price
             this.cycle_id = res.data.data.cycle[0].cycle_id
             this.underLine_address = res.data.data.user_address
             this.getWallet()
@@ -531,7 +542,7 @@
         const deduct_ele_by_thundercat = this.lmbPayment
         const goods_id = this.$route.query.goods_id
         const timestamp = Date.parse(new Date()) / 1000
-        const sign = this.$md5(`${this.initTotalElectricity}__${this.electricity}__${user_id}__${timestamp}__thundercat`)
+        const sign = this.$md5(`${this.initMinePrice}__${this.electricity}__${user_id}__${timestamp}__thundercat`)
         let params = {user_id, share_activity_id, coin_id, buy_num, cycle_id, coupon_id, mine_id, host_id, address_id, wallet_id, buy_day, pay_id, goods_id, deduct_ele_by_thundercat, timestamp, sign}
         buyNow(params).then(res => {
           loading.close()
@@ -596,26 +607,33 @@
       this.loadingOrderList()
     },
     watch: {
+      // 电费天数
       'ruleForm.electricityDays' (newName, oldName) {
-        if (newName < 200) {
-          this.electricityDay = newName
-          this.totalElectricity = parseFloat(newName) * parseFloat(this.electricity)
-          this.totalElectricity = parseFloat(this.totalElectricity).toFixed(2)
+        if (!(newName === '')) {
+          if (newName < 200) {
+            this.electricityDay = newName // 电费天数
+            this.totalElectricity = parseFloat(newName) * parseFloat(this.electricity) // 总电费
+            this.totalElectricity = parseFloat(this.totalElectricity).toFixed(2) // 总电费
+          }
         }
       },
+      // 矿机的台数
       'ruleForm.num' (newName, oldName) {
-        this.totalCase = this.initTotalElectricity
-        this.totalCase = (parseFloat(this.totalCase) + parseFloat(this.totalElectricity)) * newName
+        this.totalCase = this.initMinePrice // 初始化总花费
+        this.totalCase = (parseFloat(this.totalCase) + parseFloat(this.totalElectricity)) * newName // 总花费(包含电费)
         this.totalCase = parseFloat(this.totalCase).toFixed(2)
       },
+      // 用户输入的天数
       userInputDays (newName, oldName) {
         if (this.ruleForm.electricityDays === 200) {
-          this.totalElectricity = parseFloat(newName * this.electricity * 30).toFixed(2)
-          this.electricityDay = newName * 30
+          this.totalElectricity = parseFloat(newName * this.electricity * 30).toFixed(2) // 用户输入天数*电费 = 总电费
+          this.electricityDay = newName * 30 // 总天数
         }
       },
+      // 总电费变化
       totalElectricity (newName, oldName) {
-        this.totalCase = this.initTotalElectricity
+        this.initTotalElectricity = oldName
+        this.totalCase = this.initMinePrice
         this.totalCase = (parseFloat(this.totalCase) + parseFloat(newName)) * this.ruleForm.num
         this.totalCase = parseFloat(this.totalCase).toFixed(2)
       }
