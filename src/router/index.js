@@ -25,6 +25,7 @@ const extension = resolve => require(['/page/User/children/extension'], resolve)
 const coupon = resolve => require(['/page/User/children/coupon'], resolve)
 const userAgreement = resolve => require(['/page/Agreement/userAgreement'], resolve)
 const privacyAgreement = resolve => require(['/page/Agreement/privacyAgreement'], resolve)
+const Store = resolve => require(['/page/Store/store'], resolve)
 
 Vue.use(Router)
 export default new Router({
@@ -47,7 +48,8 @@ export default new Router({
         { path: '/news', name: 'news', component: news },
         { path: '/newDetails', name: 'newDetails', component: newDetails },
         { path: '/userAgreement', name: 'userAgreement', component: userAgreement },
-        { path: '/privacyAgreement', name: 'privacyAgreement', component: privacyAgreement }
+        { path: '/privacyAgreement', name: 'privacyAgreement', component: privacyAgreement },
+        { path: '/store', name: 'store', component: Store }
       ]
     },
     {
