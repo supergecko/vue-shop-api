@@ -1,7 +1,7 @@
 <template>
   <div class="bottom">
     <div class="content">
-      <el-col :span="6">
+      <el-col :span="5">
         <div class="name">Thunder Cat</div>
         <div class="copyright">Copyright © 2019 Thunder Cat All Rights Reserved</div>
         <div class="iconLink">
@@ -9,7 +9,7 @@
           <a class="iconfont icon-logo-wechat"></a>
         </div>
       </el-col>
-      <el-col :span="11">
+      <el-col :span="10">
         <el-col :span="8">
           <div class="title">产品</div>
           <div class="link">
@@ -62,14 +62,20 @@
         </el-col>
       </el-col>
       <el-col class="rate"
-              :span="7">
-        <div class="el-row">
-          <div class="title rubik-medium">主要汇率</div>
-          <div class="list">
-            <span v-for="(item, i) in footerRate"
-                  :key="i">1{{item.title}} = {{item.amount}}美元</span>
+              :span="9">
+        <el-col :span="3">
+          &nbsp;
+        </el-col>
+        <el-col :span="21">
+          <div class="el-row bottom-r">
+            <div class="title rubik-medium">主要汇率</div>
+            <div class="list">
+              <span v-for="(item, i) in footerRate"
+                    :key="i">1{{item.title}} = {{item.amount}}美元</span>
+            </div>
           </div>
-        </div>
+        </el-col>
+
       </el-col>
     </div>
   </div>
@@ -88,13 +94,13 @@ export default {
 <style scoped>
 .bottom {
   width: 100%;
-  min-width: 1350px;
+  min-width: 1250px;
   background: #31384a;
   display: flex;
   justify-content: center;
 }
 .content {
-  width: 1200px;
+  width: 1250px;
   height: 296px;
   box-sizing: border-box;
   margin: 0 120px;
@@ -139,6 +145,10 @@ export default {
 .rate {
   font-size: 14px;
   color: hsla(0, 0%, 100%, 0.45);
+  min-width: 350px;
+}
+.bottom-r {
+  margin: 0 auto;
 }
 .list {
   display: flex;
@@ -151,7 +161,7 @@ export default {
 }
 .list span {
   margin-top: 20px;
-  margin-right: 10px;
+  /* margin-right: 10px; */
   width: 160px;
 }
 .iconfont {
