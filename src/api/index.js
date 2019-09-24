@@ -120,3 +120,7 @@ export const deleteUserAddress = (params) => {
 export const deleteWalletAddress = (params) => {
   return ypost(`${baseUrl}/home/user/delete_wallet_address`, params)
 }
+// 确认收货
+export const shouhuo = (params) => {
+  return ypost(`${baseUrl}/home/order/orderFinished`, params)
+}
