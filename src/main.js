@@ -83,7 +83,7 @@ axios.interceptors.response.use(config => {
   }
   return Promise.reject(error.message)
 })
-const whiteList = ['/home', '/goods', '/login', '/goodsDetails']
+const whiteList = ['/home', '/goods', '/login', '/goodsDetails', '/aboutUs', '/crowdFunding', '/news', '/privacyAgreement', '/userAgreement', '/mineField', '/newDetails']
 router.beforeEach(function (to, from, next) {
   if (!(getItem('userToken'))) {
     if (whiteList.indexOf(to.path) !== -1) {

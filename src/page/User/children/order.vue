@@ -64,12 +64,11 @@
         let params = {user_id, timestamp, sign}
         orderDataList(params).then(res => {
           loading.close()
-          console.log(`订单详情${JSON.stringify(res.data.data)}`)
           if (res.status === 200 && res.data.code === 1) {
             this.order_list = res.data.data.order_list
             this.electricity_list = res.data.data.electricity_list
           } else {
-            this.$message.error('网络赛车啦')
+            this.$message.error(res.data.msg)
           }
         })
       }

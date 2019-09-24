@@ -80,7 +80,6 @@ export default {
     newsLlist(this.params)
       .then(res => {
         this.newsList = res.data.data
-        console.log(this.newsList)
       })
   },
   methods: {

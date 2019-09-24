@@ -4,9 +4,9 @@
     <el-main style="background:rgba(255,255,255,1);height:400px;margin-bottom: 20px" >
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="套餐" prop="name">
-          <el-select v-model="ruleForm.name" placeholder="请选择套餐机型名称">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+          <el-select v-model="ruleForm.name" placeholder="请选择套餐名称">
+            <el-option label="套餐一" value="shanghai"></el-option>
+            <el-option label="套餐二" value="beijing"></el-option>
           </el-select>
         </el-form-item>
 

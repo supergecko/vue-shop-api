@@ -98,6 +98,9 @@
               <div class="goodItemMiddle" style="font-size: 14px;">
                 月化收益:{{item.income}} BTC
               </div>
+              <div class="goodItemMiddle" style="font-size: 14px;">
+                团购价格:<span style="color:red;font-weight:bold">{{item.shop_price}}</span>元
+              </div>
               <div class="goodItemFooter">
                 <el-progress :percentage=item.rate style="width:182px" :format="format"></el-progress>
                 <el-button type="primary" :disabled="item.on_sale==0? true: false" style="width:214px;margin-top:16px;" @click="openOrderList(share_activity_id, item.goods_id)">
@@ -412,13 +415,11 @@
     mounted () {
       homePage().then(res => {
         if (res.status === 200) {
-          console.log(res.data.data)
           this.banner = res.data.data.ad
           this.activity = res.data.data.activity
           this.share_activity_id = res.data.data.activity.share_activity_id
         } else {
-          console.log('登录失败')
-          this.ruleForm.errMsg = res.data.msg
+          this.$message.error(res.data.msg)
         }
       })
     },
@@ -613,7 +614,7 @@
     position: relative;
   }
   .hotBTn{
-    width:102px;
+    width:80px;
     height:32px;
     background:rgba(245,84,84,1);
     opacity:0.94;
@@ -629,8 +630,8 @@
   }
   .goodItemMiddle{
     width: 198px;
-    height: 66px;
-    border-bottom: 1px solid rgba(244,244,244,1);
+    height: 33px;
+    /*border-bottom: 1px solid rgba(244,244,244,1);*/
     text-align: center;
     line-height: 66px;
     font-size:16px;

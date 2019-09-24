@@ -266,7 +266,7 @@
               this.poolFalg = false
             }
           } else {
-            this.$message.error('获取失败')
+            this.$message.error(res.data.msg)
           }
         })
       },
@@ -292,7 +292,7 @@
             })
             this.dialogFormVisible = false
           } else {
-            console.log('error submit!!')
+            this.$message.error('请填写完整信息')
             return false
           }
         })
@@ -319,7 +319,7 @@
             this.end_order = res.data.data.end_order
             this.day_balance = res.data.data.day_balance
           } else {
-            this.$message.error('网络赛车啦')
+            this.$message.error(res.data.msg)
           }
         })
       },

@@ -158,13 +158,12 @@
         let params = {user_id, timestamp, sign}
         polularizeDetail(params).then(res => {
           loading.close()
-          console.log(`订单详情${JSON.stringify(res.data.data)}`)
           if (res.status === 200 && res.data.code === 1) {
             this.leader = res.data.data.leader
             this.children = res.data.data.children
             this.grandson = res.data.data.grandson
           } else {
-            this.$message.error('网络赛车啦')
+            this.$message.error(res.data.msg)
           }
         })
       },

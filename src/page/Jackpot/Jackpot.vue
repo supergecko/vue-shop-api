@@ -66,7 +66,7 @@
           </div>
         </el-row>
         <el-row class="ratingWarp">
-          <jackpot-data-list :order_list=rankList></jackpot-data-list>
+          <jackpot-data-list :order_list=rankList :flag=true></jackpot-data-list>
         </el-row>
       </el-row>
 
@@ -84,7 +84,7 @@
           </div>
         </el-row>
         <el-row class="ratingWarp">
-          <jackpot-data-list :order_list=all_team_order></jackpot-data-list>
+          <jackpot-data-list :order_list=all_team_order :flag=false></jackpot-data-list>
         </el-row>
       </el-row>
     </el-main>
@@ -122,7 +122,7 @@ export default {
           this.rankList = res.data.data.rankList
           this.all_team_order = res.data.data.all_team_order
         } else {
-          this.$message.error('网络赛车啦')
+          this.$message.error(res.data.msg)
         }
       })
     }

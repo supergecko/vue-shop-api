@@ -90,7 +90,6 @@
         getWallet(params).then(res => {
           if (res.status === 200 && res.data.code === 1) {
             this.wallet_address = res.data.data.address
-            console.log(res.data.data.address)
             if (this.wallet_address.length === 0) {
               console.log('数组为空')
             } else {
@@ -98,7 +97,7 @@
             }
             loadingWarp.close()
           } else {
-            this.$message.error('获取失败')
+            this.$message.error(res.data.msg)
           }
         })
       },
@@ -128,7 +127,6 @@
           })
           saveWallet(params).then(res => {
             loading.close()
-            console.log(res)
             if (res.status === 200 && res.data.code === 1) {
               this.$message({
                 type: 'success',
@@ -136,7 +134,7 @@
               })
               this.getWallet()
             } else {
-              this.$message.error('添加失败,请重试')
+              this.$message.error(res.data.msg)
             }
           })
         }).catch(() => {})
