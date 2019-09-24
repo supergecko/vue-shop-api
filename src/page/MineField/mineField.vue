@@ -34,7 +34,7 @@
           <img class="img3"
                width="368"
                height="260"
-               src="../../../static/imgs/mine3.png"
+               src="../../../static/imgs/mine4.jpg"
                alt />
           <span class="external-span">The mine equipmen</span>
         </div>
