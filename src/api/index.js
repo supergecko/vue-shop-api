@@ -112,3 +112,11 @@ export const orderDetail = (params) => {
 export const jackpotIndex = (params) => {
   return ypost(`${baseUrl}/home/jackpot/index`, params)
 }
+// 删除用户收货地址
+export const deleteUserAddress = (params) => {
+  return ypost(`${baseUrl}/home/user/deleteUserAddress`, params)
+}
+// 删除钱包地址
+export const deleteWalletAddress = (params) => {
+  return ypost(`${baseUrl}/home/user/delete_wallet_address`, params)
+}

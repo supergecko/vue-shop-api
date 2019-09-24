@@ -2,11 +2,13 @@
   <div>
     <y-shelf title="我的礼卷" style="margin-bottom: 10px;"></y-shelf>
 
-    <el-main style="padding-top: 0px">
+    <el-main style="padding-top: 0px;background-color: #fff;
+    box-shadow: 0 2px 6px 0 rgba(4,4,4,.1);
+    border-radius: 2px;margin-bottom:20px;">
       <el-tabs v-model="activeName">
         <!--可用卡卷-->
         <el-tab-pane name="first">
-          <span slot="label">可用卡券<span style="color:#409EFF;">(0)</span></span>
+          <span slot="label">可用卡券<span style="color:#409EFF;">({{available.length}})</span></span>
           <el-row v-if="!(available.length===0)">
             <el-col :span="8" class="couponWarp" v-for="(item, i) in available" :key="i">
               <el-row class="couponItem couponItem2">
@@ -40,7 +42,7 @@
 
         <!--已用&失效-->
         <el-tab-pane name="second">
-          <span slot="label">已用&失效<span style="color:#409EFF;">(0)</span></span>
+          <span slot="label">已用&失效<span style="color:#409EFF;">({{unavailable.length}})</span></span>
           <el-row v-if="!(unavailable.length===0)">
             <el-col :span="8" class="couponWarp" v-for="(item, i) in unavailable" :key="i">
               <el-row class="couponItem">

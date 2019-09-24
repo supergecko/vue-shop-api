@@ -64,7 +64,7 @@
           </el-form-item>
 
           <el-form-item label="钱包地址" v-if="paymentInputFlag" prop="btcAddress">
-            <el-select v-model="ruleForm.btcAddress" placeholder="请选择钱包地址">
+            <el-select v-model="ruleForm.btcAddress" placeholder="请选择钱包地址" style="width: 400px">
               <el-option :label=item.address :value=item.wallet_id v-for="(item, i) in wallet_address" :key="i">
               </el-option>
             </el-select>
@@ -73,16 +73,24 @@
 
           <el-form-item label="收货地址" v-else prop="userAddress">
             <!--收货地址-->
-            <el-select v-model="ruleForm.userAddress" placeholder="请输入实际收货地址">
-              <el-option :label=item.address :value=item.address_id v-for="(item, i) in underLine_address" :key="i">
+            <el-select v-model="ruleForm.userAddress" placeholder="请输入实际收货地址" style="width: 400px">
+              <el-option :label=item.province_id+item.city_id+item.district_id+item.address :value=item.address_id v-for="(item, i) in underLine_address" :key="i">
               </el-option>
             </el-select>
             <!-- Form -->
             <el-button type="text" @click="dialogFormVisible = true">+ 添加新的收货地址</el-button>
 
-            <el-dialog title="收货" :visible.sync="dialogFormVisible">
+            <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
               <el-form :model="form" :rules="formRules" ref="form" class="demo-ruleForm">
-                <el-form-item label="收货地址" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="address">
+                <el-form-item label="收货地区" :label-width="formLabelWidth" prop="receivingArea" style="margin-bottom: 22px">
+                  <el-cascader
+                    size="large"
+                    :options="options"
+                    v-model="form.receivingArea"
+                    style="width: 100%;">
+                  </el-cascader>
+                </el-form-item>
+                <el-form-item label="详细地址" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="address">
                   <el-input v-model="form.address" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="收货人" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="consignee">
@@ -101,6 +109,7 @@
               </div>
             </el-dialog>
           </el-form-item>
+
           <el-form-item label="产品单价">
             <el-row class="orderListMiddleText" v-if="goodsInfo.goods">￥ {{goodsInfo.goods.shop_price}}<span> (单台价格)</span></el-row>
           </el-form-item>
@@ -110,7 +119,6 @@
               <div>电费详情</div>
             </el-row>
           </el-row>
-
 
           <el-form-item label="电费交纳天数" style="padding-top: 15px" prop="electricityDays" v-if="electricityFalg">
             <el-radio-group v-model="ruleForm.electricityDays">
@@ -245,9 +253,11 @@
 <script>
   import { goodsInfo, saveWallet, getWallet, buyNow, saveAddress } from '/api'
   import { getItem } from './../../utils/newLocalStorage'
+  import { regionData, CodeToText } from 'element-china-area-data'
   export default {
     data () {
       return {
+        options: regionData,
         qrCodeUrl: '', // 二维码图片
         qrCodeFalg: false, // 二维码弹框
         dialogFormVisible: false,
@@ -255,7 +265,8 @@
         formLabelWidth: '80px',
         electricityFalg: true, // 电费是否需要显示
         form: {
-          address: '', // 收货地址
+          receivingArea: '', // 收货地区
+          address: '', // 详细收货地址
           consignee: '', // 收货人
           mobile: '', // 收获手机
           zipcode: '' // 邮编
@@ -336,9 +347,13 @@
           ]
         },
         formRules: {
+          // 收货地区校验
+          receivingArea: [
+            {required: true, message: '请选择收货地区', trigger: 'blur'}
+          ],
           // 收货地址校验
           address: [
-            {required: true, message: '请输入收货地址', trigger: 'blur'}
+            {required: true, message: '请输入详细地址', trigger: 'blur'}
           ],
           // 收货人校验
           consignee: [
@@ -373,11 +388,15 @@
       formCheckIn (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            const { address, consignee, mobile, zipcode } = this.form
+            const { address, consignee, mobile, zipcode, receivingArea } = this.form
             const user_id = getItem('userID')
+            const province = CodeToText[receivingArea[0]]
+            const city = CodeToText[receivingArea[1]]
+            const district = CodeToText[receivingArea[2]]
+            const town = ''
             const timestamp = Date.parse(new Date()) / 1000
-            const sign = this.$md5(`${user_id}__${consignee}__${mobile}__${zipcode}__${address}__${timestamp}__thundercat`)
-            let params = {user_id, consignee, mobile, zipcode, address, timestamp, sign}
+            const sign = this.$md5(`${user_id}__${province}__${city}__${district}__${town}__${consignee}__${mobile}__${zipcode}__${address}__${timestamp}__thundercat`)
+            let params = {user_id, province, city, district, town, consignee, mobile, zipcode, address, timestamp, sign}
             saveAddress(params).then(res => {
               console.log(res.data.data)
               if (res.status === 200 && res.data.code === 1) {

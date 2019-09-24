@@ -8,7 +8,7 @@
       </el-row>
       <el-row>
         <div style="margin-bottom: 10px;margin-top: 15px">BTC 币种已支持的矿池：AntPool、BTC.com、F2Pool、ViaBTC、BTC.TOP</div>
-        <AddressData :addressData=wallet_address :isAddress=false @getWallet="getWallet"></AddressData>
+        <AddressData :addressData=wallet_address :isAddress=false  @getWallet="getWallet" :flag=false></AddressData>
         <div style="text-align: center;padding-top:20px">
           <el-button type="primary" round @click="open()">添加新的BTC地址</el-button>
         </div>
@@ -20,19 +20,22 @@
       </el-row>
       <el-row>
 <!--        <div style="margin-bottom: 10px;margin-top: 15px">该地址用于用户自提</div>-->
-        <AddressData :addressData=userAddress :isAddress=true @getWallet="getWallet"></AddressData>
+        <AddressData :addressData=userAddress :isAddress=true @getWallet="getWallet" :flag=true></AddressData>
         <div style="text-align: center;padding-top:20px">
           <el-button type="primary" round @click="dialogFormVisible = true">添加新的收货地址</el-button>
 
-          <el-dialog title="收货地址" :visible.sync="dialogFormVisible" style="width:50%;margin: 0 auto;text-align: center ">
+          <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
             <el-form :model="form" :rules="formRules" ref="form" class="demo-ruleForm">
-              <el-form-item label="收货地址" :label-width="formLabelWidth" prop="address">
+              <el-form-item label="收货地区" :label-width="formLabelWidth" prop="receivingArea">
                 <el-cascader
                   size="large"
                   :options="options"
-                  v-model="form.address"
-                  @change="handleChange" style="width: 100%;">
+                  v-model="form.receivingArea"
+                  style="width: 100%;">
                 </el-cascader>
+              </el-form-item>
+              <el-form-item label="详细地址" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="address">
+                <el-input v-model="form.address" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="收货人" :label-width="formLabelWidth" style="margin-bottom: 22px" prop="consignee">
                 <el-input v-model="form.consignee" autocomplete="off"></el-input>
@@ -77,15 +80,20 @@
         loadingWarp: '',
         formLabelWidth: '80px',
         form: {
-          address: '', // 收货地址
+          receivingArea: '', // 收货地区
+          address: '', // 详细收货地址
           consignee: '', // 收货人
           mobile: '', // 收获手机
           zipcode: '' // 邮编
         },
         formRules: {
+          // 收货地区校验
+          receivingArea: [
+            {required: true, message: '请选择收货地区', trigger: 'blur'}
+          ],
           // 收货地址校验
           address: [
-            {required: true, message: '请输入收货地址', trigger: 'blur'}
+            {required: true, message: '请输入详细地址', trigger: 'blur'}
           ],
           // 收货人校验
           consignee: [
@@ -109,12 +117,6 @@
       }
     },
     methods: {
-      handleChange (value) {
-        console.log(value)
-        console.log(CodeToText[this.form.address[0]])
-        console.log(CodeToText[this.form.address[1]])
-        console.log(CodeToText[this.form.address[2]])
-      },
       // 获取用户钱包地址
       getWallet () {
         this.loadingWarp = this.$loading({
@@ -184,11 +186,15 @@
       formCheckIn (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            const { address, consignee, mobile, zipcode } = this.form
+            const { address, consignee, mobile, zipcode, receivingArea } = this.form
+            const province = CodeToText[receivingArea[0]]
+            const city = CodeToText[receivingArea[1]]
+            const district = CodeToText[receivingArea[2]]
+            const town = ''
             const user_id = getItem('userID')
             const timestamp = Date.parse(new Date()) / 1000
-            const sign = this.$md5(`${user_id}__${consignee}__${mobile}__${zipcode}__${address}__${timestamp}__thundercat`)
-            let params = {user_id, consignee, mobile, zipcode, address, timestamp, sign}
+            const sign = this.$md5(`${user_id}__${province}__${city}__${district}__${town}__${consignee}__${mobile}__${zipcode}__${address}__${timestamp}__thundercat`)
+            let params = {user_id, province, city, district, town, consignee, mobile, zipcode, address, timestamp, sign}
             saveAddress(params).then(res => {
               console.log(res.data.data)
               if (res.status === 200 && res.data.code === 1) {
@@ -230,7 +236,7 @@
       }
     },
     created () {
-      // this.getWallet()
+      this.getWallet()
     },
     components: {
       YShelf,
