@@ -8,12 +8,12 @@
                      width="150">
     </el-table-column>
     <el-table-column prop="order_sn"
-                     label="订单ID"
-                     width="200">
+                     label="订单号"
+                     width="180">
     </el-table-column>
     <el-table-column prop="goods_name"
                      label="商品名称"
-                     width="130">
+                     width="160">
     </el-table-column>
     <el-table-column prop="actual_price"
                      label="订单总金额"
@@ -22,27 +22,28 @@
     </el-table-column>
     <el-table-column prop="order_status"
                      label="订单状态"
-                     width="150"
+                     width="160"
                      :filters="[
-      { text: '待支付', value: '待支付' },
-      { text: '确认中', value: '确认中' },
+      { text: '未支付', value: '未支付' },
+      { text: '待确认', value: '待确认' },
+      { text: '待发货', value: '待发货' },
+      { text: '已发货', value: '已发货' },
       { text: '已完成', value: '已完成' },
-      { text: '已取消', value: '已取消' },
       { text: '已关闭', value: '已关闭' },
       ]"
                      :filter-method="filterTag"
                      filter-placement="bottom-end">
       <template slot-scope="scope">
         <el-tag :type="scope.row.order_status === '已关闭' ? 'danger' :
+           scope.row.order_status === '已发货' ? 'success':
            scope.row.order_status === '已完成' ? 'success':
-           scope.row.order_status === '已取消' ? 'info':
-           scope.row.order_status === '确认中' ? 'warning':''"
+           scope.row.order_status === '已关闭' ? 'info':
+           scope.row.order_status === '待确认' ? 'warning':''"
                 close-transition>{{scope.row.order_status}}</el-tag>
       </template>
     </el-table-column>
     <el-table-column prop="actual_price"
                      label="订单详情"
-                     width="140"
                      :formatter="formatter">
       <template slot-scope="scope">
         <el-button type="text"
