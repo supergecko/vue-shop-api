@@ -27,7 +27,8 @@
                 :key="index"
                 @click="toPath(index)">
               <div class="img">
-                <img :src="item.thumb"
+                <img width="250"
+                     :src="item.thumb"
                      alt />
               </div>
               <div class="content">
@@ -79,7 +80,7 @@ export default {
     newsLlist(this.params)
       .then(res => {
         this.newsList = res.data.data
-        // console.log(this.newsList)
+        console.log(this.newsList)
       })
   },
   methods: {
@@ -155,7 +156,8 @@ export default {
 }
 .img {
   width: 320px;
-  height: 217;
+  height: 207px;
+  overflow: hidden;
 }
 .content {
   /* float: left; */
