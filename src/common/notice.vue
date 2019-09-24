@@ -50,8 +50,10 @@ export default {
     }
   },
   created: function () {
+    setTimeout(() => {
+      this.getDate()
+    }, 100)
     setInterval(this.showMarquee, 2000)
-    this.getDate()
   },
   methods: {
     showMarquee: function () {
