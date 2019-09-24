@@ -18,6 +18,8 @@
           <p class="p1">订单状态</p>
           <p style="color: rgb(101,155,244)">{{ order_statue }}</p>
         </div>
+        <button :class="active ? 'receiving' : 'success'"
+                @click="receiving()"><span v-show="active">确认收货</span><span v-show="!active">已收货</span></button>
       </div>
 
       <div class='address'>
@@ -54,8 +56,18 @@
             <li>{{ order.add_time }}</li>
             <li>{{ order.final_price }}元</li>
           </ul>
+          <ul class="info-title"
+              style="margin-top: 20px;background: rgb(250,250,250);">
+            <li>电费时长</li>
+            <li>--</li>
+            <li>--</li>
+            <li>--</li>
+            <li>--</li>
+            <li>--</li>
+            <li>价格</li>
+          </ul>
           <ul>
-            <li>{{ ele.all_day }}天 电费</li>
+            <li>{{ ele.all_day }}天</li>
             <li>--</li>
             <li>--</li>
             <li>--</li>
@@ -78,7 +90,7 @@
             <p>{{ pay.pay_name }}</p>
           </div>
           <div class="content">
-            <p>支付币种</p>
+            <p>挖矿币种</p>
             <p>{{ pay.title }}</p>
           </div>
           <div class="content">
@@ -113,7 +125,8 @@ export default {
       ele: {},
       minus: {},
       order: {},
-      pay: {}
+      pay: {},
+      active: true
     }
   },
   created () {
@@ -144,20 +157,40 @@ export default {
           this.pay = data.pay
           console.log(data)
         })
+    },
+    receiving () {
+      this.$confirm('是否确认收货', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '收货成功!'
+        })
+        this.active = false
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消收货'
+        })
+      })
     }
   },
   computed: {
     order_statue () {
-      if (this.order.order_status === 0 && this.pay.pay_status === 0) {
+      if (this.order.order_status === 0) {
         return '未支付'
-      } else if (this.order.order_status === 0 && this.pay.pay_status === 1) {
-        return '已支付'
-      } else if (this.order.order_status === 1 && this.pay.pay_status === 1) {
-        return '未发货'
-      } else if (this.order.order_status === 2 && this.pay.pay_status === 1) {
+      } else if (this.order.order_status === 1) {
+        return '待确认'
+      } else if (this.order.order_status === 2) {
+        return '待发货'
+      } else if (this.order.order_status === 3) {
         return '已发货'
       } else if (this.order.order_status === 4) {
-        return '超时关闭'
+        return '已完成'
+      } else if (this.order.order_status === 5) {
+        return '已关闭'
       }
     },
     pay_status () {
@@ -199,6 +232,20 @@ export default {
       font-weight: 600;
       color: #333;
     }
+  }
+  .receiving {
+    height: 32px;
+    padding: 5px 15px;
+    margin-top: 17px;
+    color: rgb(237, 240, 242);
+    background-color: rgb(101, 155, 244);
+  }
+  .success {
+    height: 32px;
+    padding: 5px 15px;
+    margin-top: 17px;
+    color: rgb(237, 240, 242);
+    background-color: #bbb;
   }
 }
 .address {
