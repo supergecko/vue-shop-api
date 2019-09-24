@@ -19,7 +19,11 @@
           <p style="color: rgb(101,155,244)">{{ order_statue }}</p>
         </div>
         <button :class="active ? 'receiving' : 'success'"
-                @click="receiving()"><span v-show="active">确认收货</span><span v-show="!active">已收货</span></button>
+                @click="receiving()"
+                v-show="showRev">
+          <span v-show="active">确认收货</span>
+          <span v-show="!active">已收货</span>
+        </button>
       </div>
 
       <div class='address'>
@@ -56,11 +60,13 @@
             <li>{{ order.add_time }}</li>
             <li>{{ order.final_price }}元</li>
           </ul>
+          <div class="title"
+               style="margin-top: 10px;"><span>电费信息</span></div>
           <ul class="info-title"
               style="margin-top: 20px;background: rgb(250,250,250);">
             <li>电费时长</li>
             <li>--</li>
-            <li>--</li>
+            <li>数量</li>
             <li>--</li>
             <li>--</li>
             <li>--</li>
@@ -69,11 +75,11 @@
           <ul>
             <li>{{ ele.all_day }}天</li>
             <li>--</li>
+            <li>{{ order.goods_num }}台</li>
             <li>--</li>
             <li>--</li>
             <li>--</li>
-            <li>--</li>
-            <li>{{ ele.electricity_cost }}元</li>
+            <li>{{  }}</li>
           </ul>
         </div>
       </div>
@@ -100,6 +106,22 @@
         </div>
       </div>
 
+      <div class="payInfo"
+           style="margin-top: 20px"
+           v-if="delivery !== null">
+        <div class="title"><span>物流信息</span></div>
+        <div class="inWrap">
+          <div class="content">
+            <p>物流公司</p>
+            <p>{{ delivery.shipping_name }}</p>
+          </div>
+          <div class="content">
+            <p>物流单号</p>
+            <p>{{ delivery.invoice_no }}</p>
+          </div>
+        </div>
+      </div>
+
       <div class="close">
         <button class="btn"
                 @click="close()">关闭</button>
@@ -112,7 +134,7 @@
 
 <script>
 import YShelf from '/components/shelf'
-import { orderDetail } from '/api/index'
+import { orderDetail, shouhuo } from '/api/index'
 import { getItem } from './../../utils/newLocalStorage'
 
 export default {
@@ -126,6 +148,7 @@ export default {
       minus: {},
       order: {},
       pay: {},
+      delivery: {},
       active: true
     }
   },
@@ -155,15 +178,33 @@ export default {
           this.minus = data.minus
           this.order = data.order
           this.pay = data.pay
-          console.log(data)
+          this.delivery = data.delivery
+          console.log(this.delivery)
         })
     },
     receiving () {
+      if (!this.active) {
+        return
+      }
       this.$confirm('是否确认收货', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'info'
       }).then(() => {
+        const user_id = getItem('userID')
+        let order_id = this.$route.query.id
+        const timestamp = Date.parse(new Date()) / 1000
+        const sign = this.$md5(`${user_id}__${order_id}__${timestamp}__thundercat`)
+        let params = {
+          user_id,
+          order_id,
+          timestamp,
+          sign
+        }
+        shouhuo(params)
+          .then(res => {
+            console.log(res)
+          })
         this.$message({
           type: 'success',
           message: '收货成功!'
@@ -179,17 +220,17 @@ export default {
   },
   computed: {
     order_statue () {
-      if (this.order.order_status === 0) {
+      if (this.order.order_status === '未支付') {
         return '未支付'
-      } else if (this.order.order_status === 1) {
+      } else if (this.order.order_status === '待确认') {
         return '待确认'
-      } else if (this.order.order_status === 2) {
+      } else if (this.order.order_status === '待发货') {
         return '待发货'
-      } else if (this.order.order_status === 3) {
+      } else if (this.order.order_status === '已发货') {
         return '已发货'
-      } else if (this.order.order_status === 4) {
+      } else if (this.order.order_status === '已完成') {
         return '已完成'
-      } else if (this.order.order_status === 5) {
+      } else if (this.order.order_status === '已关闭') {
         return '已关闭'
       }
     },
@@ -205,6 +246,13 @@ export default {
         return this.order.wallet_address
       } else if (this.order.host_id === 2) {
         return this.order.user_address
+      }
+    },
+    showRev () {
+      if (this.order.order_status === '已发货' && this.order.host_id === 2) {
+        return true
+      } else {
+        return false
       }
     }
   }
