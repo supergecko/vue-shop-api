@@ -58,11 +58,11 @@
              alt />
         <div class="num">
           <p>
-            电话
+            <span>电话</span>
             <br />18965904532 &nbsp;&nbsp;&nbsp;林经理
           </p>
           <p>
-            邮箱
+            <span>邮箱</span>
             <br />lintingxin@linglu666.cn
           </p>
         </div>
@@ -194,8 +194,13 @@ export default {
 }
 .num p {
   color: #3c3a3c;
+  font-size: 20px;
   margin: 66px 0 0 84px;
   line-height: 25px;
+}
+.num span {
+  font-weight: 600;
+  padding: 10px 0;
 }
 .bottom {
   width: 100%;
