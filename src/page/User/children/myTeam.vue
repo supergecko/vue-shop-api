@@ -84,7 +84,7 @@
                 <el-col :span="9" style="text-align: center;margin-top: -20px;">
                   <el-image
                     style="width: 100px; height: 100px"
-                    :src="item.avatar"
+                    :src="item.qrcode"
                     fit="fill"></el-image>
                 </el-col>
               </el-row>
