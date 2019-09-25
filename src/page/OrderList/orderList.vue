@@ -398,17 +398,19 @@
             const sign = this.$md5(`${user_id}__${province}__${city}__${district}__${town}__${consignee}__${mobile}__${zipcode}__${address}__${timestamp}__thundercat`)
             let params = {user_id, province, city, district, town, consignee, mobile, zipcode, address, timestamp, sign}
             saveAddress(params).then(res => {
-              console.log(res.data.data)
               if (res.status === 200 && res.data.code === 1) {
-                console.log('保存地址成功')
+                this.$message({
+                  message: '添加成功',
+                  type: 'success'
+                })
                 this.loadingOrderList()
               } else {
-                this.$message.error('获取失败')
+                this.$message.error(res.data.msg)
               }
             })
             this.dialogFormVisible = false
           } else {
-            console.log('error submit!!')
+            this.$message.error('请填写完整信息')
             return false
           }
         })
@@ -435,7 +437,7 @@
             }
             this.loadingWarp.close()
           } else {
-            this.$message.error('获取失败')
+            this.$message.error(res.data.msg)
           }
         })
       },
@@ -468,7 +470,6 @@
         const goods_id = this.$route.query.goods_id
         let params = {share_activity_id, goods_id, user_id}
         goodsInfo(params).then(res => {
-          console.log(`商品详情${JSON.stringify(res.data.data)}`)
           if (res.status === 200 && res.data.code === 1) {
             this.goodsInfo = res.data.data
             this.electricity = res.data.data.goods.electricity
@@ -478,7 +479,7 @@
             this.underLine_address = res.data.data.user_address
             this.getWallet()
           } else {
-            console.log('登录失败')
+            this.$message.error(res.data.msg)
             this.ruleForm.errMsg = res.data.msg
           }
         })
@@ -520,7 +521,6 @@
           })
           saveWallet(params).then(res => {
             loading.close()
-            console.log(res)
             if (res.status === 200 && res.data.code === 1) {
               this.$message({
                 type: 'success',
@@ -528,7 +528,7 @@
               })
               this.loadingOrderList()
             } else {
-              this.$message.error('添加失败,请重试')
+              this.$message.error(res.data.msg)
             }
           })
         }).catch(() => {})
@@ -566,7 +566,6 @@
         buyNow(params).then(res => {
           loading.close()
           if (res.status === 200 && res.data.code === 1) {
-            console.log(res.data.data.pay_type)
             if (res.data.data.pay_type < 3) {
               this.qrCodeUrl = res.data.data.base64
               this.qrCodeFalg = true
@@ -588,8 +587,7 @@
               this.formLabelAlign.bank_title = res.data.data.address.bank_title
             }
           } else {
-            this.$message.error('提交订单失败,请重试')
-            this.ruleForm.errMsg = res.data.msg
+            this.$message.error(res.data.msg)
           }
         })
       },

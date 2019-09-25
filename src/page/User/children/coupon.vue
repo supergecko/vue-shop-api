@@ -103,12 +103,11 @@
         let params = {user_id, timestamp, sign}
         myCoupon(params).then(res => {
           loading.close()
-          console.log(`礼券详情${JSON.stringify(res.data.data)}`)
           if (res.status === 200 && res.data.code === 1) {
             this.available = res.data.data.available
             this.unavailable = res.data.data.unavailable
           } else {
-            this.$message.error('网络赛车啦')
+            this.$message.error(res.data.msg)
           }
         })
       }

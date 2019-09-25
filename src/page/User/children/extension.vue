@@ -139,10 +139,14 @@
     },
     methods: {
       copyText () {
+        const _this = this
         this.$copyText(this.input).then(function (e) {
-          console.log('复制成功')
+          _this.$message({
+            message: '复制成功',
+            type: 'success'
+          })
         }, function (e) {
-          console.log('复制失败，请重试')
+          _this.$message.error('复制失败，请重试')
         })
       },
       _myPopularize () {
@@ -157,7 +161,6 @@
         let params = {user_id, timestamp, sign}
         myPopularize(params).then(res => {
           loading.close()
-          console.log(`我的推广${JSON.stringify(res.data.data)}`)
           if (res.status === 200 && res.data.code === 1) {
             this.input = res.data.data.popularize_url
             this.add_up_coin = res.data.data.add_up_coin === null ? 0 : res.data.data.add_up_coin
@@ -165,7 +168,7 @@
             this.available = res.data.data.available === null ? 0 : res.data.data.available
             this.identity = res.data.data.identity
           } else {
-            this.$message.error('网络赛车啦')
+            this.$message.error(res.data.msg)
           }
         })
       },

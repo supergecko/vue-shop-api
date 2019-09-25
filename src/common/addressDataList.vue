@@ -5,7 +5,7 @@
       border
       style="width:100%"
       :row-class-name="tableRowClassName"
-      height="278">
+      height="261">
       <el-table-column v-if="flag"
         prop="province"
         label="省"
@@ -28,7 +28,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="147">
+        width="150">
         <template slot-scope="scope">
           <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button
@@ -88,7 +88,7 @@
     ],
     data () {
       return {
-        addressWidth: (this.flag === true ? 434 : 784),
+        addressWidth: (this.flag === true ? 430 : 780),
         options: regionData,
         dialogFormVisible: false,
         formLabelWidth: '80px',
@@ -309,7 +309,7 @@
 </script>
 <style>
   .main-info-wrap {
-    min-height: 278px;
+    min-height: 261px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -51,7 +51,7 @@
               </el-form-item>
 
               <el-form-item label="邀请码">
-                <el-input type="text" v-model="registered.userPhone" autocomplete="off" placeholder="请输入邀请码"></el-input>
+                <el-input type="text" v-model="registered.userPhone" autocomplete="off" placeholder="请输入邀请码" :disabled="$route.query.invite_code? true: false"></el-input>
               </el-form-item>
 
               <el-form-item>
@@ -187,7 +187,7 @@
                 type: 'success'
               })
             } else {
-              this.$message.error('网络赛车啦')
+              this.$message.error(res.data.msg)
             }
           })
         }
@@ -212,17 +212,15 @@
           })
           userLogin(params).then(res => {
             loading.close()
-            console.log(res)
             if (res.status === 200 && res.data.code === 1) {
-              console.log(res.data)
               this.UPDATE_ID({info: res.data.data})
               this.$message({
                 message: '登录成功',
                 type: 'success'
               })
-              this.$router.go(-1)
+              this.$router.push('/home')
             } else {
-              this.$message.error('网络赛车啦')
+              this.$message.error(res.data.msg)
             }
           })
         }
@@ -266,7 +264,7 @@
           if (valid) {
             this.register()
           } else {
-            console.log('error submit!!')
+            this.$message.error('请填写完整信息')
             return false
           }
         })
@@ -278,6 +276,7 @@
     created () {
       if (this.$route.query.invite_code) {
         this.registered.userPhone = this.$route.query.invite_code
+        this.loginPage = false
       }
     },
     components: {

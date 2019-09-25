@@ -29,7 +29,7 @@
         <el-col :span="5">排名</el-col>
         <el-col :span="9">账号</el-col>
         <el-col :span="9">累计贡献值</el-col>
-        <el-col :span="9">预计瓜分雷猫积分</el-col>
+        <el-col :span="9" v-if="flag">预计瓜分雷猫积分</el-col>
       </el-row>
       <el-row v-show="order_list.length===0" v-if="order_list">
         <el-row v-for="(item,index) in 10" :key="index">
@@ -38,7 +38,7 @@
             <el-col :span="5">{{index+1}}</el-col>
             <el-col :span="9"></el-col>
             <el-col :span="9"></el-col>
-            <el-col :span="9"></el-col>
+            <el-col :span="9" v-if="flag"></el-col>
           </el-row>
         </el-row>
       </el-row>
@@ -50,7 +50,7 @@
             <el-col :span="5">{{item.rank}}</el-col>
             <el-col :span="9">{{item.mobile}}</el-col>
             <el-col :span="9">￥{{item.all_results}}</el-col>
-            <el-col :span="9">￥{{item.get_thundercat_coin}}</el-col>
+            <el-col :span="9" v-if="flag">￥{{item.get_thundercat_coin}}</el-col>
           </el-row>
         </el-row>
       </el-row>
@@ -65,7 +65,8 @@
 <script>
 export default {
   props: {
-    order_list: Array
+    order_list: Array,
+    flag: Boolean
   },
   created () {
     console.log(this.order_list)

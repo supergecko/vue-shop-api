@@ -139,7 +139,7 @@
             }
             this._getUserAddress()
           } else {
-            this.$message.error('获取失败')
+            this.$message.error(res.data.msg)
           }
         })
       },
@@ -169,7 +169,6 @@
           })
           saveWallet(params).then(res => {
             loading.close()
-            console.log(res)
             if (res.status === 200 && res.data.code === 1) {
               this.$message({
                 type: 'success',
@@ -177,7 +176,7 @@
               })
               this.getWallet()
             } else {
-              this.$message.error('添加失败,请重试')
+              this.$message.error(res.data.msg)
             }
           })
         }).catch(() => {})
@@ -196,7 +195,6 @@
             const sign = this.$md5(`${user_id}__${province}__${city}__${district}__${town}__${consignee}__${mobile}__${zipcode}__${address}__${timestamp}__thundercat`)
             let params = {user_id, province, city, district, town, consignee, mobile, zipcode, address, timestamp, sign}
             saveAddress(params).then(res => {
-              console.log(res.data.data)
               if (res.status === 200 && res.data.code === 1) {
                 this.$message({
                   type: 'success',
@@ -204,12 +202,12 @@
                 })
                 this.getWallet()
               } else {
-                this.$message.error('添加失败,请重试')
+                this.$message.error(res.data.msg)
               }
             })
             this.dialogFormVisible = false
           } else {
-            console.log('error submit!!')
+            this.$message.error('请填写完整信息')
             return false
           }
         })
@@ -230,7 +228,7 @@
             }
             this.loadingWarp.close()
           } else {
-            this.$message.error('获取失败')
+            this.$message.error(res.data.msg)
           }
         })
       }

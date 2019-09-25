@@ -5,24 +5,24 @@
     <el-table-column prop="buy_time"
                      label="购买日期"
                      sortable
-                     width="150">
+                     width="160">
     </el-table-column>
     <el-table-column prop="order_sn"
                      label="订单号"
-                     width="180">
+                     width="230">
     </el-table-column>
     <el-table-column prop="goods_name"
                      label="商品名称"
-                     width="160">
+                     width="180">
     </el-table-column>
     <el-table-column prop="actual_price"
                      label="订单总金额"
-                     width="150"
+                     width="110"
                      :formatter="formatter">
     </el-table-column>
     <el-table-column prop="order_status"
                      label="订单状态"
-                     width="160"
+                     width="120"
                      :filters="[
       { text: '未支付', value: '未支付' },
       { text: '待确认', value: '待确认' },
@@ -44,7 +44,8 @@
     </el-table-column>
     <el-table-column prop="actual_price"
                      label="订单详情"
-                     :formatter="formatter">
+                     :formatter="formatter"
+                     width="120">
       <template slot-scope="scope">
         <el-button type="text"
                    size="small"
