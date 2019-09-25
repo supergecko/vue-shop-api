@@ -1,6 +1,9 @@
 <template>
   <div class="renminbi">
-    <YShelf title="人民币充值"
+    <YShelf title="人民币余额"
+            itemTitle="人民币充值"
+            titleFlag="true"
+            fivePath="true"
             style="margin-bottom: 10px;"></YShelf>
     <div class="wrap">
       <div class="explain">
