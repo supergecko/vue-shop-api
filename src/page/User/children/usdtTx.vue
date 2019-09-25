@@ -1,29 +1,23 @@
 <template>
   <div class="usdtTx">
-    <YShelf title="USDT提现"
+    <YShelf title="USDT余额"
             style="margin-bottom: 10px;"></YShelf>
     <div class="header">
       <img src="/static/images/iconTitle.png"
            alt="">
       <div class="h-left">
-        <p>0550783062</p>
-        <p>可用币数: <span style="color:rgb(0,156,122);font-weight: bold">USDT</span> <span style="color: red">2.66</span></p>
-        <p>冻结币数: <span style="color:rgb(0,156,122);font-weight: bold">USDT</span> <span style="color: red">0.00</span></p>
-      </div>
-      <div class="h-right">
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>可提币数: <span style="color:rgb(0,156,122);font-weight: bold">USDT</span> <span style="color: red">2.66</span></p>
+        <div class="h-wrap">
+          <p>可用币数: <span style="color:rgb(0,156,122);font-weight: bold">USDT</span> <span style="color: red">2.66</span></p>
+          <p>冻结币数: <span style="color:rgb(0,156,122);font-weight: bold">USDT</span> <span style="color: red">0.00</span></p>
+          <button @click="toPath()"
+                  class="h-btn">点击充值</button>
+        </div>
       </div>
     </div>
     <el-tabs v-model="activeName">
-      <el-tab-pane label="提现记录"
+      <el-tab-pane label="使用记录"
                    name="first">
         <usdtUser></usdtUser>
-      </el-tab-pane>
-      <el-tab-pane label="提现地址"
-                   name="second">
-        <usdtAccount></usdtAccount>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -46,7 +40,11 @@ export default {
       activeName: 'first'
     }
   },
-  methods: {}
+  methods: {
+    toPath () {
+      this.$router.push('usdt')
+    }
+  }
 }
 </script>
 
@@ -63,5 +61,15 @@ export default {
   margin-right: 180px;
 }
 .h-left {
+}
+.h-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.h-btn {
+  padding: 0 15px;
+  background-color: rgb(64, 158, 255);
+  color: #fff;
 }
 </style>
