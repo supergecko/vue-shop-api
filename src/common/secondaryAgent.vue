@@ -3,16 +3,16 @@
     <swiper :options="swiperOption">
       <swiper-slide v-for="(item,index) in grandson[flag]" :key="index">
         <div class="secondTeam">
-          <div class="team1Title">{{item.identity==1?'普通用户':'雷猫合伙人'}}</div>
+          <div class="team1Title">{{item.identity===1?'普通用户':'雷猫合伙人'}}</div>
           <el-row style="padding-top: 19px;">
             <el-col :span="15" class="teamLeft">
               <div class="userName">用户名:{{item.nickname}}</div>
-              <div>累计贡献值:{{item.results==null? 0 : item.results}}</div>
+              <div>累计贡献值:{{item.results==null?0:item.results}}</div>
             </el-col>
             <el-col :span="9" style="text-align: center;margin-top: -1px">
               <el-image
                 style="width: 43px; height: 43px"
-                :src=item.avatar
+                :src=item.qrcode
                 fit="fill"></el-image>
             </el-col>
           </el-row>

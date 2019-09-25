@@ -27,6 +27,10 @@ const userAgreement = resolve => require(['/page/Agreement/userAgreement'], reso
 const privacyAgreement = resolve => require(['/page/Agreement/privacyAgreement'], resolve)
 const Store = resolve => require(['/page/Store/store'], resolve)
 
+const rmbPage = resolve => require(['/page/User/children/renminbi'], resolve)
+const rmbPageTx = resolve => require(['/page/User/children/renminbiTx'], resolve)
+const usdt = resolve => require(['/page/User/children/usdt'], resolve)
+const usdtTx = resolve => require(['/page/User/children/usdtTx'], resolve)
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -76,7 +80,12 @@ export default new Router({
         { path: 'dailyOutput', name: '每日产出', component: dailyOutput },
         { path: 'chargeRecharge', name: '电费充值', component: chargeRecharge },
         { path: 'userInfo', name: '账户中心', component: userInfo },
-        { path: 'orderDetail', name: 'orderDetail', component: orderDetail }
+        { path: 'orderDetail', name: 'orderDetail', component: orderDetail },
+
+        { path: 'rmbPage', name: '每日产出', component: rmbPage },
+        { path: 'rmbPageTx', name: '电费充值', component: rmbPageTx },
+        { path: 'usdt', name: '账户中心', component: usdt },
+        { path: 'usdtTx', name: 'orderDetail', component: usdtTx }
       ]
     },
     { path: '*', redirect: '/home' }

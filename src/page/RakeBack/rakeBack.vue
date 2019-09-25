@@ -45,31 +45,21 @@
             <el-row style="margin-bottom: -6px">我的推荐人</el-row>
             <el-row class="publicTitleFooterBtn"></el-row>
           </el-row>
-          <el-row class="referenceWarp">
-            <el-row>
-              <el-col :span="12" class="referenceHeaderLeft">
-                <el-image
-                  style="width: 31px; height: 31px"
-                  src="../../../../static/images/recommenderlogo.png"
-                  fit="fill"></el-image>
-                <div style="font-size: 30px;">当前等级</div>
+          <div class="myTeam1 myLeader" style="margin: 0 auto" >
+            <div class="team1Title">普通用户</div>
+            <el-row style="margin-top: 50px;">
+              <el-col :span="15" class="teamLeft">
+                <div class="userName">用户名:暂无</div>
+                <div>累计贡献值:暂无</div>
               </el-col>
-              <el-col :span="12" class="referenceHeaderRight">{{leader.identity==1?'普通用户':'雷猫合伙人'}}</el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12" class="referenceFooterLeft">
-                <div class="FooterLeftItem1">暂无</div>
-                <div>邀请人数 暂无</div>
-                <div>累计贡献值 暂无</div>
-              </el-col>
-              <el-col :span="12" class="referenceFooterRight">
+              <el-col :span="9" style="text-align: center;margin-top: -20px;">
                 <el-image
                   style="width: 100px; height: 100px"
-                  :src="leader.qrcode"
+                  src="http://www.dterdal.com/public/code.png"
                   fit="fill"></el-image>
               </el-col>
             </el-row>
-          </el-row>
+          </div>
         </el-row>
         <!--不为空-->
         <el-row v-show="!(JSON.stringify(leader) === '{}')">
@@ -77,31 +67,21 @@
             <el-row style="margin-bottom: -6px">我的推荐人</el-row>
             <el-row class="publicTitleFooterBtn"></el-row>
           </el-row>
-          <el-row class="referenceWarp">
-            <el-row>
-              <el-col :span="12" class="referenceHeaderLeft">
-                <el-image
-                  style="width: 31px; height: 31px"
-                  src="../../../../static/images/recommenderlogo.png"
-                  fit="fill"></el-image>
-                <span>{{leader.identity==1?'普通用户':'雷猫合伙人'}}</span>
+          <div class="myTeam1 myLeader" style="margin: 0 auto">
+            <div class="team1Title">{{leader.identity===1?'普通用户':'雷猫合伙人'}}</div>
+            <el-row style="margin-top: 50px;">
+              <el-col :span="15" class="teamLeft">
+                <div class="userName">用户名:{{leader.nickname}}</div>
+                <div>累计贡献值:{{leader.results===null?0:leader.results}}</div>
               </el-col>
-              <el-col :span="12" class="referenceHeaderRight">当前等级</el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12" class="referenceFooterLeft">
-                <div class="FooterLeftItem1">用户名: {{leader.nickname}}</div>
-                <div>邀请人数: {{leader.direct_number==null? 0 : leader.direct_number}}</div>
-                <div>累计贡献值: {{leader.results==null? 0 : leader.results}}</div>
-              </el-col>
-              <el-col :span="12" class="referenceFooterRight">
+              <el-col :span="9" style="text-align: center;margin-top: -20px;">
                 <el-image
                   style="width: 100px; height: 100px"
-                  :src="leader.qrcode"
+                  :src=leader.qrcode
                   fit="fill"></el-image>
               </el-col>
             </el-row>
-          </el-row>
+          </div>
         </el-row>
 
         <!--儿子-->
@@ -138,7 +118,7 @@
           <el-carousel :autoplay="false" type="card" ref="carousel" v-on:change="changeFun">
             <el-carousel-item v-for="(item, i) in children" :key="i" name="index" style="height: 264px;border-radius:10px;">
               <div class="myTeam1">
-                <div class="team1Title">{{item.identity==1?'普通用户':'雷猫合伙人'}}</div>
+                <div class="team1Title">{{item.identity===1?'普通用户':'雷猫合伙人'}}</div>
                 <el-row style="margin-top: 50px;">
                   <el-col :span="15" class="teamLeft">
                     <div class="userName">用户名:{{item.nickname}}</div>
@@ -200,6 +180,7 @@
         polularizeDetail(params).then(res => {
           loading.close()
           if (res.status === 200 && res.data.code === 1) {
+            console.log(res.data.data)
             this.leader = res.data.data.leader
             this.children = res.data.data.children
             this.grandson = res.data.data.grandson
@@ -358,6 +339,10 @@
     height: 264px;
     border-radius:10px;
     background-image: url("../../../static/images/team1.png");
+  }
+  .myLeader{
+    background-image: url("../../../static/images/leader.png");
+    border-radius:30px;
   }
   .team1Title{
     text-align:center;

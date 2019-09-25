@@ -61,7 +61,7 @@
                       <span class="total-content">BTC</span>
                     </div>
                     <div class="total-detail">
-                      <span>≈ $0.00</span>
+  <!--                      <span>≈ ￥0.00</span>-->
                     </div>
                     <div class="share">
                       <span class="el-icon-share"></span>
