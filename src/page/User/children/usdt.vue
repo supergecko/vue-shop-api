@@ -1,6 +1,9 @@
 <template>
   <div class="usdt">
-    <YShelf title="USDT充值"
+    <YShelf title="USDT余额"
+            itemTitle="USDT充值"
+            titleFlag="true"
+            fourPath="true"
             style="margin-bottom: 10px;"></YShelf>
     <div class="wrap">
       <div class="address">
