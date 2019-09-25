@@ -33,8 +33,8 @@ module.exports = {
         // target: 'http://www.dterdal.com',// 测试环境
         target: 'https://www.ileriweb.com',// 线上环境
         changeOrigin: true,
-        pathRewrite:{
-          '^/api1':'/'
+        pathRewrite: {
+          '^/api1': '/'
         }
       }
     },
