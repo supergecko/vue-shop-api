@@ -29,10 +29,10 @@
                     <router-link to="/crowdFunding"
                                  :class="{classA: this.$route.path=='/crowdFunding'? true:false}">矿机拼团</router-link>
                   </li>
-<!--                  <li>-->
-<!--                    <router-link to="/store"-->
-<!--                                 :class="{classA: this.$route.path=='/store'? true:false}">商城</router-link>-->
-<!--                  </li>-->
+                  <!--                  <li>-->
+                  <!--                    <router-link to="/store"-->
+                  <!--                                 :class="{classA: this.$route.path=='/store'? true:false}">商城</router-link>-->
+                  <!--                  </li>-->
                   <li>
                     <router-link to="/jackpot"
                                  :class="{classA: this.$route.path=='/jackpot'? true:false}">奖池瓜分</router-link>
@@ -129,7 +129,7 @@ export default {
         link: '/user/coupon'
       }, {
         text: '资金管理',
-        link: '/user/usdt'
+        link: '/user/usdtTx'
       }],
       st: false
     }
