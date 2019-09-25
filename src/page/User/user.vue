@@ -63,10 +63,8 @@ export default {
         { name: '资金管理',
           icon: 'el-icon-date',
           children: [
-            { name: 'USDT充值', path: 'usdt' },
-            { name: '人民币充值', path: 'rmbPage' },
-            { name: 'USDT提现', path: 'usdtTx' },
-            { name: '人民币提现', path: 'rmbPageTx' }
+            { name: 'USDT余额', path: 'usdtTx' },
+            { name: '人民币余额', path: 'rmbPageTx' }
           ]
         }
       ],
