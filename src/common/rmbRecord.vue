@@ -3,31 +3,24 @@
     <el-table :data="tableData"
               style="width: 100%;margin-bottom: 20px"
               height="400">
-      <el-table-column prop="oddNum"
-                       label="提现单号"
-                       width="105">
-      </el-table-column>
-      <el-table-column prop="bank"
-                       label="提现银行"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="region"
-                       label="开户地区"
+      <el-table-column prop="time"
+                       label="时间"
                        width="160">
       </el-table-column>
-      <el-table-column prop="cardNum"
-                       label="银行卡号"
+      <el-table-column prop="status"
+                       label="使用情况"
                        width="200">
       </el-table-column>
-      <el-table-column prop="cardhold"
-                       label="持卡人"
-                       width="85">
-      </el-table-column>
       <el-table-column prop="money"
-                       label="提现金额(￥)">
+                       label="金额"
+                       width="200">
+      </el-table-column>
+      <el-table-column prop="residue"
+                       label="剩余金额"
+                       width="200">
       </el-table-column>
       <el-table-column prop="tag"
-                       label="提现状态"
+                       label="状态"
                        width="200"
                        :filters="[
       { text: '待支付', value: '待支付' },
@@ -56,84 +49,39 @@ export default {
   data: function () {
     return {
       tableData: [{
-        oddNum: 1,
-        bank: '中国人民银行',
-        region: '福建省福州市鼓楼区软件园',
-        cardNum: '12345678901234560000',
-        cardhold: '李白白',
-        money: '10000000',
-        state: '良好',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       },
       {
-        oddNum: 1,
-        bank: '中国人民银行',
-        region: '福建省福州市鼓楼区软件园',
-        cardNum: '12345678901234560000',
-        cardhold: '李白白',
-        money: '10000000',
-        state: '良好',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       },
       {
-        oddNum: 1,
-        bank: '中国人民银行',
-        region: '福建省福州市鼓楼区软件园',
-        cardNum: '12345678901234560000',
-        cardhold: '李白白',
-        money: '10000000',
-        state: '良好',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       },
       {
-        oddNum: 1,
-        bank: '中国人民银行',
-        region: '福建省福州市鼓楼区软件园',
-        cardNum: '12345678901234560000',
-        cardhold: '李白白',
-        money: '10000000',
-        state: '良好',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       },
       {
-        oddNum: 1,
-        bank: '中国人民银行',
-        region: '福建省福州市鼓楼区软件园',
-        cardNum: '12345678901234560000',
-        cardhold: '李白白',
-        money: '10000000',
-        state: '良好',
-        tag: '已关闭'
-      },
-      {
-        oddNum: 1,
-        bank: '中国人民银行',
-        region: '福建省福州市鼓楼区软件园',
-        cardNum: '12345678901234560000',
-        cardhold: '李白白',
-        money: '10000000',
-        state: '良好',
-        tag: '已关闭'
-      },
-      {
-        oddNum: 1,
-        bank: '中国人民银行',
-        region: '福建省福州市鼓楼区软件园',
-        cardNum: '12345678901234560000',
-        cardhold: '李白白',
-        money: '10000000',
-        state: '良好',
-        tag: '已关闭'
-      },
-      {
-        oddNum: 1,
-        bank: '中国人民银行',
-        region: '福建省福州市鼓楼区软件园',
-        cardNum: '12345678901234560000',
-        cardhold: '李白白',
-        money: '10000000',
-        state: '良好',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       }
       ]
     }
