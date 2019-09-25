@@ -30,9 +30,7 @@
            disabled
            class="ipt"
            type="text">{{ usdtList[2].address }}</p>
-        <button class="btn"
-                v-clipboard:copy="usdtList[0].address"
-                v-clipboard:success="copy">复制充值地址</button>
+        <button class="btn"  @click="copyText">复制充值地址</button>
       </div>
 
       <div class="QRcode">
@@ -142,10 +140,15 @@ export default {
     }
   },
   methods: {
-    copy () {
-      this.$message({
-        message: '复制成功',
-        type: 'success'
+    copyText () {
+      const _this = this
+      this.$copyText(this.usdtList[2].address).then(function (e) {
+        _this.$message({
+          message: '复制成功',
+          type: 'success'
+        })
+      }, function (e) {
+        _this.$message.error('复制失败，请重试')
       })
     }
   },
