@@ -127,6 +127,9 @@ export default {
       }, {
         text: '我的礼券',
         link: '/user/coupon'
+      }, {
+        text: '资金管理',
+        link: '/user/usdt'
       }],
       st: false
     }
