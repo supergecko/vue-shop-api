@@ -3,24 +3,24 @@
     <el-table :data="tableData"
               style="width: 100%;margin-bottom: 20px"
               height="400">
-      <el-table-column prop="oddNum"
-                       label="提币单号"
-                       width="120">
+      <el-table-column prop="time"
+                       label="时间"
+                       width="160">
       </el-table-column>
-      <el-table-column prop="address"
-                       label="提币地址"
-                       width="300">
+      <el-table-column prop="status"
+                       label="使用情况"
+                       width="200">
       </el-table-column>
-      <el-table-column prop="remark"
-                       label="地址备注"
-                       width="230">
+      <el-table-column prop="money"
+                       label="金额"
+                       width="200">
       </el-table-column>
-      <el-table-column prop="cardNum"
-                       label="提币数量(USDT)"
+      <el-table-column prop="residue"
+                       label="剩余金额"
                        width="200">
       </el-table-column>
       <el-table-column prop="tag"
-                       label="提现状态"
+                       label="状态"
                        width="200"
                        :filters="[
       { text: '待支付', value: '待支付' },
@@ -49,39 +49,39 @@ export default {
   data: function () {
     return {
       tableData: [{
-        oddNum: 1,
-        address: '福建省福州市鼓楼区软件园',
-        remark: '第一个地址',
-        cardNum: '200',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       },
       {
-        oddNum: 1,
-        address: '福建省福州市鼓楼区软件园',
-        remark: '第一个地址',
-        cardNum: '200',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       },
       {
-        oddNum: 1,
-        address: '福建省福州市鼓楼区软件园',
-        remark: '第一个地址',
-        cardNum: '200',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       },
       {
-        oddNum: 1,
-        address: '福建省福州市鼓楼区软件园',
-        remark: '第一个地址',
-        cardNum: '200',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       },
       {
-        oddNum: 1,
-        address: '福建省福州市鼓楼区软件园',
-        remark: '第一个地址',
-        cardNum: '200',
-        tag: '已关闭'
+        time: '2019/09/25 17:40',
+        status: '购买电费',
+        money: '1250',
+        residue: '200',
+        tag: '已完成'
       }
       ]
     }
@@ -98,7 +98,4 @@ export default {
 </script>
 
 <style scoped>
-.usdtUser {
-  width: 990px;
-}
 </style>
