@@ -30,7 +30,8 @@
            disabled
            class="ipt"
            type="text">{{ usdtList[2].address }}</p>
-        <button class="btn"  @click="copyText">复制充值地址</button>
+        <button class="btn"
+                @click="copyText">复制充值地址</button>
       </div>
 
       <div class="QRcode">
@@ -258,7 +259,6 @@ export default {
 }
 
 .title {
-  width: 120px;
-  padding-right: 20px;
+  width: 140px;
 }
 </style>
