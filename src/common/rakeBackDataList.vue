@@ -21,7 +21,7 @@
         width="120">
       </el-table-column>
       <el-table-column
-        prop="final_price"
+        prop="thundercat_coin"
         label="返佣积分"
         width="180">
       </el-table-column>

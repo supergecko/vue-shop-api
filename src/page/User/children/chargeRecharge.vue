@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <y-shelf title="电费订单" itemTitle="电费缴纳" titleFlag="true" thirdPath="true"></y-shelf>
-    <el-main style="background:rgba(255,255,255,1);margin-bottom: 20px;min-width: 950px" >
+    <el-main style="background:rgba(255,255,255,1);max-width: 950px;margin: 0 auto;margin-bottom: 20px;" >
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
         <el-form-item label="套餐">
           <el-select v-model="ruleForm.name" :placeholder=electricityInfo.goods_name disabled>

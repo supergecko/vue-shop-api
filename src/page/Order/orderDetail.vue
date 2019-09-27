@@ -52,7 +52,7 @@
             <li>价格</li>
           </ul>
           <ul>
-            <li>{{ order.goods_name }}TH/s</li>
+            <li>{{ order.goods_name }}</li>
             <li>{{ pay.title }}</li>
             <li>{{ order.goods_num }}台</li>
             <li>{{ order.hashrate }}TH/s</li>
@@ -84,7 +84,30 @@
         </div>
       </div>
 
+      <!--优惠信息-->
       <div class="payInfo">
+        <div class="title"><span>优惠信息</span></div>
+        <div class="inWrap">
+          <div class="content">
+            <p>类型</p>
+            <p>{{ discount.name }}</p>
+          </div>
+          <div class="content">
+            <p>金额</p>
+            <p>{{discount.amount}}</p>
+          </div>
+<!--          <div class="content">-->
+<!--            <p>挖矿币种</p>-->
+<!--            <p>{{ pay.title }}</p>-->
+<!--          </div>-->
+<!--          <div class="content">-->
+<!--            <p>支付状态</p>-->
+<!--            <p>{{ pay_status }}</p>-->
+<!--          </div>-->
+        </div>
+      </div>
+
+      <div class="payInfo" style="margin-top: 20px">
         <div class="title"><span>支付信息</span></div>
         <div class="inWrap">
           <div class="content">
@@ -108,7 +131,7 @@
 
       <div class="payInfo"
            style="margin-top: 20px"
-           v-if="delivery !== null">
+           v-if="!(delivery===null)">
         <div class="title"><span>物流信息</span></div>
         <div class="inWrap">
           <div class="content">
@@ -145,11 +168,11 @@ export default {
   data: function () {
     return {
       ele: {},
-      minus: {},
       order: {},
       pay: {},
       delivery: {},
-      active: true
+      active: true,
+      discount: {}
     }
   },
   created () {
@@ -175,9 +198,9 @@ export default {
         .then(res => {
           let data = res.data.data
           this.ele = data.ele
-          this.minus = data.minus
           this.order = data.order
           this.pay = data.pay
+          this.discount = data.discount[0]
           this.delivery = data.delivery
           console.log(this.delivery)
         })
@@ -332,6 +355,7 @@ export default {
       display: flex;
       flex-direction: row;
       padding: 20px 10px;
+      line-height: 19px;
       li {
         flex: 1;
       }
@@ -356,6 +380,7 @@ export default {
       display: flex;
       flex-direction: row;
       padding: 10px 0;
+      line-height: 19px;
       p {
         margin-right: 70px;
       }
