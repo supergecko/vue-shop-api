@@ -52,7 +52,7 @@
           <div class="main-link-img">
             <el-image
               style="width: 100px; height: 100px"
-              :src="url"
+              :src="QRCodeUrl"
               fit="fill"></el-image>
           </div>
         </el-col>
@@ -127,7 +127,7 @@
     data () {
       return {
         fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
-        url: 'http://www.dterdal.com/public/code.png',
+        QRCodeUrl: '',
         activeName: 'first',
         input: '',
         identity: '',
@@ -162,11 +162,14 @@
         myPopularize(params).then(res => {
           loading.close()
           if (res.status === 200 && res.data.code === 1) {
+            console.log(res.data.data)
             this.input = res.data.data.popularize_url
+            this.QRCodeUrl = res.data.data.qr_code
             this.add_up_coin = res.data.data.add_up_coin === null ? 0 : res.data.data.add_up_coin
             this.direct_number = res.data.data.direct_number === null ? 0 : res.data.data.direct_number
             this.available = res.data.data.available === null ? 0 : res.data.data.available
             this.identity = res.data.data.identity
+            this.bonus_record = res.data.data.bonus_record
           } else {
             this.$message.error(res.data.msg)
           }

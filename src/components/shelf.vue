@@ -23,7 +23,7 @@
       <el-breadcrumb separator="/"
                      v-if="thirdPath">
         <el-breadcrumb-item :to="{ path: '/user/orderList' }">我的订单</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/user/chargeRecharge' }">电费充值</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/user/chargeRecharge' }">电费缴纳</el-breadcrumb-item>
       </el-breadcrumb>
       <el-breadcrumb separator="/"
                      v-if="fourPath">

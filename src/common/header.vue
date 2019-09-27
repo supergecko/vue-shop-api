@@ -54,6 +54,9 @@
                                  :class="{classA: this.$route.path=='/aboutUs'? true:false}">关于我们</router-link>
                   </li>
                 </div>
+                <div class="userLoginText" :class="{userLoginTextFixed:st}">
+                  <router-link to="/user/userInfo">{{userLoginText}}</router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -63,7 +66,7 @@
                  ref="aside"
                  :class="{fixed: (st && showNav)}">
               <div class="user pr">
-                <router-link to="/user">个人中心</router-link>
+                <router-link to="/user/userInfo">个人中心</router-link>
                 <!--用户信息显示-->
                 <div class="nav-user-wrapper pa"
                      v-if="userLoginFalg">
@@ -109,6 +112,7 @@ export default {
   },
   data () {
     return {
+      userLoginText: getItem('userName') ? `尊敬的 ${getItem('userID')} 欢迎您` : '未登录', // 是否登录用户名显示
       userLoginFalg: false,
       user: {},
       // 列表
@@ -127,9 +131,6 @@ export default {
       }, {
         text: '我的礼券',
         link: '/user/coupon'
-      }, {
-        text: '资金管理',
-        link: '/user/usdtTx'
       }],
       st: false
     }
@@ -206,6 +207,12 @@ export default {
 }
 </script>
 <style>
+.userLoginText{
+  line-height: 28px;text-align: right;position: absolute;right:-200px;width: 180px;
+}
+.userLoginTextFixed{
+  right: 0px;
+}
 .nav-sub .nav-list li a[data-v-a1bfd9a2]:hover {
   color: #4c84ff !important;
   font-size: 14px !important;
@@ -350,7 +357,7 @@ header {
   }
   // 用户
   .user {
-    margin-left: 322px;
+    margin-left: 300px;
     &:hover {
       a:before {
         background-position: -5px 0;

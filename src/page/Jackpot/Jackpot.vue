@@ -35,7 +35,7 @@
                 </div>
                 <div style="display: flex;margin-top: 28px">
                   <span class="rightNumber">2</span>
-                  <span style="webkit-text-fill-color: transparent;">累计贡献值排行榜最高的前三名能够参与奖池积分的发放</span>
+                  <span style="webkit-text-fill-color: transparent;">累计贡献值排行榜最高的前十名能够参与奖池积分的发放</span>
                 </div>
                 <div style="display: flex;margin-top: 28px">
                   <span class="rightNumber">3</span>
@@ -51,7 +51,7 @@
         </el-row>
         <el-row class="footerWarp">
           <div class="footerBtn">
-            <router-link to="/rakeBack">立即邀请好友</router-link>
+            <router-link to="/user/extension">立即邀请好友</router-link>
           </div>
         </el-row>
       </el-row>
@@ -65,8 +65,15 @@
             <p class="championTitle">贡献排行榜</p>
           </div>
         </el-row>
-        <el-row class="ratingWarp">
+        <el-row class="ratingWarp" v-loading="loading"
+                element-loading-text="正在统计中敬请期待"
+                element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 1)"
+                element-loading-custom-class="ratingWarpMaskText">
           <jackpot-data-list :order_list=rankList :flag=true></jackpot-data-list>
+<!--          <el-row class="ratingWarpMask">-->
+<!--            <div class="ratingWarpMaskText">正在统计中敬请期待</div>-->
+<!--          </el-row>-->
         </el-row>
       </el-row>
 
@@ -98,6 +105,7 @@ import { getItem } from './../../utils/newLocalStorage'
 export default {
   data () {
     return {
+      loading: true,
       jackpot_thundercat_coin: 0, // 奖池总LMB
       rankList: [], // 排行榜
       all_team_order: [] // 团队贡献
@@ -135,8 +143,45 @@ export default {
   }
 }
 </script>
-
+<style>
+  .ratingWarpMaskText{
+    font-size: 42px;
+    font-family: Source Han Sans CN;
+    z-index: 0;
+  }
+  .ratingWarpMaskText .el-loading-spinner {
+    top: 40%;
+  }
+  .ratingWarpMaskText .el-loading-text{
+    font-size: 27px;
+    font-family: Source Han Sans CN;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+    background: linear-gradient( 0deg, rgba(247, 207, 141, 1) 0%, rgba(238, 234, 207, 1) 100% );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .ratingWarpMaskText .el-loading-spinner i {
+    font-family: Source Han Sans CN;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+    background: linear-gradient( 0deg, rgba(247, 207, 141, 1) 0%, rgba(238, 234, 207, 1) 100% );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>
 <style scoped>
+.ratingWarpMask{
+  width: 100%;
+  height: 525px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.7);
+}
+
 .JackoptContent {
   padding-top: 60px;
   background: rgba(5, 5, 5, 1);

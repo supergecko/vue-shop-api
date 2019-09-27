@@ -124,3 +124,11 @@ export const deleteWalletAddress = (params) => {
 export const shouhuo = (params) => {
   return ypost(`${baseUrl}/home/order/orderFinished`, params)
 }
+// 电费订单充值/详情接口
+export const buyElectricityDetail = (params) => {
+  return ypost(`${baseUrl}/home/order/buyElectricityDetail`, params)
+}
+// 电费购买接口
+export const buyElectricityCost = (params) => {
+  return ypost(`${baseUrl}/home/order/buyElectricityCost`, params)
+}

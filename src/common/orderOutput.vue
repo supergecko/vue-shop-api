@@ -16,7 +16,7 @@
       </el-table-column>
       <el-table-column
         prop="description"
-        label="套餐周期"
+        label="矿机品牌"
         width="100">
       </el-table-column>
       <el-table-column

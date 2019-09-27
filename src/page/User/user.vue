@@ -4,34 +4,12 @@
     <div class="w">
       <div class="content">
         <div class="account-sidebar">
-          <div class="avatar gray-box "
-               style="padding-top: 0px;">
+          <div class="avatar gray-box " style="padding-top: 0px;">
             <div class="box-inner">
-              <ul class="account-nav"
-                  style="padding-top: 0px;">
-                <li v-for="(item,i) in nav"
-                    :key='i'
-                    :class="{current:item.name===title,li:true}"
+              <ul class="account-nav" style="padding-top: 0px;">
+                <li v-for="(item,i) in nav" :key='i' :class="{current:item.name===title}"
                     @click="tab(item)">
-                  <a @click="change(i)"
-                     href="javascript:;"><i :class=item.icon></i>{{item.name}}<i v-if="item.children"
-                       v-show="isActice"
-                       class='jiantou el-icon-arrow-down'></i><i v-if="item.children"
-                       v-show="!isActice"
-                       class='jiantou el-icon-arrow-up'></i></a>
-                </li>
-              </ul>
-              <ul v-show="!isActice">
-                <li class="childLi"
-                    v-for=" (child,index)
-                      in
-                      nav[5].children"
-                    :key="index"
-                    :class="{current:child.name===title,li:true}">
-
-                  <a @click="tab(child)"
-                     href="javascript:;">{{ child.name }}</a>
-                </li>
+                  <a href="javascript:;"><i :class=item.icon></i>{{item.name}}</a></li>
               </ul>
             </div>
           </div>
@@ -44,7 +22,6 @@
     <y-footer></y-footer>
 
   </div>
-
 </template>
 <script>
 import YFooter from '/common/footer'
@@ -56,17 +33,17 @@ export default {
       title: '账户资料',
       nav: [
         { name: '账户中心', path: 'userInfo', icon: 'el-icon-user-solid' },
-        { name: '控制面板', path: 'information', icon: 'el-icon-time' },
+        { name: '控制面板', path: 'information', icon: 'el-icon-monitor' },
         { name: '我的订单', path: 'orderList', icon: 'el-icon-edit-outline' },
-        { name: '我的推广', path: 'extension', icon: 'el-icon-star-on' },
-        { name: '我的礼卷', path: 'coupon', icon: 'el-icon-star-on' },
-        { name: '资金管理',
-          icon: 'el-icon-date',
-          children: [
-            { name: 'USDT余额', path: 'usdtTx' },
-            { name: '人民币余额', path: 'rmbPageTx' }
-          ]
-        }
+        { name: '我的推广', path: 'extension', icon: 'el-icon-s-promotion' },
+        { name: '我的礼卷', path: 'coupon', icon: 'el-icon-s-ticket' }
+        // { name: '资金管理',
+        //   icon: 'el-icon-date',
+        //   children: [
+        //     { name: 'USDT余额', path: 'usdtTx' },
+        //     { name: '人民币余额', path: 'rmbPageTx' }
+        //   ]
+        // }
       ],
       editAvatar: true,
       isActice: true,

@@ -117,7 +117,7 @@
 
           <el-row class="marginTop">
             <el-card class="box-card" :body-style="{ padding: '0 0 0 20px'}">
-              <span class="title-line-bottom bottomItem">每单产出</span>
+<!--              <span class="title-line-bottom bottomItem">每单产出</span>-->
                 <el-tabs v-model="activeName">
                   <el-tab-pane label="全部订单状态" name="first">
                     <OrderOutput :orderDataList=all_order></OrderOutput>

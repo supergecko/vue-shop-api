@@ -37,6 +37,12 @@ export default {
     state.token = info.info.token
     state.userId = info.info.user_id
     setItem({
+      name: 'userName',
+      value: info.info.mobile,
+      expires: 86400000,
+      startTime: Date.parse(new Date())
+    })
+    setItem({
       name: 'userToken',
       value: info.info.token,
       expires: 86400000,

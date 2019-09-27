@@ -4,7 +4,7 @@
     <el-main style="padding-top: 0px">
       <!--爷爷-->
       <!--为空的时候-->
-      <el-row v-show="(JSON.stringify(leader) === '{}')">
+      <el-row v-show="leader.length===0">
         <el-row class="publicTitle">
           <el-row style="margin-bottom: -6px">我的推荐人</el-row>
           <el-row class="publicTitleFooterBtn"></el-row>
@@ -19,13 +19,13 @@
             <el-col :span="9" style="text-align: center;margin-top: -20px;">
               <el-image
                 style="width: 100px; height: 100px"
-                src="http://www.dterdal.com/public/code.png"
+                src="../../../static/lmbImg/qrcodeLocal.png"
                 fit="fill"></el-image>
             </el-col>
           </el-row>
         </div>
       </el-row>
-      <el-row v-show="!(JSON.stringify(leader) === '{}')">
+      <el-row v-show="!(leader.length===0)">
         <el-row class="publicTitle">我的推荐人</el-row>
         <div class="myTeam1 myLeader" style="margin: 0 auto">
           <div class="team1Title">{{leader.identity===1?'普通用户':'雷猫合伙人'}}</div>
@@ -62,7 +62,7 @@
                 <el-col :span="9" style="text-align: center;margin-top: -20px;">
                   <el-image
                     style="width: 100px; height: 100px"
-                    src="http://www.dterdal.com/public/code.png"
+                    src="../../../static/lmbImg/qrcodeLocal.png"
                     fit="fill"></el-image>
                 </el-col>
               </el-row>

@@ -40,7 +40,7 @@
 
         <!--爷爷-->
         <!--为空的时候-->
-        <el-row v-show="(JSON.stringify(leader) === '{}')">
+        <el-row v-show="leader.length===0">
           <el-row class="publicTitle">
             <el-row style="margin-bottom: -6px">我的推荐人</el-row>
             <el-row class="publicTitleFooterBtn"></el-row>
@@ -55,14 +55,14 @@
               <el-col :span="9" style="text-align: center;margin-top: -20px;">
                 <el-image
                   style="width: 100px; height: 100px"
-                  src="http://www.dterdal.com/public/code.png"
+                  src="../../static/lmbImg/qrcodeLocal.png"
                   fit="fill"></el-image>
               </el-col>
             </el-row>
           </div>
         </el-row>
         <!--不为空-->
-        <el-row v-show="!(JSON.stringify(leader) === '{}')">
+        <el-row v-show="!(leader.length===0)">
           <el-row class="publicTitle">
             <el-row style="margin-bottom: -6px">我的推荐人</el-row>
             <el-row class="publicTitleFooterBtn"></el-row>
@@ -102,7 +102,7 @@
                   <el-col :span="9" style="text-align: center;margin-top: -20px;">
                     <el-image
                       style="width: 100px; height: 100px"
-                      src="http://www.dterdal.com/public/code.png"
+                      src="../../static/lmbImg/qrcodeLocal.png"
                       fit="fill"></el-image>
                   </el-col>
                 </el-row>
@@ -180,7 +180,7 @@
         polularizeDetail(params).then(res => {
           loading.close()
           if (res.status === 200 && res.data.code === 1) {
-            console.log(res.data.data)
+            console.log(JSON.stringify(res.data.data))
             this.leader = res.data.data.leader
             this.children = res.data.data.children
             this.grandson = res.data.data.grandson
