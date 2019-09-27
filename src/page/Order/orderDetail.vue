@@ -3,7 +3,7 @@
     <y-shelf title="我的订单"
              itemTitle="订单详情"
              titleFlag="true"
-             thirdPath="true"></y-shelf>
+             sevenPath="true"></y-shelf>
     <div class="bg">
       <div class="head-wrap">
         <div class="time">
@@ -57,7 +57,7 @@
             <li>{{ order.goods_num }}台</li>
             <li>{{ order.hashrate }}TH/s</li>
             <li>{{ order.cycle_day }}</li>
-            <li>{{ order.add_time }}</li>
+            <li>{{ order.mine_doing }}</li>
             <li>{{ order.final_price }}元</li>
           </ul>
           <div class="title"

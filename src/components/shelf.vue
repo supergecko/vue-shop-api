@@ -22,7 +22,7 @@
       </el-breadcrumb>
       <el-breadcrumb separator="/"
                      v-if="thirdPath">
-        <el-breadcrumb-item :to="{ path: '/user/orderList' }">我的订单</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{path: '/user/orderList',query: {goBackFlag: true}}">电费订单</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/user/chargeRecharge' }">电费缴纳</el-breadcrumb-item>
       </el-breadcrumb>
       <el-breadcrumb separator="/"
@@ -34,6 +34,11 @@
                      v-if="fivePath">
         <el-breadcrumb-item :to="{ path: '/user/rmbPageTx' }">人民币余额</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/user/rmbPage' }">人民币充值</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-breadcrumb separator="/"
+                     v-if="sevenPath">
+        <el-breadcrumb-item :to="{ path: '/user/orderList' }">算力套餐订单</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/user/orderDetail' }">查看详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -54,7 +59,8 @@ export default {
     'secondPath',
     'thirdPath',
     'fourPath',
-    'fivePath'
+    'fivePath',
+    'sevenPath'
   ]
 }
 </script>

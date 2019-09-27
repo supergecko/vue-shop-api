@@ -74,6 +74,9 @@
       }
     },
     created () {
+      if (this.$route.query.goBackFlag === true) {
+        this.activeName = 'second'
+      }
       this._orderDetail()
     },
     components: {

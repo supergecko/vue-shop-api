@@ -67,11 +67,8 @@
     created () {
     },
     methods: {
-      formatter (row, column) {
-        return row.actual_price
-      },
       filterTag (value, row) {
-        return row.order_status === value
+        return row.pay_status === value
       },
       look (index) {
         this.$router.push({

@@ -50,7 +50,6 @@
         <el-button type="text"
                    size="small"
                    @click="look(scope.$index)">查看详情</el-button>
-
       </template>
     </el-table-column>
   </el-table>

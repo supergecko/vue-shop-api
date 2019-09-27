@@ -12,7 +12,7 @@
     <el-table-column
       prop="goods_num"
       label="设备数量(台)"
-      width="110">
+      width="140">
     </el-table-column>
 <!--    <el-table-column-->
 <!--      prop="electricity_consumption"-->
@@ -22,35 +22,40 @@
     <el-table-column
       prop="electricity"
       label="电费单价(元)"
-      width="110">
+      width="140">
     </el-table-column>
     <el-table-column
       prop="electricity_cost"
       label="总电费"
-      width="120">
+      width="140">
     </el-table-column>
     <el-table-column
       prop="all_day"
       label="电费剩余天数"
-      width="120">
-    </el-table-column>
-    <el-table-column prop="ele_status"
-                     label="订单状态"
-                     width="120"
-                     :filters="[
-      { text: '未缴纳', value: '未缴纳' },
-      { text: '已缴纳', value: '已缴纳' },
-      { text: '待续费', value: '待续费' },
-      ]"
-                     :filter-method="filterTag"
-                     filter-placement="bottom-end">
+      width="180">
       <template slot-scope="scope">
-        <el-tag :type="scope.row.ele_status === '未缴纳' ? 'danger' :
-           scope.row.ele_status === '已缴纳' ? 'success':
-           scope.row.ele_status === '待续费' ? 'warning':''"
-                close-transition>{{scope.row.ele_status}}</el-tag>
+        {{scope.row.all_day}}
+        <el-tag type="danger" close-transition
+                :style="{display:scope.row.all_day<7?'inline-block':'none'}" style="margin-left:15px">请及时缴纳</el-tag>
       </template>
     </el-table-column>
+<!--    <el-table-column prop="ele_status"-->
+<!--                     label="订单状态"-->
+<!--                     width="120"-->
+<!--                     :filters="[-->
+<!--      { text: '未缴纳', value: '未缴纳' },-->
+<!--      { text: '已缴纳', value: '已缴纳' },-->
+<!--      { text: '待续费', value: '待续费' },-->
+<!--      ]"-->
+<!--                     :filter-method="filterTag"-->
+<!--                     filter-placement="bottom-end">-->
+<!--      <template slot-scope="scope">-->
+<!--        <el-tag :type="scope.row.ele_status === '未缴纳' ? 'danger' :-->
+<!--           scope.row.ele_status === '已缴纳' ? 'success':-->
+<!--           scope.row.ele_status === '待续费' ? 'warning':''"-->
+<!--                close-transition>{{scope.row.ele_status}}</el-tag>-->
+<!--      </template>-->
+<!--    </el-table-column>-->
     <el-table-column label="操作" width="120">
       <template slot-scope="scope">
         <el-button
@@ -68,12 +73,13 @@
     ],
     data () {
       return {
+        userAllDay: 0 // 用户电费剩余天数
       }
     },
     methods: {
-      filterTag (value, row) {
-        return row.order_status === value
-      },
+      // filterTag (value, row) {
+      //   return row.ele_status === value
+      // },
       handleEdit (index, row) {
         this.$router.push({
           path: '/user/chargeRecharge',
