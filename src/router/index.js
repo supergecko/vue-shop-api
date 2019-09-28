@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 const Index = resolve => require(['/page/index'], resolve)
 const Login = resolve => require(['/page/Login/login'], resolve)
+const UserLogin = resolve => require(['/page/UserLogin/userLogin'], resolve)
 const Home = resolve => require(['/page/Home/home'], resolve)
 const MineField = resolve => require(['/page/MineField/mineField'], resolve)
 const AboutUs = resolve => require(['/page/AboutUs/aboutUs'], resolve)
@@ -54,6 +55,14 @@ export default new Router({
         { path: '/privacyAgreement', name: 'privacyAgreement', component: privacyAgreement },
         { path: '/store', name: 'store', component: Store }
       ]
+    },
+    {
+      path: '/userLogin',
+      name: 'userLogin',
+      component: UserLogin,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/login',

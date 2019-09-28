@@ -12,8 +12,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import md5 from 'js-md5'
 import axios from 'axios'
-import { getItem, setItem } from './utils/newLocalStorage'
-import { homePage } from '/api'
+import { getItem } from './utils/newLocalStorage'
 
 Vue.prototype.$md5 = md5
 Vue.use(VueAwesomeSwiper)
@@ -96,20 +95,6 @@ router.beforeEach(function (to, from, next) {
       next({ path: '/' })
     }
     next()
-  }
-})
-
-homePage().then(res => {
-  if (res.status === 200) {
-    store.commit('ADD_FOOTERRATE', { info: res.data.data.rate })
-    setItem({
-      name: 'footRate',
-      value: res.data.data.rate,
-      expires: 86400000,
-      startTime: Date.parse(new Date())
-    })
-  } else {
-    this.ruleForm.errMsg = res.data.msg
   }
 })
 
