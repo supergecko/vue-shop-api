@@ -31,7 +31,8 @@
         <el-col :span="9">累计贡献值</el-col>
         <el-col :span="9" v-if="flag">预计瓜分雷猫积分</el-col>
       </el-row>
-      <el-row v-show="order_list.length===0" v-if="order_list">
+      <!--v-show="order_list.length===0" v-if="order_list"-->
+      <el-row>
         <el-row v-for="(item,index) in 10" :key="index">
           <el-row class="tableHeader tableList"
                   :style="{'background': (index%2==0 ? 'rgb(2,25,70)':'')}">
@@ -42,18 +43,18 @@
           </el-row>
         </el-row>
       </el-row>
-      <el-row v-show="!(order_list.length===0)" v-if="order_list">
-        <el-row v-for="(item,index) in order_list"
-                :key="index">
-          <el-row class="tableHeader tableList"
-                  :style="{'background': (index%2==0 ? 'rgb(2,25,70)':'')}">
-            <el-col :span="5">{{item.rank}}</el-col>
-            <el-col :span="9">{{item.mobile}}</el-col>
-            <el-col :span="9">￥{{item.all_results}}</el-col>
-            <el-col :span="9" v-if="flag">￥{{item.get_thundercat_coin}}</el-col>
-          </el-row>
-        </el-row>
-      </el-row>
+<!--      <el-row v-show="!(order_list.length===0)" v-if="order_list">-->
+<!--        <el-row v-for="(item,index) in order_list"-->
+<!--                :key="index">-->
+<!--          <el-row class="tableHeader tableList"-->
+<!--                  :style="{'background': (index%2==0 ? 'rgb(2,25,70)':'')}">-->
+<!--            <el-col :span="5">{{item.rank}}</el-col>-->
+<!--            <el-col :span="9">{{item.mobile}}</el-col>-->
+<!--            <el-col :span="9">￥{{item.all_results}}</el-col>-->
+<!--            <el-col :span="9" v-if="flag">￥{{item.get_thundercat_coin}}</el-col>-->
+<!--          </el-row>-->
+<!--        </el-row>-->
+<!--      </el-row>-->
     </el-row>
     <!--    <div class="championFooter">-->
     <!--      <div class="footerBtn">查看更多</div>-->

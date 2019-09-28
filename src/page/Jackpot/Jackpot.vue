@@ -90,7 +90,11 @@
             <p class="championTitle">我的贡献明细</p>
           </div>
         </el-row>
-        <el-row class="ratingWarp">
+        <el-row class="ratingWarp"v-loading="loading"
+                element-loading-text="正在统计中敬请期待"
+                element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 1)"
+                element-loading-custom-class="ratingWarpMaskText">
           <jackpot-data-list :order_list=all_team_order :flag=false></jackpot-data-list>
         </el-row>
       </el-row>
