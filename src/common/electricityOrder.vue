@@ -21,13 +21,19 @@
 <!--    </el-table-column>-->
     <el-table-column
       prop="electricity"
-      label="电费单价(元)"
+      label="电费单价"
       width="140">
+      <template slot-scope="scope">
+        {{scope.row.electricity}}元/台/天
+      </template>
     </el-table-column>
     <el-table-column
-      prop="electricity_cost"
-      label="总电费"
+      prop="electricityCostDay"
+      label="单日总电费"
       width="140">
+      <template slot-scope="scope">
+        {{scope.row.electricity*scope.row.goods_num}}
+      </template>
     </el-table-column>
     <el-table-column
       prop="all_day"
@@ -74,6 +80,7 @@
     data () {
       return {
         userAllDay: 0 // 用户电费剩余天数
+        // electricityCostDay: parseFloat(parseFloat(this.electricity) * parseFloat(this.goods_num)).toFixed(2) // 单日总电费
       }
     },
     methods: {

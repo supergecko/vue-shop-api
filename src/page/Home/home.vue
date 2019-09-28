@@ -32,7 +32,7 @@
                   <el-tag type="warning">{{activity.dig_time}}</el-tag>
                 </div>
                 <div class="downTime">
-                  距离本轮团购时间还有
+                  距离本轮团购结束时间还有
                   <span>{{activity.rest_day}}天</span>
                 </div>
               </div>

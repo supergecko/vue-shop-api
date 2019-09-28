@@ -29,7 +29,12 @@
                     </div>
                   </el-col>
                   <el-col :span="16">
-                    <div class="total-title">总算力</div>
+                    <div class="total-title">
+                      <span>总算力</span>
+                      <el-tooltip content="数据从你选择的矿池每天进行同步" placement="top">
+                        <span class="el-icon-info"></span>
+                      </el-tooltip>
+                    </div>
                     <div class="total-rate">
                       <span class="rate-title">{{hashrate_balance.hashrate}}</span>
                       <span class>Th/S</span>
@@ -64,7 +69,8 @@
   <!--                      <span>≈ ￥0.00</span>-->
                     </div>
                     <div class="share">
-                      <span class="el-icon-share"></span>
+<!--                      <el-button type="primary" plain>绑定矿池</el-button>-->
+<!--                      <span class="el-icon-share"></span>-->
                     </div>
                   </el-col>
                 </el-card>
@@ -287,7 +293,7 @@
               if (res.status === 200 && res.data.code === 1) {
                 this._isBindMine()
               } else {
-                this.$message.error('请稍后重试')
+                this.$message.error(res.data.msg)
               }
             })
             this.dialogFormVisible = false
@@ -568,8 +574,8 @@
     color: rgb(197, 199, 205);
   }
   .share {
-    width: 20px;
-    height: 20px;
+    /*width: 20px;*/
+    /*height: 20px;*/
     background-color: rgb(197, 199, 205);
     border-radius: 50%;
     position: absolute;

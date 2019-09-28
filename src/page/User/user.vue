@@ -45,9 +45,7 @@ export default {
         //   ]
         // }
       ],
-      editAvatar: true,
-      isActice: true,
-      path: ''
+      editAvatar: true
     }
   },
   computed: {
@@ -55,39 +53,8 @@ export default {
   },
   methods: {
     tab (e) {
-      setTimeout(() => {
-        let path = this.$route.path.split('/')[2]
-
-        this.nav[5].children.forEach(child => {
-          if (child.path === path) {
-            this.title = child.name
-            console.log(this.title)
-          }
-        })
-      }, 100)
-
-      if (e.path) {
-        this.$router.push({ path: '/user/' + e.path })
-      }
-    },
-    change (index) {
-      if (index === 5) {
-        this.isActice = !this.isActice
-      }
+      this.$router.push({path: '/user/' + e.path})
     }
-  },
-  beforeRouteUpdate (to, from, next) {
-    setTimeout(() => {
-      let path = this.$route.path.split('/')[2]
-
-      this.nav[5].children.forEach(child => {
-        if (child.path === path) {
-          this.title = child.name
-          console.log(this.title)
-        }
-      })
-    }, 100)
-    next()
   },
   created () {
     let path = this.$route.path.split('/')[2]
@@ -96,17 +63,6 @@ export default {
         this.title = item.name
       }
     })
-    setTimeout(() => {
-      let path = this.$route.path.split('/')[2]
-
-      this.nav[5].children.forEach(child => {
-        if (child.path === path) {
-          this.title = child.name
-          console.log(this.title)
-        }
-      })
-    }, 100)
-    this.isActice = false
   },
   components: {
     YFooter,
