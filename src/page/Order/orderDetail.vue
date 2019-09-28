@@ -175,8 +175,11 @@ export default {
       discount: {}
     }
   },
-  created () {
+  mounted () {
     this.getData()
+  },
+  created () {
+
   },
   methods: {
     close () {

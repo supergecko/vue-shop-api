@@ -81,13 +81,33 @@
   </div>
 </template>
 <script>
-import { getItem } from '../utils/newLocalStorage'
-
+import { setItem, getItem } from '../utils/newLocalStorage'
+import { homePage } from '/api'
 export default {
   data () {
     return {
       footerRate: getItem('footRate')
     }
+  },
+  methods: {
+    _homePage () {
+      homePage().then(res => {
+        if (res.status === 200 && res.data.code === 1) {
+          setItem({
+            name: 'footRate',
+            value: res.data.data.rate,
+            expires: 86400000,
+            startTime: Date.parse(new Date())
+          })
+          this.footerRate = getItem('footRate')
+        } else {
+          this.$message.error(res.data.msg)
+        }
+      })
+    }
+  },
+  created () {
+    this._homePage()
   }
 }
 </script>

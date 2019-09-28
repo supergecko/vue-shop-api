@@ -253,8 +253,11 @@
         })
       }
     },
-    created () {
+    mounted () {
       this._buyElectricityDetail()
+    },
+    created () {
+
     },
     components: {
       YShelf,

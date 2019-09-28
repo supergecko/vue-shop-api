@@ -179,8 +179,11 @@
         this.$router.push({path: '/user/myTeam'})
       }
     },
-    created () {
+    mounted () {
       this._myPopularize()
+    },
+    created () {
+
     },
     components: {
       YShelf,

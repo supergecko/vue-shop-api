@@ -135,8 +135,11 @@ export default {
       })
     }
   },
-  created () {
+  mounted () {
     this._jackpotIndex()
+  },
+  created () {
+
   },
   components: {
     JackpotDataList

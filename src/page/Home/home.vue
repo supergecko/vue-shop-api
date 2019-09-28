@@ -326,7 +326,7 @@
   </div>
 </template>
 <script>
-  import { setItem } from '../../utils/newLocalStorage'
+  // import { setItem } from '../../utils/newLocalStorage'
   import { homePage } from '/api'
   import YShelf from '/components/shelf'
 
@@ -412,7 +412,7 @@
       format (percentage) {
         return percentage === 100 ? '售磐' : `已售${percentage}%`
       },
-      _homePage () {
+      _homePage1 () {
         const loading = this.$loading({
           text: '加载中',
           background: 'rgba(0, 0, 0, 0.7)',
@@ -423,12 +423,6 @@
             this.banner = res.data.data.ad
             this.activity = res.data.data.activity
             this.share_activity_id = res.data.data.activity.share_activity_id
-            setItem({
-              name: 'footRate',
-              value: res.data.data.rate,
-              expires: 86400000,
-              startTime: Date.parse(new Date())
-            })
             loading.close()
           } else {
             this.$message.error(res.data.msg)
@@ -437,10 +431,9 @@
       }
     },
     mounted () {
-
+      this._homePage1()
     },
     created () {
-      this._homePage()
       this.play()
     },
     components: {

@@ -152,8 +152,11 @@
         // this.$refs.mychild.detectInfo()
       }
     },
-    created () {
+    mounted () {
       this._polularizeDetail()
+    },
+    created () {
+
     },
     components: {
       YShelf,

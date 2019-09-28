@@ -116,18 +116,30 @@
       },
       format (percentage) {
         return percentage === 100 ? '售磐' : `已售${percentage}%`
+      },
+      _goodsList () {
+        const loading = this.$loading({
+          text: '加载中',
+          background: 'rgba(0, 0, 0, 0.7)',
+          fullscreen: true
+        })
+        const page = 1
+        let params = {page}
+        goodsList(params).then(res => {
+          loading.close()
+          if (res.status === 200 && res.data.code === 1) {
+            this.goodsList = res.data.data
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
       }
     },
+    mounted () {
+      this._goodsList()
+    },
     created () {
-      const page = 1
-      let params = {page}
-      goodsList(params).then(res => {
-        if (res.status === 200) {
-          this.goodsList = res.data.data
-        } else {
-          this.$message.error(res.data.msg)
-        }
-      })
+
     }
   }
 </script>

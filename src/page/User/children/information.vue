@@ -186,6 +186,7 @@
   export default {
     data () {
       return {
+        userId: getItem('userID'),
         imgSrc: '',
         editAvatarShow: false,
         dialogFormVisible: false,
@@ -256,10 +257,10 @@
         'RECORD_USERINFO'
       ]),
       // 是否绑定矿池
-      _isBindMine () {
-        const user_id = getItem('userID')
-        const timestamp = Date.parse(new Date()) / 1000
-        const sign = this.$md5(`${user_id}__${timestamp}__thundercat`)
+      async _isBindMine () {
+        const user_id = await getItem('userID')
+        const timestamp = await Date.parse(new Date()) / 1000
+        const sign = await this.$md5(`${user_id}__${timestamp}__thundercat`)
         let params = {user_id, timestamp, sign}
         isBindMine(params).then(res => {
           if (res.status === 200 && res.data.code === 1) {
@@ -303,15 +304,15 @@
           }
         })
       },
-      _controlPanel () {
-        const loading = this.$loading({
+      async _controlPanel () {
+        const loading = await this.$loading({
           text: '加载中',
           background: 'rgba(0, 0, 0, 0.7)',
           fullscreen: true
         })
-        const user_id = getItem('userID')
+        const user_id = await getItem('userID')
         const coin_id = 1
-        const timestamp = Date.parse(new Date()) / 1000
+        const timestamp = await Date.parse(new Date()) / 1000
         const sign = this.$md5(`${user_id}__${coin_id}__${timestamp}__thundercat`)
         let params = {user_id, coin_id, timestamp, sign}
         controlPanel(params).then(res => {
@@ -336,9 +337,11 @@
         this.editAvatarShow = true
       }
     },
+    mounted () {
+      this._controlPanel()
+    },
     created () {
       this._isBindMine()
-      this._controlPanel()
     },
     components: {
       YButton,

@@ -140,8 +140,11 @@
         }).catch(() => {})
       }
     },
-    created () {
+    mounted () {
       this.getWallet()
+    },
+    created () {
+
     },
     components: {
       YPopup,

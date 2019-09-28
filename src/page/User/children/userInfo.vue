@@ -233,8 +233,11 @@
         })
       }
     },
-    created () {
+    mounted () {
       this.getWallet()
+    },
+    created () {
+
     },
     components: {
       YShelf,

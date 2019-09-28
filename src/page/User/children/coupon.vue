@@ -112,8 +112,11 @@
         })
       }
     },
-    created () {
+    mounted () {
       this._myCoupon()
+    },
+    created () {
+
     },
     components: {
       YShelf
