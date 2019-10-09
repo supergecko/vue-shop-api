@@ -208,10 +208,10 @@ export default {
 </script>
 <style>
 .userLoginText{
-  line-height: 28px;text-align: right;position: absolute;right:-200px;width: 180px;
+  line-height: 28px;position: absolute;right:-260px;width: 180px;
 }
 .userLoginTextFixed{
-  right: 0px;
+  right: -60px;
 }
 .nav-sub .nav-list li a[data-v-a1bfd9a2]:hover {
   color: #4c84ff !important;
@@ -357,7 +357,7 @@ header {
   }
   // 用户
   .user {
-    margin-left: 300px;
+    margin-left: 150px;
     &:hover {
       a:before {
         background-position: -5px 0;

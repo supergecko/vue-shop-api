@@ -86,8 +86,8 @@ export default {
   data: function () {
     return {
       bannerImg: [
-        '../../../static/imgs/banner.png',
-        '../../../static/imgs/banner.png',
+        // '../../../static/imgs/banner.png',
+        // '../../../static/imgs/banner.png',
         '../../../static/imgs/banner.png'
       ]
     }

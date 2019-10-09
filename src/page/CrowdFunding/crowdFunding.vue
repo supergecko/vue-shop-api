@@ -10,7 +10,10 @@
                     <span>预计开始挖矿时间</span>
                     <el-tag type="warning">{{item.dig_time}}</el-tag>
                   </div>
-                  <div class="downTime">
+                  <div class="downTime" style="font-size:30px;right:140px;" v-if="item.status===2">
+                    团购结束
+                  </div>
+                  <div class="downTime" v-else>
                     距离本轮团购时间还有
                     <span>{{item.rest_day}}</span>
                     <span>天</span>
@@ -72,7 +75,7 @@
               <div class="goodItemHead">
                 <div style="padding-bottom: 13px">{{item1.description}}</div>
                 <div style="font-size: 14px;">算力:{{item1.hashrate}} Th / s</div>
-                <div class="hotBTn" :style="{'display':item1.on_sale==0 ? 'block':'none'}">抢光了</div>
+                <div class="hotBTn" :style="{'display':item1.on_sale===1 ? 'none':'block'}">抢光了</div>
               </div>
               <div>功耗:{{item1.electricity_consumption}} W</div>
               <div class="goodItemMiddle" style="font-size: 14px;">
@@ -83,8 +86,8 @@
               </div>
               <div class="goodItemFooter">
                 <el-progress :percentage=item1.rate  :format="format" style="width:182px"></el-progress>
-                <el-button type="primary" :disabled="item1.on_sale==0? true: false" style="width:214px;margin-top:16px;" @click="openOrderList(item.share_activity_id, item1.goods_id)">
-                  {{item1.on_sale==0? '即将补货': '立即抢购'}}
+                <el-button type="primary" :disabled="item1.on_sale===1? false: true" style="width:214px;margin-top:16px;" @click="openOrderList(item.share_activity_id, item1.goods_id)">
+                  {{item1.on_sale===0? '即将补货': item1.on_sale===1?'立即抢购':'抢购结束'}}
                 </el-button>
                 <div class="goodItemFooterText">— {{item1.goods_name}} —</div>
               </div>

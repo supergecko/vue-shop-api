@@ -10,7 +10,7 @@
         </div>
       </el-col>
       <el-col :span="10">
-        <el-col :span="8">
+        <el-col :span="6">
           <div class="title">产品</div>
           <div class="link">
             <span>
@@ -19,7 +19,7 @@
             </span>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <div class="title">信息</div>
           <div class="link">
             <!---->
@@ -36,33 +36,53 @@
             </span>
           </div>
         </el-col>
-        <el-col :span="8">
-          <div class="title">支持</div>
-          <div class="link">
-            <!---->
-            <span href="#"
-                  class>
+        <el-col :span="6">
+        <div class="title">支持</div>
+        <div class="link">
+          <!---->
+          <span href="#"
+                class>
               <router-link to="/aboutUs">商务合作</router-link>
             </span>
-          </div>
+        </div>
+        <div class="link">
+          <!---->
+          <span href="/#"
+                class>
+              <router-link to="/privacyAgreement">隐私条款</router-link>
+            </span>
+        </div>
+        <div class="link">
+          <!---->
+          <span href="#"
+                class>
+              <router-link to="/userAgreement">用户条款</router-link>
+            </span>
+        </div>
+      </el-col>
+        <el-col :span="6">
+          <div class="title">友情链接</div>
           <div class="link">
             <!---->
-            <span href="/#"
-                  class>
-              <router-link to="/privacyAgreement">隐私条款</router-link>
+            <span >
+              <a href="https://www.f2pool.com/">鱼池</a>
             </span>
           </div>
           <div class="link">
             <!---->
-            <span href="#"
-                  class>
-              <router-link to="/userAgreement">用户条款</router-link>
+            <span >
+              <a href="https://www.bitmain.com/">比特大陆</a>
+            </span>
+          </div>
+          <div class="link">
+            <!---->
+            <span  class>
+              <a href="https://www.8btc.com/">巴比特</a>
             </span>
           </div>
         </el-col>
       </el-col>
-      <el-col class="rate"
-              :span="9">
+      <el-col class="rate" :span="9">
         <el-col :span="3">
           &nbsp;
         </el-col>
@@ -75,7 +95,6 @@
             </div>
           </div>
         </el-col>
-
       </el-col>
     </div>
   </div>
