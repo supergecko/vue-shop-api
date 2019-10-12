@@ -132,3 +132,11 @@ export const buyElectricityDetail = (params) => {
 export const buyElectricityCost = (params) => {
   return ypost(`${baseUrl}/home/order/buyElectricityCost`, params)
 }
+// 上传身份信息
+export const identityAuthentication = (params) => {
+  return ypost(`${baseUrl}/home/user/identityAuthentication`, params)
+}
+// 用户是否实名验证
+export const identityAuthenticationExist = (params) => {
+  return ypost(`${baseUrl}/home/user/identityAuthenticationExist`, params)
+}

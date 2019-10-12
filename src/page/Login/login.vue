@@ -4,7 +4,7 @@
       <div class="dialog dialog-shadow" style="display: block; margin-top: -362px;">
         <div class="title" v-if="loginPage">
           <h4>使用 THUNDERCAT ID 登录官网</h4></div>
-        <div v-if="loginPage" class="content">
+        <div v-show="loginPage" class="content">
           <ul class="common-form">
             <li class="username border-1p">
               <div class="input">
@@ -26,10 +26,9 @@
             <y-button text="登陆" :classStyle="isLoginOk" @btnClick="login" class="btn"></y-button>
           </div>
         </div>
-        <div class="registered" v-else>
+        <div class="registered" v-show="!loginPage">
           <h4>注册 THUNDERCAT ID</h4>
           <div class="content" style="margin-top: 20px;">
-
             <el-form :model="registered" status-icon :rules="rules" ref="registered" label-width="100px" class="demo-registered">
               <el-form-item label="手机号" prop="mobile">
                 <el-input placeholder="请输入手机号" v-model="registered.mobile" autocomplete="off">
